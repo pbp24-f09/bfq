@@ -4,4 +4,34 @@
 <h1>{{ app_name }}</h1>
 <h5>{{ tagline }}</h3>
 
+    ...
+{% if not foods %}
+<p>No food yet.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Restaurant</th>
+    <th>Location</th>
+    <th>Contact</th>
+  </tr>
+
+  {% for food in foods %}
+  <tr>
+    <td>{{food.name}}</td>
+    <td>{{food.price}}</td>
+    <td>{{food.restaurant}}</td>
+    <td>{{food.location}}</td>
+    <td>{{food.contact}}</td>
+</tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_food' %}">
+  <button>Add New Food</button>
+</a>
 {% endblock content %}
