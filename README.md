@@ -10,6 +10,8 @@
 ## Deskripsi Aplikasi:
 Bandung Food Quest (BFQ) merupakan sebuah website e-commerce yang berfokus pada produk-produk kuliner khas Bandung. Website ini menyediakan platform bagi pelanggan untuk menemukan dan membeli produk makanan. Selain itu, admin dapat mengelola katalog produk secara langsung melalui fitur AJAX. Pelanggan dan admin dapat berpartisipasi dalam diskusi melalui forum komunitas, serta membaca atau menulis artikel terkait kuliner Bandung. Dengan tampilan yang responsif dan mudah digunakan, Bandung FQ bertujuan untuk memberikan pengalaman berbelanja dan berbagi informasi kuliner yang menyenangkan.
 
+Kelompok kami memilih kota Bandung sebagai pilihan kota dikarenakan kota Bandung merupakan kota yang unggul dalam segi kulinernya. Kami ingin memajukan UMKM dengan potensi tinggi kuliner khas Bandung. Untuk itu dengan menerapkan modul-modul dalam website kami, kami ingin adanya penjualan dan interaksi antara customer dan admin.
+
 ## Daftar Modul yang Akan Diimplementasikan:
 1. **Main App (Home Page)**
    - **Navbar**: Berisi menu Home, Categories (dropdown), Forum, Hello [nama user] (link ke edit user profile), dan Logout. Support mobile view.
