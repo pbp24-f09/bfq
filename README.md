@@ -14,12 +14,14 @@ Kelompok kami memilih kota Bandung sebagai pilihan kota dikarenakan kota Bandung
 
 ## Daftar Modul yang Akan Diimplementasikan:
 1. **Main App (Home Page)**
-   - **Navbar**: Berisi menu Home, Categories (dropdown), Forum, Hello [nama user] (link ke edit user profile), dan Logout. Support mobile view.
+   - **Navbar**: Navbar untuk Admin dan Customer berisi menu Home, Categories (dropdown), Forum, Hello [nama user] (link ke edit user profile), dan Logout. Lalu, Navbar untuk Guest (landing page) berisi menu Home, Categories, dan Login. Navbar ini support mobile view.
    - **Header, Footer, Base Template**: Di folder root template, standar untuk seluruh halaman.
    - **Homepage as Admin**: Bisa menambahkan, mengedit, dan menghapus produk menggunakan AJAX.
    - **Homepage as Customer**: Menampilkan produk dalam pop-up detail menggunakan AJAX.
    - **Carousel**: Foto-foto Bandung dengan overview singkat.
    - **Product Display**: Admin dapat menambah, mengedit, dan menghapus produk. Customer hanya melihat detail produk.
+   - **Search Bar**: Customer dan Admin dapat search berdasarkan nama makanan.
+   - **Landing Page**: Landing page berisi fitur-fitur yang hampir sama dengan home page, akan tetapi navbar hanya berisi menu Home dan Login. Dalam landing page ini tetap menampilkan produk-produk.
 
 2. **Categories**
    - **Kategori Produk**: Menambah field kategori ke dataset produk.
