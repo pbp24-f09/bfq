@@ -7,7 +7,7 @@ class Product(models.Model):
     price = models.IntegerField()
     restaurant = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    contact = models.IntegerField()
+    contact = models.CharField(max_length=15)
     image = models.ImageField(upload_to='product_images/', null=True, blank=True) 
     
     @property
