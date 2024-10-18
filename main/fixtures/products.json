@@ -1,37 +1,37 @@
 [
     {
-      "model": "your_app_name.product",
+      "model": "main.product",
       "pk": "f98f8a22-2b5a-42f7-9112-d93f52ac876f",
       "fields": {
         "name": "Spicy Chicken Burger",
         "price": 15000,
         "restaurant": "Burger Corner",
         "location": "Jl. Sudirman No. 45, Bandung",
-        "contact": 081234567890,
+        "contact": "081234567890",
         "image": "product_images/spicy_chicken_burger.jpg"
       }
     },
     {
-      "model": "your_app_name.product",
+      "model": "main.product",
       "pk": "c837cb74-9f7d-45e8-9e50-0344d15efca7",
       "fields": {
         "name": "Vegan Salad Bowl",
         "price": 22000,
         "restaurant": "Green Leaf Eatery",
         "location": "Jl. Braga No. 12, Bandung",
-        "contact": 081345678901,
+        "contact": "081345678901",
         "image": "product_images/vegan_salad_bowl.jpg"
       }
     },
     {
-      "model": "your_app_name.product",
+      "model": "main.product",
       "pk": "bc98ef13-bf92-4732-994a-4a8127d52b45",
       "fields": {
         "name": "Classic Margherita Pizza",
         "price": 45000,
         "restaurant": "Pizza Parlour",
         "location": "Jl. Asia Afrika No. 25, Bandung",
-        "contact": 081456789012,
+        "contact": "081456789012",
         "image": "product_images/classic_margherita_pizza.jpg"
       }
     }
