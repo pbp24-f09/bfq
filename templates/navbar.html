@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="bg-[#0c0c0c] shadow-lg fixed top-0 left-0 z-40 w-screen">
+<nav id="navbar" class="bg-transparent fixed top-0 left-0 z-40 w-screen transition duration-300 ease-in-out">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
@@ -23,7 +23,7 @@
     </div>
   </div>
   <!-- Mobile menu -->
-  <div class="mobile-menu hidden md:hidden  px-4 w-full md:max-w-full">
+  <div class="mobile-menu hidden md:hidden px-4 w-full md:max-w-full">
     <div class="pt-2 pb-3 space-y-1 mx-auto">
       <a class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 mb-2">
         Login
@@ -36,9 +36,20 @@
   <script>
     const btn = document.querySelector("button.mobile-menu-button");
     const menu = document.querySelector(".mobile-menu");
+    const navbar = document.getElementById("navbar");
 
     btn.addEventListener("click", () => {
       menu.classList.toggle("hidden");
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add("bg-[#0b1c16]"); // Change color when scrolled
+        navbar.classList.remove("bg-transparent");
+      } else {
+        navbar.classList.add("bg-transparent"); // Revert to transparent color
+        navbar.classList.remove("bg-[#0b1c16]");
+      }
     });
   </script>
 </nav>
