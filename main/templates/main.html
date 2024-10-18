@@ -244,29 +244,33 @@
         `;
     }
     else {
-      classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl mx-auto"
+      classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-full max-w-7xl mx-auto"
       Products.forEach((item) => {
           const name = DOMPurify.sanitize(item.fields.name);
           const description = DOMPurify.sanitize(item.fields.description);
           const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
           htmlString += `
           <div class="relative break-inside-avoid" onclick="openPopup('${name}', ${item.fields.quantity}, '${item.fields.price}', '${description}', '${imageUrl}', '${item.pk}')">
-          <div class="relative top-5 bg-white shadow-lg rounded-[24px] mb-6 break-inside-avoid flex flex-col items-center border-2 border-gray-200 hover:shadow-[0px_0px_15px_5px_rgba(255,255,255,0.4)] hover:transform hover:scale-105 transition-transform duration-300 cursor-pointer"
+           
+            <div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
               style="width: 300px; height: 320px;"> <!-- Fixed height for the card -->
 
-            <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center rounded-[20px] mt-4 overflow-hidden">
-            ${item.fields.image ? `<img src="${imageUrl}" alt="Product Image" class="rounded-lg object-cover w-full h-full" />` : `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
-            </div>
+              <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden">
+                ${item.fields.image ? 
+                  `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
+                  `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
+              </div>
 
-            <!-- Product Name and Price -->
-            <div class="p-3 text-center w-full h-[40%] flex flex-col justify-end">
-              <h3 class="font-bold text-lg mb-2 text-gray-800">${name}</h3>
-              <div class="flex justify-center items-center space-x-2">
-                <span class="bg-gray-100 rounded-full px-3 py-1 text-gray-800 text-sm">${item.fields.price}</span>
-                <span class="text-gray-600 text-xs">IDR</span>
+              <!-- Product Name and Price -->
+              <div class="text-center w-full h-[20%] flex flex-col justify-end">
+                <h3 class="font-bold text-lg text-white">${name}</h3>
+                <div class="flex justify-center items-center space-x-2">
+                  <span class="bg-gray-100 px-3 text-gray-800 text-sm">${item.fields.price}</span>
+                  <span class="text-white text-xs">IDR</span>
+                </div>
               </div>
             </div>
-          </div>
+
 
           <!-- Popup Modal for Product Details -->
           <div id="productPopup-${item.pk}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="closePopup('${item.pk}')">

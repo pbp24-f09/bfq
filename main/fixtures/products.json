@@ -3,36 +3,36 @@
       "model": "main.product",
       "pk": "f98f8a22-2b5a-42f7-9112-d93f52ac876f",
       "fields": {
-        "name": "Spicy Chicken Burger",
+        "name": "Seblak Pedas",
         "price": 15000,
-        "restaurant": "Burger Corner",
+        "restaurant": "Gacor Kitchen",
         "location": "Jl. Sudirman No. 45, Bandung",
         "contact": "081234567890",
-        "image": "product_images/spicy_chicken_burger.jpg"
+        "image": "product_images/1.jpg"
       }
     },
     {
       "model": "main.product",
       "pk": "c837cb74-9f7d-45e8-9e50-0344d15efca7",
       "fields": {
-        "name": "Vegan Salad Bowl",
-        "price": 22000,
-        "restaurant": "Green Leaf Eatery",
+        "name": "Paket Komplit Ayam Pop",
+        "price": 220000,
+        "restaurant": "Dummy Resto",
         "location": "Jl. Braga No. 12, Bandung",
         "contact": "081345678901",
-        "image": "product_images/vegan_salad_bowl.jpg"
+        "image": "product_images/2.jpg"
       }
     },
     {
       "model": "main.product",
       "pk": "bc98ef13-bf92-4732-994a-4a8127d52b45",
       "fields": {
-        "name": "Classic Margherita Pizza",
+        "name": "Ayam Bakar Gacor",
         "price": 45000,
-        "restaurant": "Pizza Parlour",
+        "restaurant": "Chicken Store",
         "location": "Jl. Asia Afrika No. 25, Bandung",
         "contact": "081456789012",
-        "image": "product_images/classic_margherita_pizza.jpg"
+        "image": "product_images/3.jpg"
       }
     }
   ]
