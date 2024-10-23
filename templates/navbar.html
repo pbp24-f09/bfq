@@ -1,5 +1,5 @@
 {% load static %}
-<nav id="navbar" class="fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out bg-[#102820]">
+<nav id="navbar" class="fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out bg-transparent">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo yang bisa ditekan -->
@@ -12,7 +12,7 @@
             <a href="{% url 'admin_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'admin_dashboard' %}" class="nav-link">Categories</a>
           {% elif user.role == 'customer' %}
-          <a href="{% url 'customer_dashboard' %}" class="nav-link">Home</a>
+            <a href="{% url 'customer_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'customer_dashboard' %}" class="nav-link">Categories</a>
           {% endif %}
           
@@ -39,9 +39,42 @@
 </nav>
 
 <script>
-  // Tampilkan atau sembunyikan dropdown menu
-  document.getElementById("profileDropdown").addEventListener("click", function() {
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.classList.toggle("hidden");
+  window.addEventListener("scroll", () => {
+    const navbar = document.getElementById("navbar");
+
+    if (window.scrollY > 50) {
+      navbar.classList.remove("bg-transparent"); // Pastikan transparansi dihapus dulu
+      navbar.classList.add("bg-[#102820]"); // Tambahkan warna hijau
+    } else {
+      navbar.classList.remove("bg-[#102820]"); // Pastikan warna hijau dihapus dulu
+      navbar.classList.add("bg-transparent"); // Kembalikan ke transparansi
+    }
   });
 </script>
+
+<style>
+  .nav-link {
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    background-color: #8a6420; 
+  }
+
+  .dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    transition: background-color 0.3s ease;
+  }
+
+  .dropdown-item:hover {
+    background-color: #f3f4f6;
+  }
+</style>
