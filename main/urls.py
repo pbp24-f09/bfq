@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from main.views import (
     show_main, create_product, show_xml, show_json, show_xml_by_id, 
-    show_json_by_id, edit_product, delete_product, add_product_ajax
+    show_json_by_id, edit_product, delete_product, add_product_ajax,
 )
 
 app_name = 'main'
@@ -25,7 +25,7 @@ urlpatterns = [
     path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
     
     # Authentication views
-    # path('register/', register, name='register'),
+    # path('register/', register_user, name='register'),
     # path('login/', login_user, name='login'),
     # path('logout/', logout_user, name='logout'),
 ]
