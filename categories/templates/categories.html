@@ -10,15 +10,33 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-
 <div class="mt-20" id="searchForm">
     <form>
         <input type="text" id="searchBar" placeholder="Search food or location">
         <input type="submit" id="searchButton" value="Search" class="hover:bg-gray-500">
     </form>
+	<button id="openFilterButton" onclick="showFilterModal()">Filter</button>
     
     <div id="showCards"></div>
 		<p id="bruh"></p>
+
+	<div id="filterModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+		<div class="bg-gray-200 p-6 w-full lg:w-1/3">
+			<form>
+				<input type="radio" id="range1" name="priceRange">
+				<label for="range1">Less than 50.000</label><br>
+				<input type="radio" id="range2" name="priceRange">
+				<label for="range2">50.000 - 100.000</label><br>
+				<input type="radio" id="range3" name="priceRange">
+				<label for="range3">101.000 - 150.000</label><br>
+				<input type="radio" id="range4" name="priceRange">
+				<label for="range4">More than 150.000</label><br>
+	
+				<input type="submit" id="submitFilterButton" value="Filter">
+				<button id="cancelFilter" onclick="hideFilterModal()">Cancel</button>
+			</form>
+		</div>
+	</div>
 </div>
 
 <script>
@@ -49,7 +67,7 @@
 							const restaurant = DOMPurify.sanitize(item.fields.restaurant);
 							const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
 
-							if (name.toLowerCase().includes(searchVal) || restaurant.toLowerCase().includes(searchVal)) {
+							if ((searchVal != "") && (name.toLowerCase().includes(searchVal) || restaurant.toLowerCase().includes(searchVal))) {
 								htmlString += `
 								<div class="relative break-inside-avoid" onclick="openPopup('${name}', ${item.fields.quantity}, '${item.fields.price}', '${restaurant}', '${imageUrl}', '${item.pk}')">
 								
@@ -64,7 +82,7 @@
 
 									<!-- Product Name and Price -->
 									<div class="text-center w-full h-[20%] flex flex-col justify-end">
-										<h3 class="font-bold text-lg text-white">${name}</h3>
+										<h3 class="font-bold text-lg text-black">${name}</h3>
 										<div class="flex justify-center items-center space-x-2">
 											<span class="bg-gray-100 px-3 text-gray-800 text-sm">${item.fields.price}</span>
 											<span class="text-white text-xs">IDR</span>
@@ -107,6 +125,36 @@
 		event.preventDefault();
 		refreshProducts();
 	})
+
+	function openPopup(name, quantity, price, restaurant, imageUrl, productId) {
+    document.getElementById('popupName-' + productId).innerText = name;
+    // document.getElementById('popupQuantity-' + productId).innerText = 'Quantity: ' + quantity;
+    document.getElementById('popupDescription-' + productId).innerText = restaurant;
+    document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
+
+    // Update the image
+    const popupImage = document.getElementById('popupImage-' + productId);
+    if (imageUrl) {
+        popupImage.src = imageUrl;
+        popupImage.alt = name;
+    } else {
+        popupImage.src = '/path/to/placeholder-image.png';  // Fallback if no image is available
+    }
+
+    document.getElementById('productPopup-' + productId).classList.remove('hidden');
+  }
+
+  function closePopup(productId) {
+    document.getElementById('productPopup-' + productId).classList.add('hidden');
+  }
+
+  function showFilterModal(){
+		document.getElementById("filterModal").classList.remove("hidden");
+  }
+
+	function hideFilterModal(){
+		document.getElementById("filterModal").classList.add("hidden");
+	}
 </script>
 
 {% endblock content %}
