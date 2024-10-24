@@ -2,10 +2,8 @@
 <nav id="navbar" class="fixed top-0 left-0 z-50 w-full transition duration-300 ease-in-out bg-transparent">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
-      <!-- Logo yang bisa ditekan -->
       <img src="{% static '/images/logo-bfq.png' %}" alt="Logo" class="h-8" />
 
-      <!-- Cek apakah user sudah login -->
       {% if user.is_authenticated %}
         <div class="flex items-center space-x-4">
           {% if user.role == 'admin' %}
@@ -18,7 +16,6 @@
             <a href="{% url 'customer_blog' %}" class="nav-link">Blog</a>
           {% endif %}
           
-          <!-- Menu Profile dan Logout dengan dropdown -->
           <div class="relative">
             <button id="profileDropdown" class="nav-link">
               Welcome, {{ user.username }} ▼
@@ -30,7 +27,6 @@
           </div>
         </div>
       {% else %}
-        <!-- Jika user belum login -->
         <div class="flex items-center space-x-4">
           <a href="{% url 'login' %}" class="nav-link">Login</a>
           <a href="{% url 'register' %}" class="nav-link">Register</a>
@@ -41,15 +37,32 @@
 </nav>
 
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const profileDropdownButton = document.getElementById("profileDropdown");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    // Toggle the dropdown visibility
+    profileDropdownButton.addEventListener("click", () => {
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Close the dropdown if clicked outside of it
+    window.addEventListener("click", (event) => {
+      if (!profileDropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+  });
+
   window.addEventListener("scroll", () => {
     const navbar = document.getElementById("navbar");
 
     if (window.scrollY > 50) {
-      navbar.classList.remove("bg-transparent"); // Pastikan transparansi dihapus dulu
-      navbar.classList.add("bg-[#102820]"); // Tambahkan warna hijau
+      navbar.classList.remove("bg-transparent");
+      navbar.classList.add("bg-[#102820]");
     } else {
-      navbar.classList.remove("bg-[#102820]"); // Pastikan warna hijau dihapus dulu
-      navbar.classList.add("bg-transparent"); // Kembalikan ke transparansi
+      navbar.classList.remove("bg-[#102820]");
+      navbar.classList.add("bg-transparent");
     }
   });
 </script>
