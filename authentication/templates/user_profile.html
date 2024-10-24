@@ -9,7 +9,7 @@
 {% include 'navbar.html' %}
 
 <div class="min-h-screen bg-gradient-to-b from-[#2A3A30] to-[#254832] flex flex-col items-center py-10 mt-16">
-  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
+  <div class="bg-[#F3EAD8] shadow-lg rounded-lg p-8 w-full max-w-4xl">
     <div class="flex items-center space-x-4 mb-4">
       <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
         {% if user.profile_photo %}
@@ -50,6 +50,10 @@
       </div>
     </div>
 
+    <!-- Pesan Sukses -->
+    <p id="success-message" class="text-green-500 mt-4 hidden">Profile updated successfully!</p>
+    <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
+
     <div class="flex space-x-4 mt-6">
       <button id="edit-profile-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-4 rounded-lg">
         Edit Profile
@@ -58,8 +62,6 @@
         Edit Photo
       </button>
     </div>
-
-    <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
   </div>
 </div>
 
@@ -75,14 +77,17 @@
       <div class="mb-4">
         <label class="block text-[#B48125] text-sm font-bold mb-2">Full Name:</label>
         <input type="text" name="full_name" value="{{ user.full_name }}" class="form-input w-full p-2 border rounded">
+        <p class="text-red-500 text-sm mt-1 hidden" id="error-full_name"></p>
       </div>
       <div class="mb-4">
         <label class="block text-[#B48125] text-sm font-bold mb-2">Email:</label>
         <input type="email" name="email" value="{{ user.email }}" class="form-input w-full p-2 border rounded">
+        <p class="text-red-500 text-sm mt-1 hidden" id="error-email"></p>
       </div>
       <div class="mb-4">
         <label class="block text-[#B48125] text-sm font-bold mb-2">Age:</label>
         <input type="number" name="age" value="{{ user.age }}" class="form-input w-full p-2 border rounded">
+        <p class="text-red-500 text-sm mt-1 hidden" id="error-age"></p>
       </div>
       <div class="mb-4">
         <label class="block text-[#B48125] text-sm font-bold mb-2">Gender:</label>
@@ -90,10 +95,12 @@
           <option value="MALE" {% if user.gender == 'MALE' %}selected{% endif %}>Male</option>
           <option value="FEMALE" {% if user.gender == 'FEMALE' %}selected{% endif %}>Female</option>
         </select>
+        <p class="text-red-500 text-sm mt-1 hidden" id="error-gender"></p>
       </div>
       <div class="mb-4">
         <label class="block text-[#B48125] text-sm font-bold mb-2">Phone Number:</label>
         <input type="text" name="phone_number" value="{{ user.phone_number }}" class="form-input w-full p-2 border rounded">
+        <p class="text-red-500 text-sm mt-1 hidden" id="error-phone_number"></p>
       </div>
       <div class="flex justify-end space-x-4">
         <button type="submit" class="bg-[#B48125] text-white py-2 px-4 rounded-lg">Save Changes</button>
@@ -109,108 +116,153 @@
       &times;
     </button>
     <h2 class="text-2xl font-bold text-[#B48125] mb-4">Edit Photo</h2>
-    <form id="edit-photo-form">
+    <form id="edit-photo-form" method="post">
       {% csrf_token %}
       <div class="mb-4">
         <label class="block text-[#B48125] text-sm font-bold mb-2">Photo URL:</label>
-        <input type="url" name="profile_photo" value="{{ user.profile_photo }}" class="form-input w-full p-2 border rounded">
+        <input type="url" name="profile_photo" value="{{ user.profile_photo }}" class="form-input w-full p-2 border rounded" placeholder="Enter photo URL">
+        <p class="text-red-500 text-sm mt-1 hidden" id="error-profile_photo"></p>
       </div>
       <div class="flex justify-between space-x-4">
         <button type="button" id="delete-photo-btn" class="bg-red-500 text-white py-2 px-4 rounded-lg">Delete Photo</button>
         <button type="submit" class="bg-[#B48125] text-white py-2 px-4 rounded-lg">Save Changes</button>
       </div>
-    </form>
+    </form>    
   </div>
 </div>
 
 <script>
-  // Menampilkan modal edit profile
-  document.getElementById('edit-profile-btn').addEventListener('click', function() {
-    document.getElementById('editProfileModal').classList.remove('hidden');
-  });
+  document.addEventListener('DOMContentLoaded', function() {
+    // Menampilkan modal edit profile
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+      document.getElementById('editProfileModal').classList.remove('hidden');
+    });
 
-  // Menampilkan modal edit photo
-  document.getElementById('edit-photo-btn').addEventListener('click', function() {
-    document.getElementById('editPhotoModal').classList.remove('hidden');
-  });
+    // Menampilkan modal edit photo
+    document.getElementById('edit-photo-btn').addEventListener('click', function() {
+      document.getElementById('editPhotoModal').classList.remove('hidden');
+    });
 
-  // Menutup modal edit profile
-  document.getElementById('close-profile-modal').addEventListener('click', function() {
-    document.getElementById('editProfileModal').classList.add('hidden');
-  });
-
-  // Menutup modal edit photo
-  document.getElementById('close-photo-modal').addEventListener('click', function() {
-    document.getElementById('editPhotoModal').classList.add('hidden');
-  });
-
-  // AJAX untuk Update Profile
-  document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var formData = new FormData(this);
-
-    fetch("{% url 'update_profile' %}", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
-      },
-      body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-      const [fullName, email, age, gender, phoneNumber] = data.split(',');
-
-      document.querySelectorAll("[data-field='full_name']").forEach(el => el.textContent = fullName);
-      document.querySelector("[data-field='email']").textContent = email;
-      document.querySelector("[data-field='age']").textContent = age;
-      document.querySelector("[data-field='gender']").textContent = gender;
-      document.querySelector("[data-field='phone_number']").textContent = phoneNumber;
-
+    // Menutup modal edit profile
+    document.getElementById('close-profile-modal').addEventListener('click', function() {
       document.getElementById('editProfileModal').classList.add('hidden');
-    })
-    .catch(() => {
-      document.getElementById('error-message').classList.remove('hidden');
     });
-  });
 
-  // AJAX untuk Update Photo
-  document.getElementById('edit-photo-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var formData = new FormData(this);
-
-    fetch("{% url 'update_photo' %}", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
-      },
-      body: formData
-    })
-    .then(response => response.text())
-    .then(newPhotoUrl => {
-      document.querySelector("[data-field='profile_photo']").src = newPhotoUrl;
+    // Menutup modal edit photo
+    document.getElementById('close-photo-modal').addEventListener('click', function() {
       document.getElementById('editPhotoModal').classList.add('hidden');
-    })
-    .catch(() => {
-      document.getElementById('error-message').classList.remove('hidden');
+    });
+
+    // AJAX untuk Update Profile
+    document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+
+      fetch("{% url 'update_profile' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        if (data.startsWith("success")) {
+          const [_, fullName, email, age, gender, phoneNumber] = data.split(',');
+
+          document.querySelectorAll("[data-field='full_name']").forEach(el => el.textContent = fullName);
+          document.querySelector("[data-field='email']").textContent = email;
+          document.querySelector("[data-field='age']").textContent = age;
+          document.querySelector("[data-field='gender']").textContent = gender;
+          document.querySelector("[data-field='phone_number']").textContent = phoneNumber;
+
+          document.getElementById('success-message').textContent = 'Profile updated successfully!';
+          document.getElementById('success-message').classList.remove('hidden');
+          document.getElementById('editProfileModal').classList.add('hidden');
+        } else {
+          const errors = data.replace('error,', '').split(',');
+          showErrorMessages(errors);
+        }
+      })
+      .catch(() => {
+        document.getElementById('error-message').classList.remove('hidden');
+      });
+    });
+
+    // AJAX untuk Update Photo
+    document.getElementById('edit-photo-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+
+      fetch("{% url 'update_photo' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        if (data.startsWith("success")) {
+          const newPhotoUrl = data.split(',')[1].trim();
+
+          // Update foto profil di halaman tanpa reload
+          document.querySelector("[data-field='profile_photo']").src = newPhotoUrl;
+
+          // Tampilkan pesan sukses di halaman
+          document.getElementById('success-message').textContent = 'Photo updated successfully!';
+          document.getElementById('success-message').classList.remove('hidden');
+
+          // Tutup modal edit foto
+          document.getElementById('editPhotoModal').classList.add('hidden');
+        } else {
+          const errorMessage = data.replace('error:', '');
+          document.getElementById('error-profile_photo').textContent = errorMessage;
+          document.getElementById('error-profile_photo').classList.remove('hidden');
+        }
+      })
+      .catch(() => {
+        document.getElementById('error-message').classList.remove('hidden');
+      });
+    });
+
+    // AJAX untuk Delete Photo
+    document.getElementById('delete-photo-btn').addEventListener('click', function() {
+      fetch("{% url 'delete_photo' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        }
+      })
+      .then(response => response.text())
+      .then(data => {
+          document.querySelector("[data-field='profile_photo']").src = "{% static 'images/default-profile.jpg' %}";
+          document.getElementById('editPhotoModal').classList.add('hidden');
+
+          // Tampilkan pesan sukses di halaman utama
+          document.getElementById('success-message').textContent = 'Photo deleted successfully!';
+          document.getElementById('success-message').classList.remove('hidden');
+
+          // Tutup modal edit foto
+          document.getElementById('editPhotoModal').classList.add('hidden');
+      })
+      .catch(() => {
+        document.getElementById('error-message').classList.remove('hidden');
+      });
     });
   });
 
-  // AJAX untuk Delete Photo
-  document.getElementById('delete-photo-btn').addEventListener('click', function() {
-    fetch("{% url 'delete_photo' %}", {
-      method: "POST",
-      headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
+  // Helper function untuk menampilkan pesan error
+  function showErrorMessages(errors) {
+    document.querySelectorAll("[id^='error-']").forEach(el => el.classList.add('hidden'));
+    errors.forEach(error => {
+      const [field, message] = error.split(':');
+      const errorElement = document.getElementById(`error-${field}`);
+      if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
       }
-    })
-    .then(response => response.text())
-    .then(() => {
-      document.querySelector("[data-field='profile_photo']").src = "{% static 'images/default-profile.jpg' %}";
-      document.getElementById('editPhotoModal').classList.add('hidden');
-    })
-    .catch(() => {
-      document.getElementById('error-message').classList.remove('hidden');
     });
-  });
+  }
 </script>
 {% endblock content %}
