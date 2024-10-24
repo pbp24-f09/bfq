@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'authentication',
     'blog',
     'categories',
-    'forum',
     'discussion',
 ]
 
