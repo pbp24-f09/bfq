@@ -12,7 +12,18 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'password1', 'password2', 'full_name', 'age', 'gender', 'phone_number', 'role']
+        fields = ['username', 'password1', 'password2', 'full_name', 'email', 'age', 'gender', 'phone_number', 'role']
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['full_name', 'email', 'age', 'gender', 'phone_number']
+
+class EditPhotoForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['profile_photo']
+
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(max_length=30, required=True)
     password = forms.CharField(widget=forms.PasswordInput, required=True)
