@@ -10,30 +10,58 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="mt-20" id="searchForm">
-    <form>
-        <input type="text" id="searchBar" placeholder="Search food or location">
-        <input type="submit" id="searchButton" value="Search" class="hover:bg-gray-500">
-    </form>
+
+<div class="mt-20">
+	<form id="searchForm">
+			<input type="text" id="searchBar" placeholder="Search food or restaurant">
+			<input type="submit" id="searchButton" value="Search" class="hover:bg-gray-500">
+	</form>
 	<button id="openFilterButton" onclick="showFilterModal()">Filter</button>
     
-    <div id="showCards"></div>
-		<p id="bruh"></p>
+	<div id="showCards"></div>
+	<p id="bruh"></p>
 
-	<div id="filterModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
-		<div class="bg-gray-200 p-6 w-full lg:w-1/3">
-			<form>
-				<input type="radio" id="range1" name="priceRange">
-				<label for="range1">Less than 50.000</label><br>
-				<input type="radio" id="range2" name="priceRange">
-				<label for="range2">50.000 - 100.000</label><br>
-				<input type="radio" id="range3" name="priceRange">
-				<label for="range3">101.000 - 150.000</label><br>
-				<input type="radio" id="range4" name="priceRange">
-				<label for="range4">More than 150.000</label><br>
-	
-				<input type="submit" id="submitFilterButton" value="Filter">
-				<button id="cancelFilter" onclick="hideFilterModal()">Cancel</button>
+	<div id="filterModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+		<div class="bg-white opacity-100 p-6 w-full lg:w-1/3">
+			<form id="filterForm">
+				<div class="flex justify-center">
+					<h1><b>Filter by</b></h1>
+				</div>
+
+				<h4><b>Category</b></h4>
+        <!-- Makanan Berat dan Nasi,
+        	   Olahan Ayam dan Daging,
+        		 Mie, Pasta, dan Spaghetti,
+        		 Makanan Ringan dan Cemilan -->
+				<input type="radio" id="cat1" name="foodCat" value="Makanan Berat dan Nasi">
+				<label for="cat1" class="ml-2">Makanan Berat dan Nasi</label><br>
+
+				<input type="radio" id="cat2" name="foodCat" value="Olahan Ayam dan Daging">
+				<label for="cat1" class="ml-2">Olahan Ayam dan Daging</label><br>
+
+				<input type="radio" id="cat3" name="foodCat" value="Mie, Pasta, dan Spaghetti">
+				<label for="cat1" class="ml-2">Mie, Pasta, dan Spaghetti</label><br>
+
+				<input type="radio" id="cat4" name="foodCat" value="Makanan Ringan dan Cemilan">
+				<label for="cat1" class="ml-2">Makanan Ringan dan Cemilan</label><br><br>
+
+				<h4><b>Price Range</b></h4>
+				<input type="radio" id="range1" name="priceRange" value="Range1">
+				<label for="range1" class="ml-2">Less than 50.000</label><br>
+
+				<input type="radio" id="range2" name="priceRange" value="Range2">
+				<label for="range2" class="ml-2">50.000 - 100.000</label><br>
+
+				<input type="radio" id="range3" name="priceRange" value="Range4">
+				<label for="range3" class="ml-2">101.000 - 150.000</label><br>
+
+				<input type="radio" id="range4" name="priceRange" value="Range4">
+				<label for="range4" class="ml-2">More than 150.000</label><br><br>
+				
+				<div class="flex justify-evenly">
+					<input type="submit" id="submitFilterButton" value="Filter">
+					<button id="cancelFilter" onclick="hideFilterModal()">Cancel</button>	
+				</div>
 			</form>
 		</div>
 	</div>
@@ -44,11 +72,10 @@
 			return fetch("{% url 'main:show_json' %}").then((res) => res.json())
 	}
 
-	async function refreshProducts(){
+	async function refreshProducts(arg){
 			document.getElementById("showCards").className = "";
 			document.getElementById("showCards").innerHTML = "";
 			const products = await getProducts();
-			let searchVal = document.getElementById("searchBar").value.toLowerCase();
 			let htmlString = "";
 			let classNameString = "";
 
@@ -63,21 +90,56 @@
 			else {
 					classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-full max-w-7xl mx-auto"
 					products.forEach((item) => {
-							const name = DOMPurify.sanitize(item.fields.name);
-							const restaurant = DOMPurify.sanitize(item.fields.restaurant);
-							const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
+						const name = DOMPurify.sanitize(item.fields.name);
+						const restaurant = DOMPurify.sanitize(item.fields.restaurant);
+						const location = DOMPurify.sanitize(item.fields.location);
+						const contact = DOMPurify.sanitize(item.fields.contact);
+						const cat = DOMPurify.sanitize(item.fields.cat); // Category
+						const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
+						
+						let searched = true;
+						let priceFiltered = true;
+						let catFiltered = true;
 
-							if ((searchVal != "") && (name.toLowerCase().includes(searchVal) || restaurant.toLowerCase().includes(searchVal))) {
-								htmlString += `
-								<div class="relative break-inside-avoid" onclick="openPopup('${name}', ${item.fields.quantity}, '${item.fields.price}', '${restaurant}', '${imageUrl}', '${item.pk}')">
-								
+						if (arg === "search"){
+							const searchVal = document.getElementById("searchBar").value.toLowerCase();
+							searched = name.toLowerCase().includes(searchVal) || restaurant.toLowerCase().includes(searchVal);
+						}
+
+						if (arg === "filter"){
+							const selectedPrice = document.querySelector('input[name="priceRange"]:checked');
+							const selectedCat = document.querySelector('input[name="foodCat"]:checked');
+
+							if (selectedPrice){
+								if (selectedPrice.value == "Range1"){
+									priceFiltered = item.fields.price < 50000;
+
+								} else if (selectedPrice.value == "Range2"){
+									priceFiltered = (item.fields.price >= 50000) && (item.fields.price <= 100000);
+
+								} else if (selectedPrice.value == "Range3"){
+									priceFiltered = (item.fields.price > 100000) && (item.fields.price <= 150000);
+
+								} else {
+									priceFiltered = item.fields.price > 150000;
+								}
+							}
+
+							if (selectedCat){
+								catFiltered = (selectedCat.value == cat);
+							}
+						}
+
+						if (searched && priceFiltered && catFiltered) {
+							htmlString += `
+							<div class="relative break-inside-avoid" onclick="openPopup('${name}', '${location}', '${contact}', '${item.fields.price}', '${restaurant}', '${cat}', '${imageUrl}', '${item.pk}')">
 								<div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
-								style="width: 300px; height: 320px;"> <!-- Fixed height for the card -->
+									style="width: 300px; height: 320px;">
 
 									<div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden">
-											${item.fields.image ? 
-											`<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
-											`<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
+										${item.fields.image ? 
+										`<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
+										`<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
 									</div>
 
 									<!-- Product Name and Price -->
@@ -85,63 +147,88 @@
 										<h3 class="font-bold text-lg text-black">${name}</h3>
 										<div class="flex justify-center items-center space-x-2">
 											<span class="bg-gray-100 px-3 text-gray-800 text-sm">${item.fields.price}</span>
-											<span class="text-white text-xs">IDR</span>
+											<span class="text-gray-800 text-xs">IDR</span>
 										</div>
 									</div>
 								</div>
-
 
 								<!-- Popup Modal for Product Details -->
 								<div id="productPopup-${item.pk}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="closePopup('${item.pk}')">
-									<!-- Modal Content -->
 									<div class="bg-white p-6 shadow-lg max-w-md w-full mx-auto relative" onclick="event.stopPropagation()" style="width: 400px;">
 										<h3 id="popupName-${item.pk}" class="font-bold text-lg mb-2 text-black text-center"></h3>
 
-										<!-- Gray Placeholder (Removed Image) -->
 										<div class="bg-gray-200 flex justify-center items-center overflow-hidden mb-4 w-[100%] h-[100%] mx-auto">
-												<div class="flex justify-center items-center w-full h-full text-gray-500">
-														<img id="popupImage-${item.pk}" src="" alt="Product Image" class="object-cover w-full h-full" style="aspect-ratio: 1/1; max-width: 100%; max-height: 100%;" />
-												</div>
+											<div class="flex justify-center items-center w-full h-full text-gray-500">
+												<img id="popupImage-${item.pk}" src="" alt="Product Image" class="object-cover w-full h-full" style="aspect-ratio: 1/1; max-width: 100%; max-height: 100%;" />
+											</div>
 										</div>
 
-										<p id="popupQuantity-${item.pk}" class="text-gray-600 text-sm mb-4 text-center"></p>
-										<p id="popupDescription-${item.pk}" class="text-gray-700 mb-4 text-center"></p>
-										<p id="popupPrice-${item.pk}" class="text-gray-900 font-semibold text-center mb-6"></p>
+										<p id="popupLocation-${item.pk}" class="text-gray-600 text-sm mb-2 text-center"></p>
+										<p id="popupContact-${item.pk}" class="text-gray-600 text-sm mb-2 text-center"></p>
+										<p id="popupDescription-${item.pk}" class="text-gray-700 mb-2 text-center"></p>
+										<p id="popupCat-${item.pk}"class="text-gray-700 mb-2 text-center"></p> <!-- Category -->
+										<p id="popupPrice-${item.pk}" class="text-gray-900 font-semibold text-center mb-2"></p>
 
-										<!-- Close Button -->
 										<button onclick="closePopup('${item.pk}')" class="absolute top-2 right-2 bg-[#8a6420] hover:bg-[#4d2d18] text-white py-1 px-3 font-bold">close</button>
 									</div>
 								</div>
-								</div>
-								`;									
-							}
+							</div>
+							`;									
+						}
 					});
 			}
 			document.getElementById("showCards").className = classNameString;
 			document.getElementById("showCards").innerHTML = htmlString;
 	}
 
+	window.onload = function(){
+		event.preventDefault();
+		refreshProducts("load");
+	}
+
 	document.getElementById("searchForm").addEventListener("submit", function(event){
 		event.preventDefault();
-		refreshProducts();
+
+		if (document.getElementById("searchBar").value.trim() != ""){
+			document.querySelectorAll('input[name="priceRange"]').forEach((input) => input.checked = false);
+			document.querySelectorAll('input[name="foodCat"]').forEach((input) => input.checked = false);
+			refreshProducts("search");
+		} else {
+			window.alert("Please search a food or restaurant");
+		}
 	})
 
-	function openPopup(name, quantity, price, restaurant, imageUrl, productId) {
-    document.getElementById('popupName-' + productId).innerText = name;
-    // document.getElementById('popupQuantity-' + productId).innerText = 'Quantity: ' + quantity;
-    document.getElementById('popupDescription-' + productId).innerText = restaurant;
-    document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
+	document.getElementById("filterForm").addEventListener("submit", function(event){
+		event.preventDefault();
+		const selectedPrice = document.querySelector('input[name="priceRange"]:checked');
+		const selectedCat = document.querySelector('input[name="foodCat"]:checked');
 
-    // Update the image
-    const popupImage = document.getElementById('popupImage-' + productId);
-    if (imageUrl) {
-        popupImage.src = imageUrl;
-        popupImage.alt = name;
-    } else {
-        popupImage.src = '/path/to/placeholder-image.png';  // Fallback if no image is available
-    }
+		if (selectedPrice || selectedCat){
+			document.getElementById("searchBar").value = "";
+			refreshProducts("filter");
+			document.getElementById("filterModal").classList.add('hidden');
+		} else {
+			window.alert("Select a filter");
+		}
+	})
 
-    document.getElementById('productPopup-' + productId).classList.remove('hidden');
+	function openPopup(name, location, contact, price, restaurant, cat, imageUrl, productId) {
+		document.getElementById('popupName-' + productId).innerText = name;
+		document.getElementById('popupLocation-' + productId).innerText = 'Location: ' + location;
+		document.getElementById('popupContact-' + productId).innerText = 'Contact: ' + contact;
+		document.getElementById('popupDescription-' + productId).innerText = restaurant;
+		document.getElementById('popupCat-' + productId).innerText = cat;
+		document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
+
+		const popupImage = document.getElementById('popupImage-' + productId);
+		if (imageUrl) {
+				popupImage.src = imageUrl;
+				popupImage.alt = name;
+		} else {
+				popupImage.src = '/path/to/placeholder-image.png';
+		}
+
+		document.getElementById('productPopup-' + productId).classList.remove('hidden');
   }
 
   function closePopup(productId) {
@@ -155,6 +242,7 @@
 	function hideFilterModal(){
 		document.getElementById("filterModal").classList.add("hidden");
 	}
+
 </script>
 
 {% endblock content %}
