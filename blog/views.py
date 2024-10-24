@@ -1,38 +1,45 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article
-from .forms import ArticleForm
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.http import HttpResponse
-import xml.etree.ElementTree as ET
 from .models import Article
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from .forms import ArticleForm
+import xml.etree.ElementTree as ET
 
 @csrf_exempt
+@login_required
 def create_article_ajax(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         topic = request.POST.get('topic')
         content = request.POST.get('content')
-        
-        # Buat artikel baru
-        new_article = Article.objects.create(
-            title=title,
-            topic=topic,
-            content=content,
-            author=request.user if request.user.is_authenticated else None
-        )
-        
-        # Kirim respons JSON
-        return JsonResponse({
-            'id': new_article.id,
-            'title': new_article.title,
-            'author': new_article.author.username if new_article.author else 'Anonymous',
-            'content': new_article.content,
-        })
+
+        if not title or not topic or not content:
+            return JsonResponse({'error': 'All fields are required.'}, status=400)
+
+        try:
+            # Buat artikel baru dengan waktu otomatis terisi di 'created_at'
+            new_article = Article.objects.create(
+                title=title,
+                topic=topic,
+                content=content,
+                author=request.user
+            )
+            
+            return JsonResponse({
+                'id': new_article.id,
+                'title': new_article.title,
+                'author': new_article.author.username,
+                'content': new_article.content,
+            })
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def article_list(request):
     # Fungsi untuk menampilkan semua artikel
@@ -48,7 +55,12 @@ def my_articles(request):
     return render(request, 'blog/my_articles.html', {'articles': articles})
 
 def edit_article(request, article_id):
+    # Fungsi untuk mengedit artikel
     article = get_object_or_404(Article, pk=article_id)
+
+    if article.author != request.user:
+        return JsonResponse({'error': 'You are not allowed to edit this article'}, status=403)
+
     if request.method == 'POST':
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
@@ -58,18 +70,24 @@ def edit_article(request, article_id):
         form = ArticleForm(instance=article)
     return render(request, 'blog/edit_article.html', {'form': form, 'article': article})
 
+@require_POST
 def delete_article(request, article_id):
-    if request.method == 'POST':
-        article = get_object_or_404(Article, pk=article_id)
-        article.delete()
-        return JsonResponse({'message': 'Article deleted successfully!'})
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    # Fungsi untuk menghapus artikel
+    article = get_object_or_404(Article, pk=article_id)
+
+    if article.author != request.user:
+        return JsonResponse({'error': 'You are not allowed to delete this article'}, status=403)
+
+    article.delete()
+    return JsonResponse({'message': 'Article deleted successfully!'})
 
 def show_json(request):
-    articles = Article.objects.all().values('id', 'title', 'author', 'content')
+    # Fungsi untuk menampilkan semua artikel dalam format JSON
+    articles = Article.objects.all().values('id', 'title', 'author__username', 'content')
     return JsonResponse(list(articles), safe=False)
 
 def show_xml(request):
+    # Fungsi untuk menampilkan semua artikel dalam format XML
     articles = Article.objects.all()
     root = ET.Element("articles")
 
@@ -82,4 +100,3 @@ def show_xml(request):
 
     response = HttpResponse(ET.tostring(root), content_type='application/xml')
     return response
-

@@ -234,58 +234,58 @@
                 <p class="text-center text-gray-600 mt-4">No product yet.</p>
             </div>
         `;
-    }
-    else {
-      classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-full max-w-7xl mx-auto"
-      Products.forEach((item) => {
-          const name = DOMPurify.sanitize(item.fields.name);
-          const restaurant = DOMPurify.sanitize(item.fields.restaurant);
-          const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
-          htmlString += `
-          <div class="relative break-inside-avoid" onclick="openPopup('${name}', ${item.fields.quantity}, '${item.fields.price}', '${restaurant}', '${imageUrl}', '${item.pk}')">
-           
-            <div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
-              style="width: 300px; height: 320px;"> <!-- Fixed height for the card -->
+    } else {
+        classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-full max-w-7xl mx-auto";
+        Products.forEach((item) => {
+            const name = DOMPurify.sanitize(item.fields.name);
+            const restaurant = DOMPurify.sanitize(item.fields.restaurant);
+            const location = DOMPurify.sanitize(item.fields.location);
+            const contact = DOMPurify.sanitize(item.fields.contact);
+            const cat = DOMPurify.sanitize(item.fields.cat); // Category
+            const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
 
-              <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden">
-                ${item.fields.image ? 
-                  `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
-                  `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
-              </div>
+            htmlString += `
+            <div class="relative break-inside-avoid" onclick="openPopup('${name}', '${location}', '${contact}', '${item.fields.price}', '${restaurant}', '${cat}', '${imageUrl}', '${item.pk}')">
+                <div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
+                    style="width: 300px; height: 320px;">
 
-              <!-- Product Name and Price -->
-              <div class="text-center w-full h-[20%] flex flex-col justify-end">
-                <h3 class="font-bold text-lg text-white">${name}</h3>
-                <div class="flex justify-center items-center space-x-2">
-                  <span class="bg-gray-100 px-3 text-gray-800 text-sm">${item.fields.price}</span>
-                  <span class="text-white text-xs">IDR</span>
+                    <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden">
+                        ${item.fields.image ? 
+                          `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
+                          `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
+                    </div>
+
+                    <!-- Product Name and Price -->
+                    <div class="text-center w-full h-[20%] flex flex-col justify-end">
+                        <h3 class="font-bold text-lg text-white">${name}</h3>
+                        <div class="flex justify-center items-center space-x-2">
+                            <span class="bg-gray-100 px-3 text-gray-800 text-sm">${item.fields.price}</span>
+                            <span class="text-white text-xs">IDR</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
 
+                <!-- Popup Modal for Product Details -->
+                <div id="productPopup-${item.pk}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="closePopup('${item.pk}')">
+                    <div class="bg-white p-6 shadow-lg max-w-md w-full mx-auto relative" onclick="event.stopPropagation()" style="width: 400px;">
+                        <h3 id="popupName-${item.pk}" class="font-bold text-lg mb-2 text-black text-center"></h3>
 
-          <!-- Popup Modal for Product Details -->
-          <div id="productPopup-${item.pk}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="closePopup('${item.pk}')">
-            <!-- Modal Content -->
-            <div class="bg-white p-6 shadow-lg max-w-md w-full mx-auto relative" onclick="event.stopPropagation()" style="width: 400px;">
-              <h3 id="popupName-${item.pk}" class="font-bold text-lg mb-2 text-black text-center"></h3>
+                        <div class="bg-gray-200 flex justify-center items-center overflow-hidden mb-4 w-[100%] h-[100%] mx-auto">
+                            <div class="flex justify-center items-center w-full h-full text-gray-500">
+                                <img id="popupImage-${item.pk}" src="" alt="Product Image" class="object-cover w-full h-full" style="aspect-ratio: 1/1; max-width: 100%; max-height: 100%;" />
+                            </div>
+                        </div>
 
-              <!-- Gray Placeholder (Removed Image) -->
-              <div class="bg-gray-200 flex justify-center items-center overflow-hidden mb-4 w-[100%] h-[100%] mx-auto">
-                <div class="flex justify-center items-center w-full h-full text-gray-500">
-                    <img id="popupImage-${item.pk}" src="" alt="Product Image" class="object-cover w-full h-full" style="aspect-ratio: 1/1; max-width: 100%; max-height: 100%;" />
+                        <p id="popupLocation-${item.pk}" class="text-gray-600 text-sm mb-2 text-center"></p>
+                        <p id="popupContact-${item.pk}" class="text-gray-600 text-sm mb-2 text-center"></p>
+                        <p id="popupDescription-${item.pk}" class="text-gray-700 mb-2 text-center"></p>
+                        <p id="popupCat-${item.pk}"class="text-gray-700 mb-2 text-center"></p> <!-- Category -->
+                        <p id="popupPrice-${item.pk}" class="text-gray-900 font-semibold text-center mb-2"></p>
+
+                        <button onclick="closePopup('${item.pk}')" class="absolute top-2 right-2 bg-[#8a6420] hover:bg-[#4d2d18] text-white py-1 px-3 font-bold">close</button>
+                    </div>
                 </div>
-              </div>
-
-              <p id="popupQuantity-${item.pk}" class="text-gray-600 text-sm mb-4 text-center"></p>
-              <p id="popupDescription-${item.pk}" class="text-gray-700 mb-4 text-center"></p>
-              <p id="popupPrice-${item.pk}" class="text-gray-900 font-semibold text-center mb-6"></p>
-
-              <!-- Close Button -->
-              <button onclick="closePopup('${item.pk}')" class="absolute top-2 right-2 bg-[#8a6420] hover:bg-[#4d2d18] text-white py-1 px-3 font-bold">close</button>
             </div>
-          </div>
-        </div>
             `;
         });
     }
@@ -294,22 +294,23 @@
   }
   refreshProducts();
 
-  function openPopup(name, quantity, price, restaurant, imageUrl, productId) {
-    document.getElementById('popupName-' + productId).innerText = name;
-    // document.getElementById('popupQuantity-' + productId).innerText = 'Quantity: ' + quantity;
-    document.getElementById('popupDescription-' + productId).innerText = restaurant;
-    document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
+  function openPopup(name, location, contact, price, restaurant, cat, imageUrl, productId) {
+      document.getElementById('popupName-' + productId).innerText = name;
+      document.getElementById('popupLocation-' + productId).innerText = 'Location: ' + location;
+      document.getElementById('popupContact-' + productId).innerText = 'Contact: ' + contact;
+      document.getElementById('popupDescription-' + productId).innerText = restaurant;
+      document.getElementById('popupCat-' + productId).innerText = cat;
+      document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
 
-    // Update the image
-    const popupImage = document.getElementById('popupImage-' + productId);
-    if (imageUrl) {
-        popupImage.src = imageUrl;
-        popupImage.alt = name;
-    } else {
-        popupImage.src = '/path/to/placeholder-image.png';  // Fallback if no image is available
-    }
+      const popupImage = document.getElementById('popupImage-' + productId);
+      if (imageUrl) {
+          popupImage.src = imageUrl;
+          popupImage.alt = name;
+      } else {
+          popupImage.src = '/path/to/placeholder-image.png';
+      }
 
-    document.getElementById('productPopup-' + productId).classList.remove('hidden');
+      document.getElementById('productPopup-' + productId).classList.remove('hidden');
   }
 
   function closePopup(productId) {

@@ -1,20 +1,34 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+
 {% block content %}
   <div style="max-width: 800px; margin: auto; padding: 20px;">
     <h2 style="text-align: center;">All Articles</h2>
 
-    <!-- Tombol untuk Create New Article dan Create New Article (AJAX) -->
-    <div style="text-align: right; margin-bottom: 20px;">
+      <!-- Tambahkan tombol "My Articles" di sini -->
+      <div style="text-align: right; margin-bottom: 20px;">
+        <a href="{% url 'blog:my_articles' %}">
+          <button style="
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;">
+            My Articles
+          </button>
+        </a>
+      </div>
 
-      <!-- Tombol untuk Create New Article (AJAX) -->
+    <!-- Tombol untuk Create New Article (AJAX) -->
+    <div style="text-align: right; margin-bottom: 20px;">
       <button id="openModalBtn" style="
         padding: 10px 20px;
         background-color: #FFA500;
         color: white;
         border: none;
         border-radius: 5px;
-        cursor: pointer; 
+        cursor: pointer;
         margin-left: 10px;">
         Create New Article
       </button>
@@ -23,7 +37,7 @@
     <!-- Tampilkan daftar artikel -->
     {% if articles %}
       {% for article in articles %}
-        <div style="
+        <div id="article-{{ article.id }}" style="
           border: 1px solid #ccc;
           padding: 15px;
           margin-bottom: 15px;
@@ -36,10 +50,9 @@
           {% else %}
             <p style="margin: 5px 0; color: #777;">By: Anonymous</p>
           {% endif %}
-        
-
           <p style="margin: 10px 0;">{{ article.content|truncatewords:30 }}</p>
 
+          <!-- Tombol Edit dan Delete -->
           <div style="margin-top: 10px;">
             <a href="{% url 'blog:edit_article' article.id %}" style="
               color: #1E90FF;
@@ -47,13 +60,15 @@
               margin-right: 10px;">
               Edit
             </a>
-            <td>
-              <form method="post" action="{% url 'blog:delete_article' article.id %}" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit">Delete</button>
-              </form>
-            </td>
-            
+            <button class="delete-btn" data-id="{{ article.id }}" style="
+              padding: 5px 10px;
+              background-color: red;
+              color: white;
+              border: none;
+              border-radius: 3px;
+              cursor: pointer;">
+              Delete
+            </button>
           </div>
         </div>
       {% endfor %}
@@ -62,7 +77,7 @@
     {% endif %}
   </div>
 
-  <!-- Modal untuk AJAX -->
+  <!-- Modal untuk Create New Article (AJAX) -->
   <div id="createArticleModal" style="
     display: none; 
     position: fixed; 
@@ -89,7 +104,7 @@
         cursor: pointer;">&times;</span>
       
       <h3>Create New Article</h3>
-      <form action="{% url 'blog:create_article_ajax' %}" id="createArticleForm" method="POST" enctype="multipart/form-data">
+      <form action="{% url 'blog:create_article_ajax' %}" id="createArticleForm" method="POST">
         {% csrf_token %}
         
         <!-- Input Title -->
@@ -174,8 +189,8 @@
             appendNewArticle(response);
           },
           error: function(xhr, status, error) {
-            // Tampilkan pesan error jika terjadi kesalahan
-            $('#responseMessage').html('<p>Error creating article.</p>');
+            var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
+            $('#responseMessage').html('<p>' + errMsg + '</p>');
           }
         });
       });
@@ -183,55 +198,64 @@
       // Fungsi untuk menambahkan artikel baru secara langsung ke halaman
       function appendNewArticle(article) {
         const newArticleHtml = `
-          <div class="relative break-inside-avoid">
-              <div class="bg-gray-100 shadow-md rounded-lg mb-6 break-inside-avoid flex flex-col border-2 border-gray-300">
-                  <div class="bg-gray-200 text-gray-800 p-4 rounded-t-lg border-b-2 border-gray-300">
-                      <h3 class="font-bold text-xl mb-2">${article.title}</h3>
-                      <p class="text-gray-600">By: ${article.author ? article.author : 'Anonymous'}</p>
-                  </div>
-                  <div class="p-4">
-                      <p class="text-gray-700 mb-2">${article.content.substring(0, 100)}...</p>
-                      <div class="flex mt-4 space-x-2">
-                          <a href="/edit-article/${article.id}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md">
-                              Edit
-                          </a>
-                          <a href="/delete-article/${article.id}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md">
-                              Delete
-                          </a>
-                      </div>
-                  </div>
+          <div id="article-${article.id}" style="
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;">
+              <h3 style="margin: 0; color: #333;">${article.title}</h3>
+              <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
+              <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
+              <div style="margin-top: 10px;">
+                <a href="/edit-article/${article.id}" style="
+                  color: #1E90FF;
+                  text-decoration: none;
+                  margin-right: 10px;">
+                  Edit
+                </a>
+                <button class="delete-btn" data-id="${article.id}" style="
+                  padding: 5px 10px;
+                  background-color: red;
+                  color: white;
+                  border: none;
+                  border-radius: 3px;
+                  cursor: pointer;">
+                  Delete
+                </button>
               </div>
           </div>
         `;
 
         // Tambahkan elemen artikel baru ke bagian daftar artikel
-        $('#article_entry_cards').prepend(newArticleHtml);
+        $('.delete-btn').click(deleteArticleHandler);
+        $('#article_list').prepend(newArticleHtml);
       }
+
+      // Fungsi untuk delete artikel dengan AJAX
+      function deleteArticleHandler(e) {
+        e.preventDefault();
+        var articleId = $(this).data('id');
+        var csrftoken = '{{ csrf_token }}';
+
+        $.ajax({
+          url: '/blog/delete/' + articleId + '/',
+          type: 'POST',
+          headers: {
+            'X-CSRFToken': csrftoken
+          },
+          success: function(response) {
+            $('#article-' + articleId).remove();
+            alert('Article deleted successfully!');
+          },
+          error: function(xhr, status, error) {
+            alert('Failed to delete article.');
+          }
+        });
+      }
+
+      // Attach event handler untuk delete button
+      $('.delete-btn').click(deleteArticleHandler);
     });
-
-    //delete
-    $(document).ready(function() {
-      $('.delete-form').submit(function(e) {
-          e.preventDefault();  // Mencegah submit form normal
-          var articleId = $(this).data('id');
-          var csrftoken = '{{ csrf_token }}';
-
-          $.ajax({
-              url: '/blog/delete/' + articleId + '/',
-              type: 'POST',
-              headers: {
-                  'X-CSRFToken': csrftoken
-              },
-              success: function(response) {
-                  // Menghapus artikel dari tampilan tanpa reload halaman
-                  $('#article-' + articleId).remove();
-              },
-              error: function(xhr, status, error) {
-                  alert('Failed to delete article.');
-              }
-          });
-      });
-  });
-
   </script>
 {% endblock %}

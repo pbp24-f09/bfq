@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>{{ user.full_name }}'s Profile</title>
+{% endblock meta %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<!-- Profil Pengguna -->
+<div class="min-h-screen bg-gradient-to-b from-[#2A3A30] to-[#254832] flex flex-col items-center py-10 mt-16">
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
+    <div class="flex items-center space-x-4 mb-4">
+      <!-- Foto Profil -->
+      <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+        {% if user.profile_photo %}
+          <img src="{{ user.profile_photo }}" alt="Profile Photo" class="w-full h-full object-cover">
+        {% else %}
+          <img src="{% static 'images/default-profile.jpg' %}" alt="Default Photo" class="w-full h-full object-cover">
+        {% endif %}
+      </div>
+      <!-- Nama Pengguna -->
+      <div class="flex-1">
+        <h1 class="text-3xl font-bold text-[#B48125]">{{ user.full_name }}</h1>
+      </div>
+    </div>
+
+    <!-- Info Pengguna -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+      <div>
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Full Name:</label>
+        <p class="text-black">{{ user.full_name }}</p>
+      </div>
+      <div>
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Email:</label>
+        <p class="text-black">{{ user.email }}</p>
+      </div>
+      <div>
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Age:</label>
+        <p class="text-black">{{ user.age }}</p>
+      </div>
+      <div>
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Gender:</label>
+        <p class="text-black">{{ user.gender }}</p>
+      </div>
+      <div>
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Phone Number:</label>
+        <p class="text-black">{{ user.phone_number }}</p>
+      </div>
+    </div>
+
+    <!-- Tombol Edit -->
+    <div class="flex space-x-4 mt-6">
+      <button id="edit-profile-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-4 rounded-lg">
+        Edit Profile
+      </button>
+      <button id="edit-photo-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-4 rounded-lg">
+        Edit Photo
+      </button>
+    </div>
+
+    <!-- Pesan Sukses dan Gagal -->
+    <p id="success-message" class="text-green-500 mt-4 hidden">Profile updated successfully!</p>
+    <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
+  </div>
+</div>
+
+<!-- Modal Edit Profile -->
+<div id="editProfileModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+    <!-- Tombol X Besar -->
+    <button id="close-profile-modal" class="absolute top-2 right-4 text-3xl font-bold text-gray-500 hover:text-gray-700">
+      &times;
+    </button>
+    <h2 class="text-2xl font-bold text-[#B48125] mb-4">Edit Profile</h2>
+    <form id="edit-profile-form">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Full Name:</label>
+        <input type="text" name="full_name" value="{{ user.full_name }}" class="form-input w-full p-2 border rounded">
+      </div>
+      <div class="mb-4">
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Email:</label>
+        <input type="email" name="email" value="{{ user.email }}" class="form-input w-full p-2 border rounded">
+      </div>
+      <div class="mb-4">
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Age:</label>
+        <input type="number" name="age" value="{{ user.age }}" class="form-input w-full p-2 border rounded">
+      </div>
+      <div class="mb-4">
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Gender:</label>
+        <select name="gender" class="form-select w-full p-2 border rounded">
+          <option value="MALE" {% if user.gender == 'MALE' %}selected{% endif %}>Male</option>
+          <option value="FEMALE" {% if user.gender == 'FEMALE' %}selected{% endif %}>Female</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Phone Number:</label>
+        <input type="text" name="phone_number" value="{{ user.phone_number }}" class="form-input w-full p-2 border rounded">
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button type="submit" class="bg-[#B48125] text-white py-2 px-4 rounded-lg">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Edit Photo -->
+<div id="editPhotoModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
+    <!-- Tombol X Besar -->
+    <button id="close-photo-modal" class="absolute top-2 right-2 text-3xl font-bold text-gray-500 hover:text-gray-700">
+      &times;
+    </button>
+    <h2 class="text-2xl font-bold text-[#B48125] mb-4">Edit Photo</h2>
+    <form id="edit-photo-form">
+      {% csrf_token %}
+      <div class="mb-4">
+        <label class="block text-[#B48125] text-sm font-bold mb-2">Photo URL:</label>
+        <input type="url" name="profile_photo" value="{{ user.profile_photo }}" class="form-input w-full p-2 border rounded">
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button type="button" id="delete-photo-btn" class="bg-red-500 text-white py-2 px-4 rounded-lg">Delete Photo</button>
+        <button type="submit" class="bg-[#B48125] text-white py-2 px-4 rounded-lg">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+    // Tampilkan atau sembunyikan modal
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+      document.getElementById('editProfileModal').classList.remove('hidden');
+    });
+    document.getElementById('edit-photo-btn').addEventListener('click', function() {
+      document.getElementById('editPhotoModal').classList.remove('hidden');
+    });
+    document.getElementById('close-profile-modal').addEventListener('click', function() {
+      document.getElementById('editProfileModal').classList.add('hidden');
+    });
+    document.getElementById('close-photo-modal').addEventListener('click', function() {
+      document.getElementById('editPhotoModal').classList.add('hidden');
+    });
+    
+    // Kosongkan pesan error dan sukses
+    function clearMessages() {
+      document.getElementById('success-message').classList.add('hidden');
+      document.getElementById('error-message').classList.add('hidden');
+    }
+    
+    // AJAX untuk Edit Profile
+    document.getElementById('edit-profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearMessages();
+    
+      var formData = new FormData(this);
+    
+      fetch("{% url 'update_profile' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: formData
+      })
+      .then(response => {
+        // Jika respons berhasil, sembunyikan modal tanpa menampilkan pesan
+        if (response.ok) {
+          document.getElementById('editProfileModal').classList.add('hidden');
+        }
+      })
+      .catch(() => {
+        document.getElementById('error-message').innerText = 'Failed to update profile. Please try again.';
+        document.getElementById('error-message').classList.remove('hidden');
+      });
+    });
+    
+    // Update Photo AJAX
+    document.getElementById('edit-photo-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      clearMessages();
+    
+      var formData = new FormData(this);
+    
+      fetch("{% url 'update_photo' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: formData
+      })
+      .then(response => response.ok ? response.text() : Promise.reject())
+      .then(newPhotoUrl => {
+        document.querySelector("img[alt='Profile Photo']").src = newPhotoUrl;
+        document.getElementById('editPhotoModal').classList.add('hidden');
+        clearPhotoInput(); // Kosongkan input setelah berhasil
+      })
+      .catch(() => {
+        document.getElementById('error-message').innerText = 'Failed to update photo. Please try again.';
+        document.getElementById('error-message').classList.remove('hidden');
+      });
+    });
+    
+    // Delete Photo AJAX
+    document.getElementById('delete-photo-btn').addEventListener('click', function() {
+      clearMessages();
+    
+      fetch("{% url 'delete_photo' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        }
+      })
+      .then(response => response.ok ? response.text() : Promise.reject())
+      .then(() => {
+        document.querySelector("img[alt='Profile Photo']").src = "{% static 'images/default-profile.jpg' %}";
+        document.getElementById('editPhotoModal').classList.add('hidden');
+        clearPhotoInput(); // Kosongkan input setelah berhasil
+      })
+      .catch(() => {
+        document.getElementById('error-message').innerText = 'Failed to delete photo. Please try again.';
+        document.getElementById('error-message').classList.remove('hidden');
+      });
+    });
+</script>    
+{% endblock content %}

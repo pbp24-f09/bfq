@@ -1,12 +1,28 @@
 {% extends 'blog/base.html' %}
+
 {% block content %}
-  <h2>My Articles</h2>
-  {% for article in articles %}
-    <div>
-      <h3>{{ article.title }}</h3>
-      <p>{{ article.content|truncatewords:30 }}</p>
-      <a href="{% url 'edit_article' article.id %}">Edit</a> | 
-      <a href="{% url 'delete_article' article.id %}">Delete</a>
-    </div>
-  {% endfor %}
+  <div style="max-width: 800px; margin: auto; padding: 20px;">
+    <h2 style="text-align: center;">My Articles</h2>
+
+    {% if articles %}
+      {% for article in articles %}
+        <div style="
+          border: 1px solid #ccc;
+          padding: 15px;
+          margin-bottom: 15px;
+          border-radius: 8px;
+          background-color: #f9f9f9;">
+          
+          <h3>{{ article.title }}</h3>
+          <p>{{ article.content|truncatewords:30 }}</p>
+          
+          <!-- Edit dan Delete -->
+          <a href="{% url 'blog:edit_article' article.id %}">Edit</a> | 
+          <a href="{% url 'blog:delete_article' article.id %}">Delete</a>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align: center; color: #777;">You have no articles.</p>
+    {% endif %}
+  </div>
 {% endblock %}
