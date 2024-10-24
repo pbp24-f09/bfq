@@ -4,7 +4,8 @@
   <div style="max-width: 800px; margin: auto; padding: 20px;">
     <h2 style="text-align: center;">Edit Article</h2>
 
-    <form method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+    <!-- Tambahkan tag form -->
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit" style="

@@ -1,22 +1,23 @@
 {% extends 'blog/base.html' %}
-
+{% load static %}
 {% block content %}
   <div style="max-width: 800px; margin: auto; padding: 20px;">
     <h2 style="text-align: center;">All Articles</h2>
 
-    <!-- Tambahkan tombol Create New Article -->
+    <!-- Tombol untuk Create New Article dan Create New Article (AJAX) -->
     <div style="text-align: right; margin-bottom: 20px;">
-      <a href="{% url 'create_article' %}" style="text-decoration: none;">
-        <button style="
-          padding: 10px 20px;
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;">
-          Create New Article
-        </button>
-      </a>
+
+      <!-- Tombol untuk Create New Article (AJAX) -->
+      <button id="openModalBtn" style="
+        padding: 10px 20px;
+        background-color: #FFA500;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer; 
+        margin-left: 10px;">
+        Create New Article
+      </button>
     </div>
 
     <!-- Tampilkan daftar artikel -->
@@ -30,35 +31,29 @@
           background-color: #f9f9f9;">
           
           <h3 style="margin: 0; color: #333;">{{ article.title }}</h3>
-
-          <!-- Tampilkan nama penulis atau Anonymous -->
           {% if article.author %}
             <p style="margin: 5px 0; color: #777;">By: {{ article.author }}</p>
           {% else %}
             <p style="margin: 5px 0; color: #777;">By: Anonymous</p>
           {% endif %}
-          
-          <!-- Tampilkan gambar artikel jika ada -->
-          {% if article.image %}
-            <img src="{{ article.image.url }}" alt="{{ article.title }}" style="max-width: 100%; height: auto; border-radius: 5px; margin-bottom: 10px;">
-          {% endif %}
+        
 
-          <!-- Tampilkan konten artikel -->
           <p style="margin: 10px 0;">{{ article.content|truncatewords:30 }}</p>
 
-          <!-- Tombol Edit dan Delete -->
           <div style="margin-top: 10px;">
-            <a href="{% url 'edit_article' article.id %}" style="
+            <a href="{% url 'blog:edit_article' article.id %}" style="
               color: #1E90FF;
               text-decoration: none;
               margin-right: 10px;">
               Edit
             </a>
-            <a href="{% url 'delete_article' article.id %}" style="
-              color: #FF4500;
-              text-decoration: none;">
-              Delete
-            </a>
+            <td>
+              <form method="post" action="{% url 'blog:delete_article' article.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit">Delete</button>
+              </form>
+            </td>
+            
           </div>
         </div>
       {% endfor %}
@@ -66,4 +61,177 @@
       <p style="text-align: center; color: #777;">No articles found.</p>
     {% endif %}
   </div>
+
+  <!-- Modal untuk AJAX -->
+  <div id="createArticleModal" style="
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0, 0, 0, 0.5);">
+    
+    <div class="modal-content" style="
+      width: 500px;
+      margin: 100px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;">
+      
+      <span id="closeModal" style="
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;">&times;</span>
+      
+      <h3>Create New Article</h3>
+      <form action="{% url 'blog:create_article_ajax' %}" id="createArticleForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Input Title -->
+        <div style="margin-bottom: 10px;">
+          <label for="id_title">Title:</label>
+          <input type="text" name="title" id="id_title" class="form-control">
+        </div>
+
+        <!-- Input Topic -->
+        <div style="margin-bottom: 10px;">
+          <label for="id_topic">Topic:</label>
+          <input type="text" name="topic" id="id_topic" class="form-control">
+        </div>
+
+        <!-- Input Content -->
+        <div style="margin-bottom: 10px;">
+          <label for="id_content">Content:</label>
+          <textarea name="content" id="id_content" class="form-control"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" style="
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;">
+          Submit
+        </button>
+      </form>
+
+      <!-- Area untuk pesan respons -->
+      <div id="responseMessage" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <!-- Tambahkan skrip jQuery untuk AJAX -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Buka modal
+      $('#openModalBtn').click(function() {
+        $('#createArticleModal').show();
+      });
+
+      // Tutup modal
+      $('#closeModal').click(function() {
+        $('#createArticleModal').hide();
+      });
+
+      // Klik di luar modal untuk menutup modal
+      $(window).click(function(event) {
+        if ($(event.target).is('#createArticleModal')) {
+          $('#createArticleModal').hide();
+        }
+      });
+
+      // Submit form dengan AJAX
+      $('#createArticleForm').on('submit', function(e) {
+        e.preventDefault(); // Cegah form dari submit default
+
+        const formData = new FormData(this); // Ambil data dari form
+
+        $.ajax({
+          url: $(this).attr('action'), // Ambil URL action dari form
+          type: $(this).attr('method'), // Metode pengiriman (POST)
+          data: formData,
+          processData: false, // Penting agar data dikirim sebagai FormData
+          contentType: false,
+          success: function(response) {
+            // Lakukan sesuatu ketika berhasil
+            $('#responseMessage').html('<p>Article created successfully!</p>');
+
+            // Kosongkan form setelah submit berhasil
+            $('#createArticleForm')[0].reset();
+
+            // Tutup modal
+            $('#createArticleModal').hide();
+
+            // Tambahkan artikel baru ke halaman tanpa refresh
+            appendNewArticle(response);
+          },
+          error: function(xhr, status, error) {
+            // Tampilkan pesan error jika terjadi kesalahan
+            $('#responseMessage').html('<p>Error creating article.</p>');
+          }
+        });
+      });
+
+      // Fungsi untuk menambahkan artikel baru secara langsung ke halaman
+      function appendNewArticle(article) {
+        const newArticleHtml = `
+          <div class="relative break-inside-avoid">
+              <div class="bg-gray-100 shadow-md rounded-lg mb-6 break-inside-avoid flex flex-col border-2 border-gray-300">
+                  <div class="bg-gray-200 text-gray-800 p-4 rounded-t-lg border-b-2 border-gray-300">
+                      <h3 class="font-bold text-xl mb-2">${article.title}</h3>
+                      <p class="text-gray-600">By: ${article.author ? article.author : 'Anonymous'}</p>
+                  </div>
+                  <div class="p-4">
+                      <p class="text-gray-700 mb-2">${article.content.substring(0, 100)}...</p>
+                      <div class="flex mt-4 space-x-2">
+                          <a href="/edit-article/${article.id}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+                              Edit
+                          </a>
+                          <a href="/delete-article/${article.id}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+                              Delete
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        `;
+
+        // Tambahkan elemen artikel baru ke bagian daftar artikel
+        $('#article_entry_cards').prepend(newArticleHtml);
+      }
+    });
+
+    //delete
+    $(document).ready(function() {
+      $('.delete-form').submit(function(e) {
+          e.preventDefault();  // Mencegah submit form normal
+          var articleId = $(this).data('id');
+          var csrftoken = '{{ csrf_token }}';
+
+          $.ajax({
+              url: '/blog/delete/' + articleId + '/',
+              type: 'POST',
+              headers: {
+                  'X-CSRFToken': csrftoken
+              },
+              success: function(response) {
+                  // Menghapus artikel dari tampilan tanpa reload halaman
+                  $('#article-' + articleId).remove();
+              },
+              error: function(xhr, status, error) {
+                  alert('Failed to delete article.');
+              }
+          });
+      });
+  });
+
+  </script>
 {% endblock %}

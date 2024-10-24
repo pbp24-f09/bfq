@@ -8,7 +8,6 @@ class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Perubahan ada di sini
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='article_images/', null=True, blank=True)
 
     def __str__(self):
         return self.title
