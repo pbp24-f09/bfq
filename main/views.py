@@ -13,6 +13,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+from django.db.models import Q
 
 
 def show_main(request):
@@ -45,12 +46,20 @@ def create_product(request):
 
 
 def show_xml(request):
-    data = Product.objects.filter(user=request.user) if request.user.is_authenticated else Product.objects.all()
+    # Include products where the user is either null or the logged-in user
+    if request.user.is_authenticated:
+        data = Product.objects.filter(Q(user=request.user) | Q(user__isnull=True))
+    else:
+        data = Product.objects.all()  # Show all products if not logged in
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 
 def show_json(request):
-    data = Product.objects.filter(user=request.user) if request.user.is_authenticated else Product.objects.all()
+    # Include products where the user is either null or the logged-in user
+    if request.user.is_authenticated:
+        data = Product.objects.filter(Q(user=request.user) | Q(user__isnull=True))
+    else:
+        data = Product.objects.all()  # Show all products if not logged in
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 
