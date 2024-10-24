@@ -1,13 +1,14 @@
 import datetime
 from .models import CustomUser
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, EditProfileForm, EditPhotoForm
 from .decorators import role_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 def register_user(request):
@@ -48,6 +49,43 @@ def login_user(request):
     return render(request, 'login.html', context)
 
 @login_required
+@csrf_exempt
+def update_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=400)
+    return HttpResponse(status=405)
+
+@login_required
+@csrf_exempt
+def update_photo(request):
+    if request.method == 'POST':
+        user = request.user
+        new_photo_url = request.POST.get('profile_photo', '')
+        
+        if new_photo_url:
+            user.profile_photo = new_photo_url
+            user.save()
+            return HttpResponse(new_photo_url)  # Kembalikan URL baru sebagai plain text
+        else:
+            return HttpResponse("Invalid URL", status=400)
+    return HttpResponse("Method not allowed", status=405)
+
+@login_required
+@csrf_exempt
+def delete_photo(request):
+    if request.method == 'POST':
+        user = request.user
+        user.profile_photo = None
+        user.save()
+        return HttpResponse("Photo deleted")  # Kembalikan respons sederhana
+    return HttpResponse("Method not allowed", status=405)
+
+@login_required
 @role_required('customer')
 def customer_dashboard(request):
     return render(request, 'main_customer.html')
@@ -65,6 +103,6 @@ def profile(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
+    response = redirect('main:show_main')
     response.delete_cookie('last_login')
     return response
