@@ -54,11 +54,16 @@ def update_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return HttpResponse(status=200)
+            user = form.save()
+            data = f"success,{user.full_name},{user.email},{user.age},{user.gender},{user.phone_number}"
+            return HttpResponse(data, content_type='text/plain')
         else:
-            return HttpResponse(status=400)
-    return HttpResponse(status=405)
+            errors = []
+            for field, messages in form.errors.items():
+                for message in messages:
+                    errors.append(f"{field}:{message}")
+            return HttpResponse("error," + ",".join(errors), content_type='text/plain', status=400)
+    return HttpResponse("Method not allowed", status=405)
 
 @login_required
 @csrf_exempt
@@ -66,13 +71,14 @@ def update_photo(request):
     if request.method == 'POST':
         user = request.user
         new_photo_url = request.POST.get('profile_photo', '')
-        
-        if new_photo_url:
+
+        # Periksa apakah URL valid (tidak kosong)
+        if new_photo_url.strip():
             user.profile_photo = new_photo_url
-            user.save()
-            return HttpResponse(new_photo_url)  # Kembalikan URL baru sebagai plain text
+            user.save()  # Simpan perubahan ke database
+            return HttpResponse(f"success,{new_photo_url}", content_type='text/plain')
         else:
-            return HttpResponse("Invalid URL", status=400)
+            return HttpResponse("error:Invalid URL", content_type='text/plain', status=400)
     return HttpResponse("Method not allowed", status=405)
 
 @login_required
@@ -82,7 +88,7 @@ def delete_photo(request):
         user = request.user
         user.profile_photo = None
         user.save()
-        return HttpResponse("Photo deleted")  # Kembalikan respons sederhana
+        return HttpResponse("Photo deleted", content_type='text/plain')
     return HttpResponse("Method not allowed", status=405)
 
 @login_required

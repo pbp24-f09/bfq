@@ -1,0 +1,60 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <div style="max-width: 800px; margin: auto; padding: 20px;">
+    <h2>Create New Article (AJAX)</h2>
+
+    <!-- Form untuk membuat artikel baru -->
+    <form id="createArticleForm" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" style="
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;">
+        Submit
+      </button>
+    </form>
+
+    <!-- Area untuk menampilkan pesan respons -->
+    <div id="responseMessage" style="margin-top: 20px;"></div>
+  </div>
+
+  <!-- Tambahkan skrip jQuery untuk AJAX -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#createArticleForm').on('submit', function(e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+          type: 'POST',
+          url: "{% url 'create_article' %}",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              $('#responseMessage').html('<p style="color: green;">' + response.message + '</p>');
+              $('#createArticleForm')[0].reset();  // Reset form setelah sukses
+            } else {
+              var errors = '';
+              $.each(response.errors, function(key, value) {
+                errors += '<p style="color: red;">' + key + ': ' + value[0] + '</p>';
+              });
+              $('#responseMessage').html(errors);
+            }
+          },
+          error: function() {
+            $('#responseMessage').html('<p style="color: red;">An error occurred while creating the article.</p>');
+          }
+        });
+      });
+    });
+  </script>
+{% endblock %}
