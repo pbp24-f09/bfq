@@ -18,12 +18,21 @@ from django.db.models import Q
 
 def show_main(request):
     context = {
-        'tagline': 'anytime. anywhere.',
+        'tagline': 'Bandung Nice Food',
         'login_user': request.user.username if request.user.is_authenticated else None,
         'last_login': request.COOKIES.get('last_login', 'No recent login'),
     }
 
     return render(request, "main.html", context)
+
+def show_main_admin(request):
+    context = {
+        'tagline': 'Bandung Nice Food',
+        'login_user': request.user.username if request.user.is_authenticated else None,
+        'last_login': request.COOKIES.get('last_login', 'No recent login'),
+    }
+
+    return render(request, "main_admin.html", context)
 
 
 @login_required(login_url='/login')
@@ -35,7 +44,7 @@ def create_product(request):
         product = form.save(commit=False)  # Create the product instance but don't save yet
         product.user = request.user  # Associate the product with the current user
         product.save()  # Now save the product instance to the database
-        return redirect('main:show_main')  # Redirect to the main page after saving
+        return redirect('main:show_main_admin')  # Redirect to the main page after saving
 
     context = {
         'form': form,
@@ -46,20 +55,12 @@ def create_product(request):
 
 
 def show_xml(request):
-    # Include products where the user is either null or the logged-in user
-    if request.user.is_authenticated:
-        data = Product.objects.filter(Q(user=request.user) | Q(user__isnull=True))
-    else:
-        data = Product.objects.all()  # Show all products if not logged in
+    data = Product.objects.all()
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 
 def show_json(request):
-    # Include products where the user is either null or the logged-in user
-    if request.user.is_authenticated:
-        data = Product.objects.filter(Q(user=request.user) | Q(user__isnull=True))
-    else:
-        data = Product.objects.all()  # Show all products if not logged in
+    data = Product.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 
@@ -81,7 +82,7 @@ def edit_product(request, id):
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('main:show_main')
+            return redirect('main:show_main_admin')
     else:
         form = ProductForm(instance=product)
     
