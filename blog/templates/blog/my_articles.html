@@ -1,28 +1,123 @@
 {% extends 'blog/base.html' %}
+{% load static %}
 
 {% block content %}
-  <div style="max-width: 800px; margin: auto; padding: 20px;">
-    <h2 style="text-align: center;">My Articles</h2>
+<div style="background-color: #102820; padding: 40px 20px; min-height: 100vh;">
+  <!-- Header BFQ dan My BFQ Articles -->
+  <div style="max-width: 1200px; margin: auto;">
+    <h1 style="
+      font-family: 'Times New Roman', serif;
+      font-size: 3rem;
+      color: #f3ead8;
+      text-align: left;
+      margin-bottom: 40px;
+    ">My BFQ Articles</h1>
 
-    {% if articles %}
-      {% for article in articles %}
-        <div style="
-          border: 1px solid #ccc;
-          padding: 15px;
-          margin-bottom: 15px;
-          border-radius: 8px;
-          background-color: #f9f9f9;">
-          
-          <h3>{{ article.title }}</h3>
-          <p>{{ article.content|truncatewords:30 }}</p>
-          
-          <!-- Edit dan Delete -->
-          <a href="{% url 'blog:edit_article' article.id %}">Edit</a> | 
-          <a href="{% url 'blog:delete_article' article.id %}">Delete</a>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p style="text-align: center; color: #777;">You have no articles.</p>
-    {% endif %}
+    <!-- Banner Gambar -->
+    <div style="margin-bottom: 40px;">
+      <img src="{% static 'images/poster_1.png' %}" alt="Traditional Indonesian Cuisine" style="
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      ">
+    </div>
+
+    <!-- Konten Artikel -->
+    <div id="article_cards" style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: flex-start;
+    ">
+      {% if articles %}
+        {% for article in articles %}
+          <!-- Container untuk setiap article-card -->
+          <div class="article-card" id="article-{{ article.id }}" style="
+            flex: 0 1 calc(33.33% - 20px);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f3ead8;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          ">
+            <!-- Bagian Atas Artikel -->
+            <div>
+              <h3 style="
+                margin: 0; 
+                color: #4c6444; 
+                font-size: 24px; 
+                font-weight: bold; 
+                text-decoration: underline;
+              ">
+                {{ article.title }}
+              </h3>
+              {% if article.author %}
+                <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: {{ article.author }}</p>
+              {% else %}
+                <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: Anonymous</p>
+              {% endif %}
+              <p style="margin: 10px 0; color: black;">{{ article.content|truncatewords:30 }}</p>
+            </div>
+
+            <!-- Tombol View, Edit, dan Delete -->
+            <div style="
+              margin-top: 10px; 
+              display: flex; 
+              gap: 5px; 
+              justify-content: center;
+            ">
+              <a href="{% url 'blog:view_article' article.id %}" style="
+                padding: 5px 10px;
+                background-color: #E7F6F8;
+                color: black;
+                border: none;
+                border-radius: 3px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: background-color 0.3s;
+              " onmouseover="this.style.backgroundColor='#cceef4';" onmouseout="this.style.backgroundColor='#E7F6F8';">
+                View Article
+              </a>
+
+              {% if article.author == request.user %}
+                <a href="{% url 'blog:edit_article' article.id %}" style="
+                  padding: 5px 10px;
+                  background-color: #c9c9c9;
+                  color: black;
+                  border: none;
+                  border-radius: 3px;
+                  text-decoration: none;
+                  font-weight: 600;
+                  transition: background-color 0.3s;
+                " onmouseover="this.style.backgroundColor='#b3b3b3';" onmouseout="this.style.backgroundColor='#c9c9c9';">
+                  Edit
+                </a>
+                <button class="delete-btn" data-id="{{ article.id }}" style="
+                  padding: 5px 10px;
+                  background-color: #E3CAAC;
+                  color: black;
+                  border: none;
+                  border-radius: 3px;
+                  cursor: pointer;
+                  font-weight: 600;
+                  transition: background-color 0.3s;
+                " onmouseover="this.style.backgroundColor='#d1b08f';" onmouseout="this.style.backgroundColor='#E3CAAC';">
+                  Delete
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p style="text-align: center; color: #f3ead8;">You have no articles.</p>
+      {% endif %}
+    </div>
   </div>
+</div>
 {% endblock %}

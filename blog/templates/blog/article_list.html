@@ -2,80 +2,269 @@
 {% load static %}
 
 {% block content %}
-  <div style="max-width: 800px; margin: auto; padding: 20px;">
-    <h2 style="text-align: center;">All Articles</h2>
 
-      <!-- Tambahkan tombol "My Articles" di sini -->
-      <div style="text-align: right; margin-bottom: 20px;">
-        <a href="{% url 'blog:my_articles' %}">
-          <button style="
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;">
-            My Articles
-          </button>
-        </a>
-      </div>
+  <!-- Background halaman -->
+  <body style="background-color: #102820; margin: 0; padding: 0;">
 
-    <!-- Tombol untuk Create New Article (AJAX) -->
-    <div style="text-align: right; margin-bottom: 20px;">
-      <button id="openModalBtn" style="
+<!-- Menambahkan Google Fonts untuk Rosarivo -->
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Rosarivo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<div class="slideshow-container" style="width: 100%; height: 100vh; margin: 60px 0 0; position: relative; overflow: hidden;">
+  <!-- Slide 1 -->
+  <div class="mySlides fade" style="width: 100%; height: 100vh;">
+    <img src="{% static 'images/poster_1.png' %}" alt="Poster 1" style="width: 100%; height: 100vh; object-fit: cover; border-radius: 0;">
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="mySlides fade" style="width: 100%; height: 100vh;">
+    <img src="{% static 'images/poster_5.png' %}" alt="Poster 5" style="width: 100%; height: 100vh; object-fit: cover; border-radius: 0;">
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="mySlides fade" style="width: 100%; height: 100vh;">
+    <img src="{% static 'images/poster_3.png' %}" alt="Poster 3" style="width: 100%; height: 100vh; object-fit: cover; border-radius: 0;">
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="mySlides fade" style="width: 100%; height: 100vh;">
+    <img src="{% static 'images/poster_4.png' %}" alt="Poster 4" style="width: 100%; height: 100vh; object-fit: cover; border-radius: 0;">
+  </div>
+
+  <!-- Indikator Titik -->
+  <div style="text-align: center; position: absolute; bottom: 10px; width: 100%;">
+    <span class="dot" onclick="currentSlide(1)" style="height: 15px; width: 15px; margin: 0 5px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span> 
+    <span class="dot" onclick="currentSlide(2)" style="height: 15px; width: 15px; margin: 0 5px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span> 
+    <span class="dot" onclick="currentSlide(3)" style="height: 15px; width: 15px; margin: 0 5px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span> 
+    <span class="dot" onclick="currentSlide(4)" style="height: 15px; width: 15px; margin: 0 5px; background-color: #bbb; border-radius: 50%; display: inline-block; cursor: pointer;"></span> 
+  </div>
+</div>
+
+<!-- Teks "BFQ Articles" dipindahkan ke bawah slideshow -->
+<h2 style="
+  text-align: left; 
+  margin: 40px 40px 20px; 
+  font-size: 2.5rem; 
+  color: #f3ead8; 
+  font-family: 'Rosarivo', serif; 
+  font-weight: bold; 
+  text-decoration: underline;
+  text-indent: 20px;">
+  BFQ Articles
+</h2>
+
+
+  <style>
+    .mySlides {
+      display: none; /* Sembunyikan semua slide secara default */
+    }
+  
+    .fade {
+      animation-name: fade;
+      animation-duration: 3s;
+    }
+  
+    @keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}
+    }
+  
+    
+    /* CSS untuk indikator titik */
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+    }
+  
+    .active {
+      background-color: #4CAF50; /* Warna hijau saat aktif */
+    }
+  </style>
+    
+<style>
+  #article_cards {
+    display: block; /* Ganti ke block untuk Masonry */
+  }
+
+  .article-card {
+    margin-bottom: 20px; /* Jarak antar kartu artikel */
+    width: calc(33.33% - 20px); /* Atur lebar default untuk Masonry */
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 1024px) {
+    .article-card {
+      width: 45%; /* Lebar 2 kolom pada tablet */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .article-card {
+      width: 100%; /* Lebar penuh pada layar kecil */
+    }
+  }
+</style>
+
+    
+
+    <style>
+      @media (max-width: 1024px) {
+        #article_cards {
+          justify-content: center; /* Pusatkan artikel pada layar kecil */
+        }
+    
+        #article_cards > div {
+          width: 45%; /* Lebar 2 kolom pada tablet */
+        }
+      }
+    
+      @media (max-width: 768px) {
+        #article_cards > div {
+          width: 100%; /* Lebar penuh pada layar kecil */
+        }
+      }
+    </style>
+
+    
+    
+
+    <!-- Container utama -->
+    <div style="max-width: 1200px; margin: 40px auto; padding: 20px;">
+      <!-- Konten lainnya di sini -->
+    </div>
+  </body>
+
+<!-- Container untuk tombol -->
+<div style="
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 10px; 
+  margin-bottom: 20px;
+">
+    <!-- Tombol "My Articles" -->
+    <a href="{% url 'blog:my_articles' %}">
+      <button style="
         padding: 10px 20px;
-        background-color: #FFA500;
+        background-color: #D0B799;
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        margin-left: 10px;">
-        Create New Article
+        font-weight: bold;">
+        My Articles
       </button>
-    </div>
+    </a>
 
-    <!-- Tampilkan daftar artikel -->
-    {% if articles %}
-      {% for article in articles %}
-        <div id="article-{{ article.id }}" style="
-          border: 1px solid #ccc;
-          padding: 15px;
-          margin-bottom: 15px;
-          border-radius: 8px;
-          background-color: #f9f9f9;">
-          
-          <h3 style="margin: 0; color: #333;">{{ article.title }}</h3>
-          {% if article.author %}
-            <p style="margin: 5px 0; color: #777;">By: {{ article.author }}</p>
-          {% else %}
-            <p style="margin: 5px 0; color: #777;">By: Anonymous</p>
-          {% endif %}
-          <p style="margin: 10px 0;">{{ article.content|truncatewords:30 }}</p>
+    <!-- Tombol "Create New Article" -->
+    <button id="openModalBtn" style="
+      padding: 10px 20px;
+      background-color: #D0B799;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;">
+      Create New Article
+    </button>
+  </div>
 
-          <!-- Tombol Edit dan Delete -->
-          <div style="margin-top: 10px;">
+<!-- Container untuk daftar artikel -->
+<div id="article_cards" style="
+  display: flex;
+  flex-wrap: wrap; /* Bungkus ke baris baru jika penuh */
+  justify-content: flex-start; /* Mulai dari kiri */
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+">
+
+
+<!-- Container untuk daftar artikel -->
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  {% if articles %}
+    {% for article in articles %}
+      <div class="article-card" id="article-{{ article.id }}" style="
+        flex: 0 1 calc(33.33% - 20px);
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f3ead8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 300px;
+      ">
+    
+  <div>
+    <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
+      {{ article.title }}
+    </h3>
+    {% if article.author %}
+      <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: {{ article.author }}</p>
+    {% else %}
+      <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: Anonymous</p>
+    {% endif %}
+    <p style="margin: 10px 0; color: black;">{{ article.content|truncatewords:30 }}</p>
+  </div>
+  
+
+        <!-- Tombol View, Edit, dan Delete -->
+        <div style="margin-top: 10px; display: flex; gap: 5px; justify-content: center;">
+          <a href="{% url 'blog:view_article' article.id %}" style="
+            padding: 5px 10px;
+            background-color: #E7F6F8;
+            color: black;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            font-weight:600;
+          ">
+            View Article
+          </a>
+
+          {% if article.author == request.user %}
             <a href="{% url 'blog:edit_article' article.id %}" style="
-              color: #1E90FF;
+              padding: 5px 10px;
+              background-color: #c9c9c9;
+              color: black;
+              border: none;
+              border-radius: 3px;
               text-decoration: none;
-              margin-right: 10px;">
+              font-weight:600;
+            ">
               Edit
             </a>
             <button class="delete-btn" data-id="{{ article.id }}" style="
               padding: 5px 10px;
-              background-color: red;
-              color: white;
+              background-color: #E3CAAC;
+              color: black;
               border: none;
               border-radius: 3px;
-              cursor: pointer;">
+              cursor: pointer;
+              font-weight:600;
+            ">
               Delete
             </button>
-          </div>
+          {% endif %}
         </div>
-      {% endfor %}
-    {% else %}
-      <p style="text-align: center; color: #777;">No articles found.</p>
-    {% endif %}
-  </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="text-align: center; color: #777;">No articles found.</p>
+  {% endif %}
+</div>
+
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<!-- Tambahkan div kosong sebagai footer untuk menambah spasi -->
+<div style="height: 100px;"></div>
 
   <!-- Modal untuk Create New Article (AJAX) -->
   <div id="createArticleModal" style="
@@ -103,36 +292,67 @@
         font-size: 20px;
         cursor: pointer;">&times;</span>
       
-      <h3>Create New Article</h3>
-      <form action="{% url 'blog:create_article_ajax' %}" id="createArticleForm" method="POST">
+      <h3 style="
+      margin-bottom: 30px; 
+      text-align: center; 
+      font-size: 2.5rem; 
+      color: #4c6444; 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    ">
+      Create New Article
+    </h3>
+    
+      <form action="{% url 'blog:create_article_ajax' %}" id="createArticleForm" method="POST" style="display: flex; flex-direction: column;">
         {% csrf_token %}
         
         <!-- Input Title -->
-        <div style="margin-bottom: 10px;">
-          <label for="id_title">Title:</label>
-          <input type="text" name="title" id="id_title" class="form-control">
+        <div style="margin-bottom: 20px;">
+          <label for="id_title" style="display: block; margin-bottom: 5px; font-weight: bold;">Title:</label>
+          <input type="text" name="title" id="id_title" class="form-control" style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #D0B799;
+          ">
         </div>
-
+    
         <!-- Input Topic -->
-        <div style="margin-bottom: 10px;">
-          <label for="id_topic">Topic:</label>
-          <input type="text" name="topic" id="id_topic" class="form-control">
+        <div style="margin-bottom: 20px;">
+          <label for="id_topic" style="display: block; margin-bottom: 5px; font-weight: bold;">Topic:</label>
+          <input type="text" name="topic" id="id_topic" class="form-control" style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #D0B799;
+          ">
         </div>
-
+    
         <!-- Input Content -->
-        <div style="margin-bottom: 10px;">
-          <label for="id_content">Content:</label>
-          <textarea name="content" id="id_content" class="form-control"></textarea>
+        <div style="margin-bottom: 20px;">
+          <label for="id_content" style="display: block; margin-bottom: 5px; font-weight: bold;">Content:</label>
+          <textarea name="content" id="id_content" class="form-control" style="
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #D0B799;
+            height: 150px;
+          "></textarea>
         </div>
-
+    
         <!-- Submit Button -->
         <button type="submit" style="
           padding: 10px 20px;
-          background-color: #4CAF50;
+          background-color: #4c6444;
           color: white;
           border: none;
           border-radius: 5px;
-          cursor: pointer;">
+          cursor: pointer;
+          font-weight: bold;
+          align-self: flex-start;
+        ">
           Submit
         </button>
       </form>
@@ -142,120 +362,282 @@
     </div>
   </div>
 
-  <!-- Tambahkan skrip jQuery untuk AJAX -->
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    $(document).ready(function() {
-      // Buka modal
-      $('#openModalBtn').click(function() {
-        $('#createArticleModal').show();
-      });
+$(document).ready(function() {
+  // Panggil fungsi untuk memuat artikel saat halaman dimuat
+  refreshArticleEntries();
 
-      // Tutup modal
-      $('#closeModal').click(function() {
-        $('#createArticleModal').hide();
-      });
+  // Buka modal untuk Create New Article
+  $('#openModalBtn').click(function() {
+    $('#createArticleModal').show();
+  });
 
-      // Klik di luar modal untuk menutup modal
-      $(window).click(function(event) {
-        if ($(event.target).is('#createArticleModal')) {
-          $('#createArticleModal').hide();
-        }
-      });
+  // Tutup modal
+  $('#closeModal').click(function() {
+    $('#createArticleModal').hide();
+  });
 
-      // Submit form dengan AJAX
-      $('#createArticleForm').on('submit', function(e) {
-        e.preventDefault(); // Cegah form dari submit default
+  // Klik di luar modal untuk menutup modal
+  $(window).click(function(event) {
+    if ($(event.target).is('#createArticleModal')) {
+      $('#createArticleModal').hide();
+    }
+  });
 
-        const formData = new FormData(this); // Ambil data dari form
+// Ambil token CSRF dari cookie
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 
-        $.ajax({
-          url: $(this).attr('action'), // Ambil URL action dari form
-          type: $(this).attr('method'), // Metode pengiriman (POST)
-          data: formData,
-          processData: false, // Penting agar data dikirim sebagai FormData
-          contentType: false,
-          success: function(response) {
-            // Lakukan sesuatu ketika berhasil
-            $('#responseMessage').html('<p>Article created successfully!</p>');
+const csrftoken = getCookie('csrftoken');
 
-            // Kosongkan form setelah submit berhasil
-            $('#createArticleForm')[0].reset();
 
-            // Tutup modal
-            $('#createArticleModal').hide();
 
-            // Tambahkan artikel baru ke halaman tanpa refresh
-            appendNewArticle(response);
-          },
-          error: function(xhr, status, error) {
-            var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
-            $('#responseMessage').html('<p>' + errMsg + '</p>');
-          }
-        });
-      });
+  // Fungsi untuk memuat artikel secara dinamis ke halaman
+  async function refreshArticleEntries() {
+    const articleContainer = document.getElementById("article_cards");
+    articleContainer.innerHTML = ""; // Kosongkan konten artikel
 
-      // Fungsi untuk menambahkan artikel baru secara langsung ke halaman
-      function appendNewArticle(article) {
-        const newArticleHtml = `
-          <div id="article-${article.id}" style="
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            background-color: #f9f9f9;">
-              <h3 style="margin: 0; color: #333;">${article.title}</h3>
-              <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
-              <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
-              <div style="margin-top: 10px;">
-                <a href="/edit-article/${article.id}" style="
-                  color: #1E90FF;
-                  text-decoration: none;
-                  margin-right: 10px;">
-                  Edit
-                </a>
-                <button class="delete-btn" data-id="${article.id}" style="
-                  padding: 5px 10px;
-                  background-color: red;
-                  color: white;
-                  border: none;
-                  border-radius: 3px;
-                  cursor: pointer;">
-                  Delete
-                </button>
-              </div>
+    try {
+      const articles = await getArticles(); // Fetch artikel dari server
+      let htmlString = "";
+
+      if (articles.length === 0) {
+        htmlString = `
+          <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+            <p class="text-center text-gray-600 mt-4">Belum ada artikel yang tersedia.</p>
           </div>
         `;
-
-        // Tambahkan elemen artikel baru ke bagian daftar artikel
-        $('.delete-btn').click(deleteArticleHandler);
-        $('#article_list').prepend(newArticleHtml);
-      }
-
-      // Fungsi untuk delete artikel dengan AJAX
-      function deleteArticleHandler(e) {
-        e.preventDefault();
-        var articleId = $(this).data('id');
-        var csrftoken = '{{ csrf_token }}';
-
-        $.ajax({
-          url: '/blog/delete/' + articleId + '/',
-          type: 'POST',
-          headers: {
-            'X-CSRFToken': csrftoken
-          },
-          success: function(response) {
-            $('#article-' + articleId).remove();
-            alert('Article deleted successfully!');
-          },
-          error: function(xhr, status, error) {
-            alert('Failed to delete article.');
-          }
+      } else {
+        articles.forEach(article => {
+          htmlString += `
+            <div id="article-${article.id}" style="
+              border: 1px solid #ccc;
+              padding: 15px;
+              margin-bottom: 15px;
+              border-radius: 8px;
+              background-color: #f9f9f9;">
+                <h3 style="margin: 0; color: #333;">${article.title}</h3>
+                <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
+                <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
+                <div style="margin-top: 10px;">
+                  <a href="/edit-article/${article.id}" style="color: #1E90FF; text-decoration: none; margin-right: 10px;">
+                    Edit
+                  </a>
+                  <button class="delete-btn" data-id="${article.id}" style="
+                    padding: 5px 10px; background-color: red; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                    Delete
+                  </button>
+                  <a href="/view-article/${article.id}" style="
+                    padding: 5px 10px; background-color: #008CBA; color: white; text-decoration: none; border-radius: 3px;">
+                    View Article
+                  </a>
+                </div>
+            </div>
+          `;
         });
       }
 
-      // Attach event handler untuk delete button
+      articleContainer.innerHTML = htmlString;
+
+      // Reattach event handler untuk tombol delete setelah refresh
       $('.delete-btn').click(deleteArticleHandler);
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+      articleContainer.innerHTML = `
+        <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
+      `;
+    }
+  }
+
+  // Fungsi untuk mengambil artikel dari server
+  async function getArticles() {
+    try {
+      const response = await fetch('/blog/get-articles/');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data.articles;
+    } catch (error) {
+      console.error("Error in getArticles:", error);
+      return [];
+    }
+  }
+
+  function appendNewArticle(articleHtml) {
+  // Tambahkan artikel baru ke akhir container
+  document.getElementById('article_cards').insertAdjacentHTML('beforeend', articleHtml);
+
+  // Reattach event handler untuk tombol delete
+  $('.delete-btn').click(deleteArticleHandler);
+}
+
+
+// Submit form untuk Create New Article dengan AJAX
+$('#createArticleForm').off('submit').on('submit', function(e) {
+  e.preventDefault(); // Cegah form dari submit default
+
+  const formData = new FormData(this); // Ambil data dari form
+
+  $.ajax({
+    url: $(this).attr('action'), // URL action dari form
+    type: $(this).attr('method'), // Metode pengiriman (POST)
+    data: formData,
+    headers: { 'X-CSRFToken': csrftoken }, // Tambahkan CSRF token ke header
+    processData: false,
+    contentType: false,
+    success: function(response) {
+      $('#responseMessage').html('<p>Article created successfully!</p>');
+      $('#createArticleForm')[0].reset();
+      
+      if (response.html) {
+        appendNewArticle(response.html); // Gunakan HTML respons
+      }
+
+      $('#createArticleModal').hide();
+    },
+    error: function(xhr, status, error) {
+      var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
+      $('#responseMessage').html('<p>' + errMsg + '</p>');
+    }
+  });
+});
+
+
+
+  // Fungsi untuk menghapus artikel dengan AJAX
+  function deleteArticleHandler(e) {
+    e.preventDefault();
+    var articleId = $(this).data('id'); // Ambil ID artikel
+
+    // Konfirmasi sebelum menghapus artikel
+    if (confirm('Are you sure you want to delete this article?')) {
+      $.ajax({
+        url: '/blog/delete/' + articleId + '/', // Endpoint penghapusan
+        type: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken // Tambahkan CSRF token
+        },
+        success: function(response) {
+          $('#article-' + articleId).remove(); // Hapus artikel dari halaman
+          alert('Article deleted successfully!');
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr.responseText); // Debug respons error
+          alert('Failed to delete article.');
+        }
+      });
+    }
+  }
+
+  // Pasang event listener ke tombol delete saat halaman dimuat
+  $('.delete-btn').off('click').on('click', deleteArticleHandler);
+
+  // Tambahkan event listener kembali jika artikel dimuat ulang
+  function refreshArticleEntries() {
+    // ... (fungsi refresh yang memuat ulang artikel)
+
+    // Pasang ulang event listener untuk tombol delete
+    $('.delete-btn').off('click').on('click', deleteArticleHandler);
+  }
+});
+
+$(document).ready(function() {
+  // Inisialisasi Masonry
+  var $articleContainer = $('#article_cards').masonry({
+    itemSelector: '.article-card',
+    columnWidth: '.article-card',
+    percentPosition: true
+  });
+
+  // Fungsi untuk menambahkan artikel baru dengan Masonry
+  function appendNewArticle(articleHtml) {
+    var $newArticle = $(articleHtml); // Konversi ke elemen jQuery
+    $articleContainer.append($newArticle).masonry('appended', $newArticle);
+  }
+
+  // Submit form untuk Create New Article dengan AJAX
+  $('#createArticleForm').off('submit').on('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: $(this).attr('method'),
+      data: formData,
+      headers: { 'X-CSRFToken': csrftoken },
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        $('#responseMessage').html('<p>Article created successfully!</p>');
+        $('#createArticleForm')[0].reset();
+
+        if (response.html) {
+          appendNewArticle(response.html);
+        }
+
+        $('#createArticleModal').hide();
+      },
+      error: function(xhr, status, error) {
+        var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
+        $('#responseMessage').html('<p>' + errMsg + '</p>');
+      }
     });
+  });
+});
+
+
+    //js autoslide
+    let slideIndex = 0;
+    showSlides(slideIndex);
+
+    function showSlides(index) {
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+
+      // Sembunyikan semua slide
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+      }
+
+      // Hapus kelas 'active' dari semua titik
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+
+      // Tampilkan slide berikutnya
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1; // Reset ke slide pertama
+      }
+
+      // Tampilkan slide saat ini
+      slides[slideIndex - 1].style.display = "block";  
+      dots[slideIndex - 1].className += " active";
+
+      // Pindah ke slide berikutnya setiap 4 detik
+      setTimeout(showSlides, 4000, slideIndex);
+    }
+
+    // Fungsi untuk menampilkan slide saat titik diklik
+    function currentSlide(n) {
+      slideIndex = n - 1;
+      showSlides(slideIndex);
+    }
   </script>
 {% endblock %}
