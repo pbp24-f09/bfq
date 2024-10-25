@@ -364,11 +364,54 @@
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  
   <script>
 $(document).ready(function() {
-  // Panggil fungsi untuk memuat artikel saat halaman dimuat
-  refreshArticleEntries();
+  // Inisialisasi Masonry
+  var $articleContainer = $('#article_cards').masonry({
+    itemSelector: '.article-card',
+    columnWidth: '.article-card',
+    percentPosition: true
+  });
 
+  // Fungsi untuk menambahkan artikel baru dengan Masonry
+  function appendNewArticle(articleHtml) {
+    var $newArticle = $(articleHtml); // Konversi ke elemen jQuery
+    $articleContainer.append($newArticle).masonry('appended', $newArticle); // Tambahkan ke grid dan update Masonry
+  }
+
+  // Submit form untuk Create New Article dengan AJAX
+  $('#createArticleForm').off('submit').on('submit', function(e) {
+    e.preventDefault(); // Cegah form dari submit default
+
+    const formData = new FormData(this); // Ambil data dari form
+
+    $.ajax({
+      url: $(this).attr('action'), // URL action dari form
+      type: $(this).attr('method'), // Metode pengiriman (POST)
+      data: formData,
+      headers: { 'X-CSRFToken': csrftoken }, // Tambahkan CSRF token ke header
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        $('#responseMessage').html('<p>Article created successfully!</p>');
+        $('#createArticleForm')[0].reset(); // Reset form setelah berhasil submit
+        
+        // Jika ada HTML yang dikembalikan dalam response, tambahkan ke Masonry grid
+        if (response.html) {
+          appendNewArticle(response.html);
+        }
+
+        $('#createArticleModal').hide(); // Sembunyikan modal setelah submit
+      },
+      error: function(xhr, status, error) {
+        var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
+        $('#responseMessage').html('<p>' + errMsg + '</p>');
+      }
+    });
+  });
+});
   // Buka modal untuk Create New Article
   $('#openModalBtn').click(function() {
     $('#createArticleModal').show();
@@ -478,14 +521,6 @@ const csrftoken = getCookie('csrftoken');
     }
   }
 
-  function appendNewArticle(articleHtml) {
-  // Tambahkan artikel baru ke akhir container
-  document.getElementById('article_cards').insertAdjacentHTML('beforeend', articleHtml);
-
-  // Reattach event handler untuk tombol delete
-  $('.delete-btn').click(deleteArticleHandler);
-}
-
 
 // Submit form untuk Create New Article dengan AJAX
 $('#createArticleForm').off('submit').on('submit', function(e) {
@@ -547,59 +582,9 @@ $('#createArticleForm').off('submit').on('submit', function(e) {
   // Pasang event listener ke tombol delete saat halaman dimuat
   $('.delete-btn').off('click').on('click', deleteArticleHandler);
 
-  // Tambahkan event listener kembali jika artikel dimuat ulang
-  function refreshArticleEntries() {
-    // ... (fungsi refresh yang memuat ulang artikel)
-
     // Pasang ulang event listener untuk tombol delete
     $('.delete-btn').off('click').on('click', deleteArticleHandler);
-  }
-});
 
-$(document).ready(function() {
-  // Inisialisasi Masonry
-  var $articleContainer = $('#article_cards').masonry({
-    itemSelector: '.article-card',
-    columnWidth: '.article-card',
-    percentPosition: true
-  });
-
-  // Fungsi untuk menambahkan artikel baru dengan Masonry
-  function appendNewArticle(articleHtml) {
-    var $newArticle = $(articleHtml); // Konversi ke elemen jQuery
-    $articleContainer.append($newArticle).masonry('appended', $newArticle);
-  }
-
-  // Submit form untuk Create New Article dengan AJAX
-  $('#createArticleForm').off('submit').on('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    $.ajax({
-      url: $(this).attr('action'),
-      type: $(this).attr('method'),
-      data: formData,
-      headers: { 'X-CSRFToken': csrftoken },
-      processData: false,
-      contentType: false,
-      success: function(response) {
-        $('#responseMessage').html('<p>Article created successfully!</p>');
-        $('#createArticleForm')[0].reset();
-
-        if (response.html) {
-          appendNewArticle(response.html);
-        }
-
-        $('#createArticleModal').hide();
-      },
-      error: function(xhr, status, error) {
-        var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
-        $('#responseMessage').html('<p>' + errMsg + '</p>');
-      }
-    });
-  });
-});
 
 
     //js autoslide

@@ -35,9 +35,9 @@ def create_article_ajax(request):
 
 @login_required
 def article_list(request):
-    # Fungsi untuk menampilkan semua artikel
     articles = Article.objects.all()
     return render(request, 'blog/article_list.html', {'articles': articles})
+
 
 @login_required
 def my_articles(request):
@@ -104,11 +104,12 @@ def view_article(request, article_id):
 @login_required
 def get_articles(request):
     articles = Article.objects.all()
-    articles_data = [{
-        'id': article.id,
-        'title': article.title,
-        'content': article.content,
-        'author': article.author.username if article.author else 'Anonymous',
-        'is_author': article.author == request.user if article.author else False
-    } for article in articles]
+    articles_data = []
+    for article in articles:
+        articles_data.append({
+            'id': article.id,
+            'title': article.title,
+            'author': article.author.username if article.author else 'Anonymous',
+            'content': article.content,
+        })
     return JsonResponse({'articles': articles_data})
