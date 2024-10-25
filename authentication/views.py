@@ -131,6 +131,11 @@ def customer_categories(request):
     return render(request, 'categories.html')
 
 @login_required
+@role_required('admin')
+def admin_categories(request):
+    return render(request, 'categories_admin.html')
+
+@login_required
 def customer_blog(request):
     return render(request, 'blog/article_list.html')
 
