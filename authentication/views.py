@@ -1,15 +1,15 @@
 import datetime
-from .models import CustomUser
-from .forms import UserRegistrationForm, UserLoginForm, EditProfileForm, EditPhotoForm
+from .forms import UserRegistrationForm, EditProfileForm
 from .decorators import role_required
 from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.hashers import check_password
 
 def register_user(request):
     if request.method == 'POST':
@@ -92,6 +92,35 @@ def delete_photo(request):
     return HttpResponse("Method not allowed", status=405)
 
 @login_required
+def change_password(request):
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        user = request.user
+
+        # Verifikasi password lama
+        if not check_password(old_password, user.password):
+            messages.error(request, 'Incorrect current password.', extra_tags='error')
+            return redirect('change_password')
+
+        # Validasi password baru
+        if new_password != confirm_password:
+            messages.error(request, 'New passwords do not match.', extra_tags='error')
+            return redirect('change_password')
+
+        # Ubah password dan update session
+        user.set_password(new_password)
+        user.save()
+        update_session_auth_hash(request, user)
+
+        messages.success(request, 'Password changed successfully!', extra_tags='success')
+        return redirect('change_password')
+    
+    return render(request, 'change_password.html')
+
+@login_required
 @role_required('customer')
 def customer_dashboard(request):
     return render(request, 'main_customer.html')
@@ -102,7 +131,6 @@ def customer_categories(request):
     return render(request, 'categories.html')
 
 @login_required
-@role_required('customer')
 def customer_blog(request):
     return render(request, 'blog/article_list.html')
 
@@ -115,7 +143,6 @@ def admin_dashboard(request):
 def profile(request):
     user = request.user
     return render(request, 'user_profile.html', {'user': user})
-
 
 def logout_user(request):
     logout(request)
