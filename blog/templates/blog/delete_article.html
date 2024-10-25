@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Article</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="articles-list">
+        <!-- Contoh daftar artikel -->
+        {% for article in articles %}
+            <div class="article-item" id="article-{{ article.id }}">
+                <h2>{{ article.title }}</h2>
+                <button class="delete-btn" data-id="{{ article.id }}">Delete</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.delete-btn').click(function(e) {
+                e.preventDefault();  // Mencegah perubahan URL
+                var articleId = $(this).data('id');
+                var csrftoken = '{{ csrf_token }}';
+
+                $.ajax({
+                    url: '/blog/delete/' + articleId + '/',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function(response) {
+                        // Menghapus artikel dari tampilan tanpa reload halaman
+                        $('#article-' + articleId).remove();
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Failed to delete article.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

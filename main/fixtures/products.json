@@ -8,6 +8,7 @@
         "restaurant": "Gacor Kitchen",
         "location": "Jl. Sudirman No. 45, Bandung",
         "contact": "081234567890",
+        "cat" : "Makanan Berat dan Nasi",
         "image": "product_images/1.jpg"
       }
     },
@@ -20,6 +21,7 @@
         "restaurant": "Dummy Resto",
         "location": "Jl. Braga No. 12, Bandung",
         "contact": "081345678901",
+        "cat" : "Makanan Berat dan Nasi",
         "image": "product_images/2.jpg"
       }
     },
@@ -32,6 +34,7 @@
         "restaurant": "Chicken Store",
         "location": "Jl. Asia Afrika No. 25, Bandung",
         "contact": "081456789012",
+        "cat" : "Olahan Ayam dan Daging",
         "image": "product_images/3.jpg"
       }
     }

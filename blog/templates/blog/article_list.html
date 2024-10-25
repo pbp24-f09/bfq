@@ -1,0 +1,261 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div style="max-width: 800px; margin: auto; padding: 20px;">
+    <h2 style="text-align: center;">All Articles</h2>
+
+      <!-- Tambahkan tombol "My Articles" di sini -->
+      <div style="text-align: right; margin-bottom: 20px;">
+        <a href="{% url 'blog:my_articles' %}">
+          <button style="
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;">
+            My Articles
+          </button>
+        </a>
+      </div>
+
+    <!-- Tombol untuk Create New Article (AJAX) -->
+    <div style="text-align: right; margin-bottom: 20px;">
+      <button id="openModalBtn" style="
+        padding: 10px 20px;
+        background-color: #FFA500;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;">
+        Create New Article
+      </button>
+    </div>
+
+    <!-- Tampilkan daftar artikel -->
+    {% if articles %}
+      {% for article in articles %}
+        <div id="article-{{ article.id }}" style="
+          border: 1px solid #ccc;
+          padding: 15px;
+          margin-bottom: 15px;
+          border-radius: 8px;
+          background-color: #f9f9f9;">
+          
+          <h3 style="margin: 0; color: #333;">{{ article.title }}</h3>
+          {% if article.author %}
+            <p style="margin: 5px 0; color: #777;">By: {{ article.author }}</p>
+          {% else %}
+            <p style="margin: 5px 0; color: #777;">By: Anonymous</p>
+          {% endif %}
+          <p style="margin: 10px 0;">{{ article.content|truncatewords:30 }}</p>
+
+          <!-- Tombol Edit dan Delete -->
+          <div style="margin-top: 10px;">
+            <a href="{% url 'blog:edit_article' article.id %}" style="
+              color: #1E90FF;
+              text-decoration: none;
+              margin-right: 10px;">
+              Edit
+            </a>
+            <button class="delete-btn" data-id="{{ article.id }}" style="
+              padding: 5px 10px;
+              background-color: red;
+              color: white;
+              border: none;
+              border-radius: 3px;
+              cursor: pointer;">
+              Delete
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align: center; color: #777;">No articles found.</p>
+    {% endif %}
+  </div>
+
+  <!-- Modal untuk Create New Article (AJAX) -->
+  <div id="createArticleModal" style="
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0, 0, 0, 0.5);">
+    
+    <div class="modal-content" style="
+      width: 500px;
+      margin: 100px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;">
+      
+      <span id="closeModal" style="
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;">&times;</span>
+      
+      <h3>Create New Article</h3>
+      <form action="{% url 'blog:create_article_ajax' %}" id="createArticleForm" method="POST">
+        {% csrf_token %}
+        
+        <!-- Input Title -->
+        <div style="margin-bottom: 10px;">
+          <label for="id_title">Title:</label>
+          <input type="text" name="title" id="id_title" class="form-control">
+        </div>
+
+        <!-- Input Topic -->
+        <div style="margin-bottom: 10px;">
+          <label for="id_topic">Topic:</label>
+          <input type="text" name="topic" id="id_topic" class="form-control">
+        </div>
+
+        <!-- Input Content -->
+        <div style="margin-bottom: 10px;">
+          <label for="id_content">Content:</label>
+          <textarea name="content" id="id_content" class="form-control"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" style="
+          padding: 10px 20px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;">
+          Submit
+        </button>
+      </form>
+
+      <!-- Area untuk pesan respons -->
+      <div id="responseMessage" style="margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <!-- Tambahkan skrip jQuery untuk AJAX -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Buka modal
+      $('#openModalBtn').click(function() {
+        $('#createArticleModal').show();
+      });
+
+      // Tutup modal
+      $('#closeModal').click(function() {
+        $('#createArticleModal').hide();
+      });
+
+      // Klik di luar modal untuk menutup modal
+      $(window).click(function(event) {
+        if ($(event.target).is('#createArticleModal')) {
+          $('#createArticleModal').hide();
+        }
+      });
+
+      // Submit form dengan AJAX
+      $('#createArticleForm').on('submit', function(e) {
+        e.preventDefault(); // Cegah form dari submit default
+
+        const formData = new FormData(this); // Ambil data dari form
+
+        $.ajax({
+          url: $(this).attr('action'), // Ambil URL action dari form
+          type: $(this).attr('method'), // Metode pengiriman (POST)
+          data: formData,
+          processData: false, // Penting agar data dikirim sebagai FormData
+          contentType: false,
+          success: function(response) {
+            // Lakukan sesuatu ketika berhasil
+            $('#responseMessage').html('<p>Article created successfully!</p>');
+
+            // Kosongkan form setelah submit berhasil
+            $('#createArticleForm')[0].reset();
+
+            // Tutup modal
+            $('#createArticleModal').hide();
+
+            // Tambahkan artikel baru ke halaman tanpa refresh
+            appendNewArticle(response);
+          },
+          error: function(xhr, status, error) {
+            var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
+            $('#responseMessage').html('<p>' + errMsg + '</p>');
+          }
+        });
+      });
+
+      // Fungsi untuk menambahkan artikel baru secara langsung ke halaman
+      function appendNewArticle(article) {
+        const newArticleHtml = `
+          <div id="article-${article.id}" style="
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;">
+              <h3 style="margin: 0; color: #333;">${article.title}</h3>
+              <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
+              <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
+              <div style="margin-top: 10px;">
+                <a href="/edit-article/${article.id}" style="
+                  color: #1E90FF;
+                  text-decoration: none;
+                  margin-right: 10px;">
+                  Edit
+                </a>
+                <button class="delete-btn" data-id="${article.id}" style="
+                  padding: 5px 10px;
+                  background-color: red;
+                  color: white;
+                  border: none;
+                  border-radius: 3px;
+                  cursor: pointer;">
+                  Delete
+                </button>
+              </div>
+          </div>
+        `;
+
+        // Tambahkan elemen artikel baru ke bagian daftar artikel
+        $('.delete-btn').click(deleteArticleHandler);
+        $('#article_list').prepend(newArticleHtml);
+      }
+
+      // Fungsi untuk delete artikel dengan AJAX
+      function deleteArticleHandler(e) {
+        e.preventDefault();
+        var articleId = $(this).data('id');
+        var csrftoken = '{{ csrf_token }}';
+
+        $.ajax({
+          url: '/blog/delete/' + articleId + '/',
+          type: 'POST',
+          headers: {
+            'X-CSRFToken': csrftoken
+          },
+          success: function(response) {
+            $('#article-' + articleId).remove();
+            alert('Article deleted successfully!');
+          },
+          error: function(xhr, status, error) {
+            alert('Failed to delete article.');
+          }
+        });
+      }
+
+      // Attach event handler untuk delete button
+      $('.delete-btn').click(deleteArticleHandler);
+    });
+  </script>
+{% endblock %}

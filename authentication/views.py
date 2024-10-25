@@ -97,6 +97,16 @@ def customer_dashboard(request):
     return render(request, 'main_customer.html')
 
 @login_required
+@role_required('customer')
+def customer_categories(request):
+    return render(request, 'categories.html')
+
+@login_required
+@role_required('customer')
+def customer_blog(request):
+    return render(request, 'blog/article_list.html')
+
+@login_required
 @role_required('admin')
 def admin_dashboard(request):
     return render(request, 'main_admin.html')
