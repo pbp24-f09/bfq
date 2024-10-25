@@ -18,7 +18,7 @@ class Product(models.Model):
     restaurant = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     contact = models.CharField(max_length=15)
-    cat = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='FOOD')
+    cat = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Makanan Berat dan Nasi')
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
 
     @property
