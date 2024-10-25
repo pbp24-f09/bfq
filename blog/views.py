@@ -81,6 +81,11 @@ def show_json(request):
     return JsonResponse(list(articles), safe=False)
 
 @login_required
+def get_json(request):
+    articles = list(Article.objects.values())  # Mengambil data dari model Article
+    return JsonResponse({'articles': articles})
+
+@login_required
 def show_xml(request):
     # Fungsi untuk menampilkan semua artikel dalam format XML
     articles = Article.objects.filter(author=request.user)
@@ -113,3 +118,9 @@ def get_articles(request):
             'content': article.content,
         })
     return JsonResponse({'articles': articles_data})
+
+
+def blog_home(request):
+    articles = Article.objects.all()
+    return render(request, 'blog/home.html', {'articles': articles})
+

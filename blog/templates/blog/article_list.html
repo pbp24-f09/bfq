@@ -230,7 +230,7 @@
             View Article
           </a>
 
-          {% if article.author == request.user %}
+          {% if articles %}
             <a href="{% url 'blog:edit_article' article.id %}" style="
               padding: 5px 10px;
               background-color: #c9c9c9;
@@ -364,54 +364,11 @@
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  
   <script>
 $(document).ready(function() {
-  // Inisialisasi Masonry
-  var $articleContainer = $('#article_cards').masonry({
-    itemSelector: '.article-card',
-    columnWidth: '.article-card',
-    percentPosition: true
-  });
+  // Panggil fungsi untuk memuat artikel saat halaman dimuat
+  refreshArticleEntries();
 
-  // Fungsi untuk menambahkan artikel baru dengan Masonry
-  function appendNewArticle(articleHtml) {
-    var $newArticle = $(articleHtml); // Konversi ke elemen jQuery
-    $articleContainer.append($newArticle).masonry('appended', $newArticle); // Tambahkan ke grid dan update Masonry
-  }
-
-  // Submit form untuk Create New Article dengan AJAX
-  $('#createArticleForm').off('submit').on('submit', function(e) {
-    e.preventDefault(); // Cegah form dari submit default
-
-    const formData = new FormData(this); // Ambil data dari form
-
-    $.ajax({
-      url: $(this).attr('action'), // URL action dari form
-      type: $(this).attr('method'), // Metode pengiriman (POST)
-      data: formData,
-      headers: { 'X-CSRFToken': csrftoken }, // Tambahkan CSRF token ke header
-      processData: false,
-      contentType: false,
-      success: function(response) {
-        $('#responseMessage').html('<p>Article created successfully!</p>');
-        $('#createArticleForm')[0].reset(); // Reset form setelah berhasil submit
-        
-        // Jika ada HTML yang dikembalikan dalam response, tambahkan ke Masonry grid
-        if (response.html) {
-          appendNewArticle(response.html);
-        }
-
-        $('#createArticleModal').hide(); // Sembunyikan modal setelah submit
-      },
-      error: function(xhr, status, error) {
-        var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
-        $('#responseMessage').html('<p>' + errMsg + '</p>');
-      }
-    });
-  });
-});
   // Buka modal untuk Create New Article
   $('#openModalBtn').click(function() {
     $('#createArticleModal').show();
@@ -449,77 +406,82 @@ const csrftoken = getCookie('csrftoken');
 
 
 
-  // Fungsi untuk memuat artikel secara dinamis ke halaman
-  async function refreshArticleEntries() {
-    const articleContainer = document.getElementById("article_cards");
-    articleContainer.innerHTML = ""; // Kosongkan konten artikel
+async function refreshArticleEntries() {
+  const articleContainer = document.getElementById("article_cards");
+  articleContainer.innerHTML = ""; // Kosongkan konten artikel
 
-    try {
-      const articles = await getArticles(); // Fetch artikel dari server
+  try {
+    const articles = await getArticles(); // Fetch artikel dari server
+    if (articles.length === 0) {
+      articleContainer.innerHTML = `
+        <p style="text-align: center; color: #777;">No articles found.</p>
+      `;
+    } else {
       let htmlString = "";
-
-      if (articles.length === 0) {
-        htmlString = `
-          <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-            <p class="text-center text-gray-600 mt-4">Belum ada artikel yang tersedia.</p>
+      articles.forEach(article => {
+        htmlString += `
+          <div class="article-card" id="article-${article.id}" style="
+            flex: 0 1 calc(33.33% - 20px);
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f3ead8;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 300px;">
+            <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
+              ${article.title}
+            </h3>
+            <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: ${article.author ? article.author : 'Anonymous'}</p>
+            <p style="margin: 10px 0; color: black;">${article.content.substring(0, 100)}...</p>
           </div>
         `;
-      } else {
-        articles.forEach(article => {
-          htmlString += `
-            <div id="article-${article.id}" style="
-              border: 1px solid #ccc;
-              padding: 15px;
-              margin-bottom: 15px;
-              border-radius: 8px;
-              background-color: #f9f9f9;">
-                <h3 style="margin: 0; color: #333;">${article.title}</h3>
-                <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
-                <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
-                <div style="margin-top: 10px;">
-                  <a href="/edit-article/${article.id}" style="color: #1E90FF; text-decoration: none; margin-right: 10px;">
-                    Edit
-                  </a>
-                  <button class="delete-btn" data-id="${article.id}" style="
-                    padding: 5px 10px; background-color: red; color: white; border: none; border-radius: 3px; cursor: pointer;">
-                    Delete
-                  </button>
-                  <a href="/view-article/${article.id}" style="
-                    padding: 5px 10px; background-color: #008CBA; color: white; text-decoration: none; border-radius: 3px;">
-                    View Article
-                  </a>
-                </div>
-            </div>
-          `;
-        });
-      }
-
+      });
       articleContainer.innerHTML = htmlString;
-
-      // Reattach event handler untuk tombol delete setelah refresh
-      $('.delete-btn').click(deleteArticleHandler);
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-      articleContainer.innerHTML = `
-        <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
-      `;
     }
-  }
 
-  // Fungsi untuk mengambil artikel dari server
+    // Reattach event handler untuk tombol delete setelah refresh
+    $('.delete-btn').click(deleteArticleHandler);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    articleContainer.innerHTML = `
+      <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
+    `;
+  }
+}
+
+
   async function getArticles() {
-    try {
-      const response = await fetch('/blog/get-articles/');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      return data.articles;
-    } catch (error) {
-      console.error("Error in getArticles:", error);
-      return [];
+  try {
+    const response = await fetch('/blog/get-articles/', {
+      method: 'GET',
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Content-Type': 'application/json'
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
+    const data = await response.json();
+    return data.articles;
+  } catch (error) {
+    console.error("Error in getArticles:", error);
+    return [];
   }
+}
+
+
+
+  function appendNewArticle(articleHtml) {
+  // Tambahkan artikel baru ke akhir container
+  document.getElementById('article_cards').insertAdjacentHTML('beforeend', articleHtml);
+
+  // Reattach event handler untuk tombol delete
+  $('.delete-btn').click(deleteArticleHandler);
+}
 
 
 // Submit form untuk Create New Article dengan AJAX
@@ -582,9 +544,59 @@ $('#createArticleForm').off('submit').on('submit', function(e) {
   // Pasang event listener ke tombol delete saat halaman dimuat
   $('.delete-btn').off('click').on('click', deleteArticleHandler);
 
+  // Tambahkan event listener kembali jika artikel dimuat ulang
+  function refreshArticleEntries() {
+    // ... (fungsi refresh yang memuat ulang artikel)
+
     // Pasang ulang event listener untuk tombol delete
     $('.delete-btn').off('click').on('click', deleteArticleHandler);
+  }
+});
 
+$(document).ready(function() {
+  // Inisialisasi Masonry
+  var $articleContainer = $('#article_cards').masonry({
+    itemSelector: '.article-card',
+    columnWidth: '.article-card',
+    percentPosition: true
+  });
+
+  // Fungsi untuk menambahkan artikel baru dengan Masonry
+  function appendNewArticle(articleHtml) {
+    var $newArticle = $(articleHtml); // Konversi ke elemen jQuery
+    $articleContainer.append($newArticle).masonry('appended', $newArticle);
+  }
+
+  // Submit form untuk Create New Article dengan AJAX
+  $('#createArticleForm').off('submit').on('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    $.ajax({
+      url: $(this).attr('action'),
+      type: $(this).attr('method'),
+      data: formData,
+      headers: { 'X-CSRFToken': csrftoken },
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        $('#responseMessage').html('<p>Article created successfully!</p>');
+        $('#createArticleForm')[0].reset();
+
+        if (response.html) {
+          appendNewArticle(response.html);
+        }
+
+        $('#createArticleModal').hide();
+      },
+      error: function(xhr, status, error) {
+        var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
+        $('#responseMessage').html('<p>' + errMsg + '</p>');
+      }
+    });
+  });
+});
 
 
     //js autoslide

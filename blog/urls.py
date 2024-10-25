@@ -14,4 +14,5 @@ urlpatterns = [
     path('blog/xml/', views.show_xml, name='show_xml'),
     path('blog/view/<int:article_id>/', views.view_article, name='view_article'),
     path('blog/get-articles/', get_articles, name='get_articles'),
+    path('get-json/', views.get_json, name='get_json'),
 ]
