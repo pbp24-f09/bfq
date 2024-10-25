@@ -8,59 +8,68 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<div class="min-h-screen bg-gradient-to-b from-[#2A3A30] to-[#254832] flex flex-col items-center py-10 mt-16">
-  <div class="bg-[#F3EAD8] shadow-lg rounded-lg p-8 w-full max-w-4xl">
-    <div class="flex items-center space-x-4 mb-4">
-      <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+<div class="min-h-screen bg-[#2A3A30] flex flex-col items-center py-10 mt-16">
+  <div class="container bg-[#F3EAD8] shadow-2xl rounded-2xl p-10 w-full max-w-4xl flex min-h-[450px]">
+    <!-- Kolom Kiri: Foto dan Tombol Edit -->
+    <div class="w-1/3 flex flex-col items-center justify-center mr-6">
+      <div class="w-48 h-48 rounded-full overflow-hidden bg-gray-200 mb-4">
         {% if user.profile_photo %}
           <img src="{{ user.profile_photo }}" alt="Profile Photo" class="w-full h-full object-cover" data-field="profile_photo">
         {% else %}
           <img src="{% static 'images/default-profile.jpg' %}" alt="Default Photo" class="w-full h-full object-cover" data-field="profile_photo">
         {% endif %}
       </div>
-      <div class="flex-1">
-        <h1 class="text-3xl font-bold text-[#B48125]" data-field="full_name">{{ user.full_name }}</h1>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-      <div>
-        <label class="block text-[#B48125] text-sm font-bold mb-2">Full Name:</label>
-        <p class="text-black" data-field="full_name">{{ user.full_name }}</p>
-      </div>
-      <div>
-        <label class="block text-[#B48125] text-sm font-bold mb-2">Date Joined:</label>
-        <p class="text-black">{{ user.date_joined|date:"F j, Y" }}</p>
-      </div>
-      <div>
-        <label class="block text-[#B48125] text-sm font-bold mb-2">Email:</label>
-        <p class="text-black" data-field="email">{{ user.email }}</p>
-      </div>
-      <div>
-        <label class="block text-[#B48125] text-sm font-bold mb-2">Age:</label>
-        <p class="text-black" data-field="age">{{ user.age }}</p>
-      </div>
-      <div>
-        <label class="block text-[#B48125] text-sm font-bold mb-2">Gender:</label>
-        <p class="text-black" data-field="gender">{{ user.gender }}</p>
-      </div>
-      <div>
-        <label class="block text-[#B48125] text-sm font-bold mb-2">Phone Number:</label>
-        <p class="text-black" data-field="phone_number">{{ user.phone_number }}</p>
-      </div>
-    </div>
-
-    <!-- Pesan Sukses -->
-    <p id="success-message" class="text-green-500 mt-4 hidden">Profile updated successfully!</p>
-    <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
-
-    <div class="flex space-x-4 mt-6">
-      <button id="edit-profile-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-4 rounded-lg">
-        Edit Profile
-      </button>
-      <button id="edit-photo-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-4 rounded-lg">
+      <button id="edit-photo-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-6 rounded-lg">
         Edit Photo
       </button>
+    </div>
+
+    <!-- Kolom Kanan: Informasi Profil -->
+    <div class="w-2/3 flex flex-col justify-center">
+      <!-- Heading Profil -->
+      <div class="flex items-center mb-4">
+        <h1 class="text-4xl font-bold text-[#B48125] mr-2" data-field="full_name">{{ user.full_name }}'s Profile</h1>
+        <!-- Icon edit profile -->
+        <button id="edit-profile-btn" class="ml-2 focus:outline-none">
+          <!-- Ikon edit baru dengan Tailwind -->
+          <svg class="w-7 h-7 text-[#B48125] hover:text-[#8C3F0D] transition duration-200 ease-in-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20h9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16.5 3.5a2.121 2.121 0 113 3L8 18.5 4 20l1.5-4L16.5 3.5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Informasi Profil dalam Dua Kolom -->
+      <div class="grid grid-cols-2 gap-x-6 gap-y-4 mt-6">
+        <div>
+          <label class="block text-[#B48125] text-sm font-bold">Full Name:</label>
+          <p class="text-black" data-field="full_name">{{ user.full_name }}</p>
+        </div>
+        <div>
+          <label class="block text-[#B48125] text-sm font-bold">Date Joined:</label>
+          <p class="text-black">{{ user.date_joined|date:"F j, Y" }}</p>
+        </div>
+        <div>
+          <label class="block text-[#B48125] text-sm font-bold">Email:</label>
+          <p class="text-black" data-field="email">{{ user.email }}</p>
+        </div>
+        <div>
+          <label class="block text-[#B48125] text-sm font-bold">Age:</label>
+          <p class="text-black" data-field="age">{{ user.age }}</p>
+        </div>
+        <div>
+          <label class="block text-[#B48125] text-sm font-bold">Gender:</label>
+          <p class="text-black" data-field="gender">{{ user.gender }}</p>
+        </div>
+        <div>
+          <label class="block text-[#B48125] text-sm font-bold">Phone Number:</label>
+          <p class="text-black" data-field="phone_number">{{ user.phone_number }}</p>
+        </div>
+      </div>
+
+      <!-- Pesan Sukses -->
+      <p id="success-message" class="text-green-500 mt-4 hidden">Profile updated successfully!</p>
+      <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
     </div>
   </div>
 </div>
