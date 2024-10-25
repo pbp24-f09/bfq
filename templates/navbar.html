@@ -22,12 +22,14 @@
             </button>
             <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
               <a href="{% url 'profile' %}" class="dropdown-item">Profile</a>
+              <a href="{% url 'change_password' %}" class="dropdown-item">Change Password</a>
               <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
             </div>
           </div>
         </div>
       {% else %}
         <div class="flex items-center space-x-4">
+          <a href="{% url 'main:show_main' %}" class="nav-link">Home</a>
           <a href="{% url 'login' %}" class="nav-link">Login</a>
           <a href="{% url 'register' %}" class="nav-link">Register</a>
         </div>
