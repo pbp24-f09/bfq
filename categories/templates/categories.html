@@ -29,10 +29,6 @@
 				</div>
 
 				<h4><b>Category</b></h4>
-        <!-- Makanan Berat dan Nasi,
-        	   Olahan Ayam dan Daging,
-        		 Mie, Pasta, dan Spaghetti,
-        		 Makanan Ringan dan Cemilan -->
 				<input type="radio" id="cat1" name="foodCat" value="Makanan Berat dan Nasi">
 				<label for="cat1" class="ml-2">Makanan Berat dan Nasi</label><br>
 
@@ -59,8 +55,8 @@
 				<label for="range4" class="ml-2">More than 150.000</label><br><br>
 				
 				<div class="flex justify-evenly">
-					<input type="submit" id="submitFilterButton" value="Filter">
-					<button id="cancelFilter" onclick="hideFilterModal()">Cancel</button>	
+					<button id="submitFilter">Filter</button>
+					<button id="cancelFilter">Cancel</button>	
 				</div>
 			</form>
 		</div>
@@ -198,7 +194,7 @@
 		}
 	})
 
-	document.getElementById("filterForm").addEventListener("submit", function(event){
+	document.getElementById("submitFilter").addEventListener("click", function(event){
 		event.preventDefault();
 		const selectedPrice = document.querySelector('input[name="priceRange"]:checked');
 		const selectedCat = document.querySelector('input[name="foodCat"]:checked');
@@ -210,6 +206,11 @@
 		} else {
 			window.alert("Select a filter");
 		}
+	})
+
+	document.getElementById("cancelFilter").addEventListener("click", function(event){
+		event.preventDefault();
+		document.getElementById("filterModal").classList.add("hidden");
 	})
 
 	function openPopup(name, location, contact, price, restaurant, cat, imageUrl, productId) {
@@ -238,10 +239,6 @@
   function showFilterModal(){
 		document.getElementById("filterModal").classList.remove("hidden");
   }
-
-	function hideFilterModal(){
-		document.getElementById("filterModal").classList.add("hidden");
-	}
 
 </script>
 
