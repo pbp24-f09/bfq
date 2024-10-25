@@ -126,7 +126,6 @@ def customer_dashboard(request):
     return render(request, 'main_customer.html')
 
 @login_required
-@role_required('customer')
 def customer_categories(request):
     return render(request, 'categories.html')
 
