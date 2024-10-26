@@ -9,6 +9,8 @@ from .models import Article
 from .forms import ArticleForm
 import xml.etree.ElementTree as ET
 from django.template.loader import render_to_string
+from .models import Article
+
 
 @csrf_protect
 @login_required
@@ -37,6 +39,7 @@ def create_article_ajax(request):
 def article_list(request):
     articles = Article.objects.all()
     return render(request, 'blog/article_list.html', {'articles': articles})
+
 
 
 @login_required

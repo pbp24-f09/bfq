@@ -5,7 +5,7 @@ from .views import article_list, delete_article, edit_article, create_article_aj
 app_name = 'blog'
 
 urlpatterns = [
-    path('blog/', article_list, name='article_list'),
+    path('blog/', views.article_list, name='article_list'),
     path('blog/my_articles/', views.my_articles, name='my_articles'),
     path('blog/edit-article/<int:article_id>/', views.edit_article, name='edit_article'),
     path('blog/delete/<int:article_id>/', delete_article, name='delete_article'),

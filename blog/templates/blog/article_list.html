@@ -56,6 +56,32 @@
 
 
   <style>
+
+#article_cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Membuat 3 kolom */
+    gap: 20px; /* Jarak antar artikel */
+    max-width: 1200px; /* Lebar maksimum dari seluruh kontainer */
+    margin: auto; /* Agar kontainer berada di tengah halaman */
+}
+
+.article-card {
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f3ead8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px; /* Tinggi minimal dari setiap artikel */
+    transition: transform 0.2s; /* Animasi saat hover */
+}
+
+.article-card:hover {
+    transform: scale(1.05); /* Zoom sedikit saat dihover */
+}
+
     .mySlides {
       display: none; /* Sembunyikan semua slide secara default */
     }
@@ -177,83 +203,69 @@
 
 <!-- Container untuk daftar artikel -->
 <div id="article_cards" style="
-  display: flex;
-  flex-wrap: wrap; /* Bungkus ke baris baru jika penuh */
-  justify-content: flex-start; /* Mulai dari kiri */
-  gap: 20px;
-  max-width: 1200px;
-  margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Membuat tiga kolom dengan ukuran yang sama */
+    gap: 20px; /* Jarak antara artikel */
+    max-width: 1200px; /* Batas lebar kontainer */
+    margin: auto; /* Tengah-tengah secara horizontal */
 ">
-
-
-<!-- Container untuk daftar artikel -->
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
   {% if articles %}
     {% for article in articles %}
+      <!-- Artikel Individual -->
       <div class="article-card" id="article-{{ article.id }}" style="
-        flex: 0 1 calc(33.33% - 20px);
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: #f3ead8;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 300px;
+          box-sizing: border-box;
+          border: 1px solid #ccc;
+          padding: 20px;
+          border-radius: 8px;
+          background-color: #f3ead8;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 300px;
       ">
-    
-  <div>
-    <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
-      {{ article.title }}
-    </h3>
-    {% if article.author %}
-      <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: {{ article.author }}</p>
-    {% else %}
-      <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: Anonymous</p>
-    {% endif %}
-    <p style="margin: 10px 0; color: black;">{{ article.content|truncatewords:30 }}</p>
-  </div>
-  
+        <div>
+          <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
+            {{ article.title }}
+          </h3>
+          {% if article.author %}
+            <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: {{ article.author }}</p>
+          {% else %}
+            <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: Anonymous</p>
+          {% endif %}
+          <p style="margin: 10px 0; color: black;">{{ article.content|truncatewords:30 }}</p>
+        </div>
 
         <!-- Tombol View, Edit, dan Delete -->
         <div style="margin-top: 10px; display: flex; gap: 5px; justify-content: center;">
           <a href="{% url 'blog:view_article' article.id %}" style="
-            padding: 5px 10px;
-            background-color: #E7F6F8;
-            color: black;
-            border: none;
-            border-radius: 3px;
-            text-decoration: none;
-            font-weight:600;
-          ">
-            View Article
-          </a>
+              padding: 5px 10px;
+              background-color: #E7F6F8;
+              color: black;
+              border: none;
+              border-radius: 3px;
+              text-decoration: none;
+              font-weight: 600;
+          ">View Article</a>
 
-          {% if articles %}
-            <a href="{% url 'blog:edit_article' article.id %}" style="
+          <a href="{% url 'blog:edit_article' article.id %}" style="
               padding: 5px 10px;
               background-color: #c9c9c9;
               color: black;
               border: none;
               border-radius: 3px;
               text-decoration: none;
-              font-weight:600;
-            ">
-              Edit
-            </a>
-            <button class="delete-btn" data-id="{{ article.id }}" style="
+              font-weight: 600;
+          ">Edit</a>
+
+          <button class="delete-btn" data-id="{{ article.id }}" style="
               padding: 5px 10px;
               background-color: #E3CAAC;
               color: black;
               border: none;
               border-radius: 3px;
               cursor: pointer;
-              font-weight:600;
-            ">
-              Delete
-            </button>
-          {% endif %}
+              font-weight: 600;
+          ">Delete</button>
         </div>
       </div>
     {% endfor %}
@@ -261,6 +273,7 @@
     <p style="text-align: center; color: #777;">No articles found.</p>
   {% endif %}
 </div>
+
 
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <!-- Tambahkan div kosong sebagai footer untuk menambah spasi -->
@@ -406,74 +419,77 @@ const csrftoken = getCookie('csrftoken');
 
 
 
-async function refreshArticleEntries() {
-  const articleContainer = document.getElementById("article_cards");
-  articleContainer.innerHTML = ""; // Kosongkan konten artikel
+  // Fungsi untuk memuat artikel secara dinamis ke halaman
+  async function refreshArticleEntries() {
+    const articleContainer = document.getElementById("article_cards");
+    articleContainer.innerHTML = ""; // Kosongkan konten artikel
 
-  try {
-    const articles = await getArticles(); // Fetch artikel dari server
-    if (articles.length === 0) {
-      articleContainer.innerHTML = `
-        <p style="text-align: center; color: #777;">No articles found.</p>
-      `;
-    } else {
+    try {
+      const articles = await getArticles(); // Fetch artikel dari server
       let htmlString = "";
-      articles.forEach(article => {
-        htmlString += `
-          <div class="article-card" id="article-${article.id}" style="
-            flex: 0 1 calc(33.33% - 20px);
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #f3ead8;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 300px;">
-            <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
-              ${article.title}
-            </h3>
-            <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: ${article.author ? article.author : 'Anonymous'}</p>
-            <p style="margin: 10px 0; color: black;">${article.content.substring(0, 100)}...</p>
+
+      if (articles.length === 0) {
+        htmlString = `
+          <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+            <p class="text-center text-gray-600 mt-4">Belum ada artikel yang tersedia.</p>
           </div>
         `;
-      });
+      } else {
+        articles.forEach(article => {
+          htmlString += `
+            <div id="article-${article.id}" style="
+              border: 1px solid #ccc;
+              padding: 15px;
+              margin-bottom: 15px;
+              border-radius: 8px;
+              background-color: #f9f9f9;">
+                <h3 style="margin: 0; color: #333;">${article.title}</h3>
+                <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
+                <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
+                <div style="margin-top: 10px;">
+                  <a href="/edit-article/${article.id}" style="color: #1E90FF; text-decoration: none; margin-right: 10px;">
+                    Edit
+                  </a>
+                  <button class="delete-btn" data-id="${article.id}" style="
+                    padding: 5px 10px; background-color: red; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                    Delete
+                  </button>
+                  <a href="/view-article/${article.id}" style="
+                    padding: 5px 10px; background-color: #008CBA; color: white; text-decoration: none; border-radius: 3px;">
+                    View Article
+                  </a>
+                </div>
+            </div>
+          `;
+        });
+      }
+
       articleContainer.innerHTML = htmlString;
+
+      // Reattach event handler untuk tombol delete setelah refresh
+      $('.delete-btn').click(deleteArticleHandler);
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+      articleContainer.innerHTML = `
+        <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
+      `;
     }
-
-    // Reattach event handler untuk tombol delete setelah refresh
-    $('.delete-btn').click(deleteArticleHandler);
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-    articleContainer.innerHTML = `
-      <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
-    `;
   }
-}
 
-
+  // Fungsi untuk mengambil artikel dari server
   async function getArticles() {
-  try {
-    const response = await fetch('/blog/get-articles/', {
-      method: 'GET',
-      headers: {
-        'X-CSRFToken': csrftoken,
-        'Content-Type': 'application/json'
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    try {
+      const response = await fetch('/blog/get-articles/');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data.articles;
+    } catch (error) {
+      console.error("Error in getArticles:", error);
+      return [];
     }
-    const data = await response.json();
-    return data.articles;
-  } catch (error) {
-    console.error("Error in getArticles:", error);
-    return [];
   }
-}
-
-
 
   function appendNewArticle(articleHtml) {
   // Tambahkan artikel baru ke akhir container
@@ -543,60 +559,7 @@ $('#createArticleForm').off('submit').on('submit', function(e) {
 
   // Pasang event listener ke tombol delete saat halaman dimuat
   $('.delete-btn').off('click').on('click', deleteArticleHandler);
-
-  // Tambahkan event listener kembali jika artikel dimuat ulang
-  function refreshArticleEntries() {
-    // ... (fungsi refresh yang memuat ulang artikel)
-
-    // Pasang ulang event listener untuk tombol delete
-    $('.delete-btn').off('click').on('click', deleteArticleHandler);
-  }
-});
-
-$(document).ready(function() {
-  // Inisialisasi Masonry
-  var $articleContainer = $('#article_cards').masonry({
-    itemSelector: '.article-card',
-    columnWidth: '.article-card',
-    percentPosition: true
-  });
-
-  // Fungsi untuk menambahkan artikel baru dengan Masonry
-  function appendNewArticle(articleHtml) {
-    var $newArticle = $(articleHtml); // Konversi ke elemen jQuery
-    $articleContainer.append($newArticle).masonry('appended', $newArticle);
-  }
-
-  // Submit form untuk Create New Article dengan AJAX
-  $('#createArticleForm').off('submit').on('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    $.ajax({
-      url: $(this).attr('action'),
-      type: $(this).attr('method'),
-      data: formData,
-      headers: { 'X-CSRFToken': csrftoken },
-      processData: false,
-      contentType: false,
-      success: function(response) {
-        $('#responseMessage').html('<p>Article created successfully!</p>');
-        $('#createArticleForm')[0].reset();
-
-        if (response.html) {
-          appendNewArticle(response.html);
-        }
-
-        $('#createArticleModal').hide();
-      },
-      error: function(xhr, status, error) {
-        var errMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Error creating article.';
-        $('#responseMessage').html('<p>' + errMsg + '</p>');
-      }
-    });
-  });
-});
+})
 
 
     //js autoslide
