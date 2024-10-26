@@ -77,7 +77,7 @@ def show_json_by_id(request, id):
 
 @login_required(login_url='/login')
 def edit_product(request, id):
-    product = Product.objects.get(pk=id, user=request.user)
+    product = Product.objects.get(pk=id)
     
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
@@ -94,58 +94,35 @@ def edit_product(request, id):
 def delete_product(request, id):
     product = Product.objects.get(pk=id)
     product.delete()
-    return HttpResponseRedirect(reverse('main:show_main'))
+    return HttpResponseRedirect(reverse('main:show_main_admin'))
 
 
 @csrf_exempt
 @require_POST
 @login_required(login_url='/login')
 def add_product_ajax(request):
-    name = strip_tags(request.POST.get("name"))
+    name = request.POST.get("name")
     price = request.POST.get("price")
-    description = strip_tags(request.POST.get("description"))
     quantity = request.POST.get("quantity")
-    image = request.FILES.get("image")
-    user = request.user
+    restaurant = request.POST.get("restaurant")
+    category = request.POST.get("cat")
+    location = request.POST.get("location")
+    contact = request.POST.get("contact")
+    image = request.FILES.get("image")  # For image files
     
     new_product = Product(
-        name=name, 
+        name=name,
         price=price,
-        description=description,
         quantity=quantity,
-        image=image,
-        user=user
+        restaurant=restaurant,
+        category=category,
+        location=location,
+        contact=contact,
+        image=image
     )
     new_product.save()
 
     return HttpResponse(b"CREATED", status=201)
 
-@csrf_exempt  # Use this only if you're not including CSRF tokens
-def add_product(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        price = request.POST.get("price")
-        quantity = request.POST.get("quantity")
-        restaurant = request.POST.get("restaurant")
-        description = request.POST.get("description")
-        category = request.POST.get("cat")
-        location = request.POST.get("location")
-        contact = request.POST.get("contact")
-        image = request.FILES.get("image")  # For image files
 
-        # Save product in the database
-        product = Product.objects.create(
-            name=name,
-            price=price,
-            quantity=quantity,
-            restaurant=restaurant,
-            description=description,
-            category=category,
-            location=location,
-            contact=contact,
-            image=image,
-        )
-
-        return JsonResponse({"success": True, "product_id": product.id})
-    return JsonResponse({"success": False}, status=400)
 

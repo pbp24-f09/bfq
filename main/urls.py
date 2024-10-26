@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from main.views import (
-    show_main, add_product, show_main_admin, create_product, show_xml, show_json, show_xml_by_id, 
+    show_main, show_main_admin, create_product, show_xml, show_json, show_xml_by_id, 
     show_json_by_id, edit_product, delete_product, add_product_ajax,
 )
 
@@ -14,7 +14,6 @@ urlpatterns = [
     path('main_admin', show_main_admin, name='show_main_admin'),
     
     # Views requiring authentication
-    path("add-product/", add_product, name="add_product"),
     path('create-product', create_product, name='create_product'),  # Requires login
     path('edit-product/<uuid:id>', edit_product, name='edit_product'),  # Requires login
     path('delete-product/<uuid:id>', delete_product, name='delete_product'),  # Requires login
