@@ -7,10 +7,10 @@ import uuid
 class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     CATEGORY_CHOICES = [
-        ('BERAT', 'Makanan Berat dan Nasi'),
-        ('OLAHAN', 'Olahan Ayam dan Daging'),
-        ('MIE', 'Mie, Pasta, dan Spaghetti'),
-        ('SNACK', 'Makanan Ringan dan Cemilan'),
+        ('Makanan Berat dan Nasi', 'Makanan Berat dan Nasi'),
+        ('Olahan Ayam dan Daging', 'Olahan Ayam dan Daging'),
+        ('Mie, Pasta, dan Spaghetti', 'Mie, Pasta, dan Spaghetti'),
+        ('Makanan Ringan dan Cemilan', 'Makanan Ringan dan Cemilan'),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -18,7 +18,7 @@ class Product(models.Model):
     restaurant = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     contact = models.CharField(max_length=15)
-    cat = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='FOOD')
+    cat = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Makanan Berat dan Nasi')
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
 
     @property
