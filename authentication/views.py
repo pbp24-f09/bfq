@@ -2,10 +2,10 @@ import datetime
 from .forms import UserRegistrationForm, EditProfileForm
 from .decorators import role_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login, logout, update_session_auth_hash
+from django.contrib.auth import login, logout, update_session_auth_hash, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
@@ -119,6 +119,24 @@ def change_password(request):
         return redirect('change_password')
     
     return render(request, 'change_password.html')
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password != confirm_password:
+            return JsonResponse({'success': False, 'error': 'Passwords do not match.'})
+
+        user = authenticate(username=username, password=password)
+        if user is not None and user == request.user:
+            user.delete()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid credentials.'})
+    return JsonResponse({'success': False, 'error': 'Invalid request.'})
 
 @login_required
 @role_required('customer')
