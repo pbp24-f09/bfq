@@ -13,6 +13,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
+from django.http import JsonResponse
 from django.db.models import Q
 
 
@@ -118,4 +119,33 @@ def add_product_ajax(request):
     new_product.save()
 
     return HttpResponse(b"CREATED", status=201)
+
+@csrf_exempt  # Use this only if you're not including CSRF tokens
+def add_product(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        price = request.POST.get("price")
+        quantity = request.POST.get("quantity")
+        restaurant = request.POST.get("restaurant")
+        description = request.POST.get("description")
+        category = request.POST.get("cat")
+        location = request.POST.get("location")
+        contact = request.POST.get("contact")
+        image = request.FILES.get("image")  # For image files
+
+        # Save product in the database
+        product = Product.objects.create(
+            name=name,
+            price=price,
+            quantity=quantity,
+            restaurant=restaurant,
+            description=description,
+            category=category,
+            location=location,
+            contact=contact,
+            image=image,
+        )
+
+        return JsonResponse({"success": True, "product_id": product.id})
+    return JsonResponse({"success": False}, status=400)
 
