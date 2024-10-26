@@ -438,71 +438,85 @@ async function refreshArticleEntries() {
             `;
         } else {
           articles.forEach(article => {
-            htmlString += `
-                <div class="article-card" id="article-${article.id}" style="
-                    flex-basis: calc(33.33% - 40px); /* Lebar proporsional, dikurangi gap antar artikel */
-                    box-sizing: border-box;
-                    border: 1px solid #ccc;
-                    padding: 20px;
-                    border-radius: 8px;
-                    background-color: #f3ead8;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    min-height: 300px;
-                    margin-bottom: 20px; /* Jarak antar artikel */
-                ">
-                    <div>
-                        <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
-                            ${article.title}
-                        </h3>
-                        <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: ${article.author ? article.author : 'Anonymous'}</p>
-                        <p style="margin: 10px 0; color: black;">${article.content.substring(0, 100)}...</p>
-                    </div>
+          htmlString += `
+              <div class="article-card" id="article-${article.id}" style="
+                  flex: 0 1 calc(33.33% - 20px); /* Lebar proporsional agar sesuai untuk 3 kolom */
+                  box-sizing: border-box;
+                  border: 1px solid #ccc;
+                  padding: 20px;
+                  border-radius: 8px;
+                  background-color: #f3ead8;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                  min-height: 300px;
+                  margin-bottom: 20px; /* Jarak antar artikel */
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              ">
+                  <div>
+                      <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
+                          ${article.title}
+                      </h3>
+                      <p style="margin: 5px 0; color: #adadad; font-style: italic;">
+                          By: ${article.author ? article.author : 'Anonymous'}
+                      </p>
+                      <p style="margin: 10px 0; color: black;">
+                          ${article.content.substring(0, 100)}...
+                      </p>
+                  </div>
 
-                    <!-- Tombol View, Edit, dan Delete -->
-                    <div style="margin-top: 10px; display: flex; gap: 5px; justify-content: center;">
-                        <a href="/view-article/${article.id}" style="
-                            padding: 5px 10px;
-                            background-color: #E7F6F8;
-                            color: black;
-                            border: none;
-                            border-radius: 3px;
-                            text-decoration: none;
-                            font-weight: 600;
-                        ">View Article</a>
-            `;
+                  <!-- Tombol View, Edit, dan Delete -->
+                  <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+                      <a href="/blog/view/${article.id}/" style="
+                          padding: 5px 10px;
+                          background-color: #E7F6F8;
+                          color: black;
+                          border: none;
+                          border-radius: 3px;
+                          text-decoration: none;
+                          font-weight: 600;
+                          transition: background-color 0.3s;
+                      " onmouseover="this.style.backgroundColor='#cceef4';" onmouseout="this.style.backgroundColor='#E7F6F8';">
+                          View Article
+                      </a>
+          `;
 
-            // Tampilkan tombol Edit dan Delete hanya jika pengguna adalah penulis artikel
-            if (article.is_author) {
-                htmlString += `
-                    <a href="/edit-article/${article.id}" style="
-                        padding: 5px 10px;
-                        background-color: #c9c9c9;
-                        color: black;
-                        border: none;
-                        border-radius: 3px;
-                        text-decoration: none;
-                        font-weight: 600;
-                    ">Edit</a>
+          // Tampilkan tombol Edit dan Delete hanya jika pengguna adalah penulis artikel
+          if (article.is_author) {
+              htmlString += `
+                  <a href="/blog/edit-article/${article.id}/" style="
+                      padding: 5px 10px;
+                      background-color: #c9c9c9;
+                      color: black;
+                      border: none;
+                      border-radius: 3px;
+                      text-decoration: none;
+                      font-weight: 600;
+                      transition: background-color 0.3s;
+                  " onmouseover="this.style.backgroundColor='#b3b3b3';" onmouseout="this.style.backgroundColor='#c9c9c9';">
+                      Edit
+                  </a>
 
-                    <button class="delete-btn" data-id="${article.id}" style="
-                        padding: 5px 10px;
-                        background-color: #E3CAAC;
-                        color: black;
-                        border: none;
-                        border-radius: 3px;
-                        cursor: pointer;
-                        font-weight: 600;
-                    ">Delete</button>
-                `;
-            }
+                  <button class="delete-btn" data-id="${article.id}" style="
+                      padding: 5px 10px;
+                      background-color: #E3CAAC;
+                      color: black;
+                      border: none;
+                      border-radius: 3px;
+                      cursor: pointer;
+                      font-weight: 600;
+                      transition: background-color 0.3s;
+                  " onmouseover="this.style.backgroundColor='#d1b08f';" onmouseout="this.style.backgroundColor='#E3CAAC';">
+                      Delete
+                  </button>
+              `;
+          }
 
-            htmlString += `
-                    </div>
-                </div>
-            `;
-        });
+          htmlString += `
+                  </div>
+              </div>
+          `;
+      });
         }
 
         articleContainer.innerHTML = htmlString;
