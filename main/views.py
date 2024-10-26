@@ -96,7 +96,6 @@ def delete_product(request, id):
     product.delete()
     return HttpResponseRedirect(reverse('main:show_main_admin'))
 
-
 @csrf_exempt
 @require_POST
 @login_required(login_url='/login')
