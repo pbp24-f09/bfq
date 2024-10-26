@@ -313,8 +313,8 @@
 
   function openPopup(name, location, contact, price, restaurant, cat, imageUrl, productId) {
       document.getElementById('popupName-' + productId).innerText = name;
-      document.getElementById('popupLocation-' + productId).innerText = 'Location: ' + location;
-      document.getElementById('popupContact-' + productId).innerText = 'Contact: ' + contact;
+      document.getElementById('popupLocation-' + productId).innerText = location;
+      document.getElementById('popupContact-' + productId).innerText = contact;
       document.getElementById('popupDescription-' + productId).innerText = restaurant;
       document.getElementById('popupCat-' + productId).innerText = cat;
       document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
