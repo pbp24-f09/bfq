@@ -1,0 +1,79 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <!-- Background halaman -->
+  <div style="background-color: #102820; min-height: 100vh; padding-top: 60px; display: flex; align-items: center; justify-content: center;">
+    
+    <!-- Container Artikel -->
+    <div style="
+      width: 800px; 
+      background-color: #e0e0e0; 
+      border: 1px solid black; 
+      padding: 40px; 
+      margin: 20px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      min-height: 70vh;  /* Tinggi minimum diperbesar */
+      display: flex;
+      flex-direction: column;
+    ">
+      
+      <!-- Judul Artikel -->
+      <h1 style="
+        font-family: 'Rosarivo', serif; 
+        font-size: 3rem; 
+        text-align: center; 
+        letter-spacing: 0.3rem;
+        margin-bottom: 20px;
+      ">
+        BFQ ARTICLES
+      </h1>
+      
+      <!-- Informasi Artikel -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <p style="font-family: 'Rosarivo', serif; margin: 0;">
+          Published on {{ article.created_at|date:"d F Y" }}
+        </p>
+        <p style="font-family: 'Rosarivo', serif; margin: 0;">
+          Topic: {{ article.topic }}
+        </p>
+        <p style="font-family: 'Rosarivo', serif; margin: 0;">
+          By: {{ article.author }}
+        </p>
+      </div>
+      
+      <!-- Judul Artikel Utama -->
+      <h2 style="
+        font-family: 'Rosarivo', serif; 
+        font-size: 2.5rem; 
+        text-align: center; 
+        margin-bottom: 40px;
+      ">
+        {{ article.title }}
+      </h2>
+      
+      <!-- Konten Artikel -->
+      <p style="font-family: 'Rosarivo', serif; font-size: 1.2rem; text-align: justify; line-height: 1.6; margin-bottom: 40px; flex-grow: 1;">
+        {{ article.content }}
+      </p>
+
+      <!-- Tombol Kembali ke Daftar Artikel -->
+      <a href="{% url 'blog:article_list' %}" style="
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #F3EAD8;
+        color: black;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-family: 'Rosarivo', serif;
+        font-size: 1.2rem;
+        cursor: pointer;
+      ">
+        Back to Article List
+      </a>
+    </div>
+  </div>
+{% endblock %}

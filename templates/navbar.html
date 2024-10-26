@@ -13,7 +13,7 @@
           {% elif user.role == 'customer' %}
             <a href="{% url 'customer_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'customer_categories' %}" class="nav-link">Categories</a>
-            <a href="{% url 'customer_blog' %}" class="nav-link">Blog</a>
+            <a href="{% url 'blog:article_list' %}" class="nav-link">Blog</a>
           {% endif %}
           
           <div class="relative">
