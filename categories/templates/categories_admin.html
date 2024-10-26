@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+
+<title>Search Food</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+
+<style>
+	/* Placeholder background*/
+	body {
+		background: linear-gradient(to right, rgb(23, 40, 16), rgb(16, 40, 32));
+	}
+
+	#searchDiv {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+	}
+
+	#searchBar {
+		width: 45rem;
+		vertical-align: middle;
+	}
+
+	#searchButton {
+		vertical-align: middle;
+	}
+</style>
+
+{% endblock meta %}
+
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="mt-20">
+	<div class="flex mx-4 mb-4">
+		<button id="openFilterButton" onclick="showFilterModal()" class="text-white bg-[#8a6420] px-3 py-2 hover:bg-[#5c4215] transition 0.3s ease">
+			<div class="flex">
+				<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="2 0 24 24">
+					<path d="M10.83 5a3.001 3.001 0 0 0-5.66 0H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17ZM4 11h9.17a3.001 3.001 0 0 1 5.66 0H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2Zm1.17 6H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17a3.001 3.001 0 0 0-5.66 0Z"/>
+				</svg>			
+				<p class="ml-2">Filter</p>
+			</div>
+		</button>
+		<div id="searchDiv">
+			<form id="searchForm">
+				<input type="text" id="searchBar" placeholder="Search food or restaurant" class="py-2 px-3">
+				<button id="searchButton" class="ml-1 px-2 py-2 hover:bg-[#8a6420] transition 0.3s ease">
+					<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+						<path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+					</svg>
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<div id="searchMessage" class="flex justify-center mb-10 opacity-0">
+		<p class="text-[#8a6420]">Please search for a food or restaurant</p>
+	</div>
+
+	<div>
+		<button id="Add New Product By AJAX"></button>
+	</div>
+    
+	<div id="showCards"></div>
+
+	<div id="filterModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+		<div class="bg-white opacity-100 p-6 w-full lg:w-1/3">
+			<form id="filterForm">
+				<div class="flex justify-center">
+					<h1 class="text-[#5c4215] text-[2rem] mb-6"><b>Filter by</b></h1>
+				</div>
+
+				<h4 class="text-white mb-3 bg-[#8a6420] px-2 py-1">
+					<b>Category</b>
+				</h4>
+				<input type="radio" id="cat1" name="foodCat" value="Makanan Berat dan Nasi">
+				<label for="cat1" class="ml-2">Makanan Berat dan Nasi</label><br>
+
+				<input type="radio" id="cat2" name="foodCat" value="Olahan Ayam dan Daging">
+				<label for="cat1" class="ml-2">Olahan Ayam dan Daging</label><br>
+
+				<input type="radio" id="cat3" name="foodCat" value="Mie, Pasta, dan Spaghetti">
+				<label for="cat1" class="ml-2">Mie, Pasta, dan Spaghetti</label><br>
+
+				<input type="radio" id="cat4" name="foodCat" value="Makanan Ringan dan Cemilan">
+				<label for="cat1" class="ml-2">Makanan Ringan dan Cemilan</label><br><br>
+
+				<h4 class="text-white mb-3 mt-1 bg-[#8a6420] px-2 py-1">
+					<b>Price Range</b>
+				</h4>
+				<input type="radio" id="range1" name="priceRange" value="Range1">
+				<label for="range1" class="ml-2">Less than 50.000</label><br>
+
+				<input type="radio" id="range2" name="priceRange" value="Range2">
+				<label for="range2" class="ml-2">50.000 - 100.000</label><br>
+
+				<input type="radio" id="range3" name="priceRange" value="Range4">
+				<label for="range3" class="ml-2">101.000 - 150.000</label><br>
+
+				<input type="radio" id="range4" name="priceRange" value="Range4">
+				<label for="range4" class="ml-2">More than 150.000</label><br><br>
+
+				<div id="filterMessage" class="flex justify-center mb-5 opacity-0">
+					<p class="text-[#8a6420]"><b>Please select a filter</b></p>
+				</div>
+				
+				<div class="flex justify-center">
+					<button id="submitFilter" class="w-[6rem] bg-[#4c6444] hover:bg-[#3d5237] py-2 text-white mr-5"><b>Filter</b></button>
+					<button id="cancelFilter" class="w-[6rem] bg-[#fa574b] hover:bg-[#d1392e] py-2 text-white"><b>Cancel</b></button>	
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	async function getProducts(){
+			return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+	}
+
+	async function refreshProducts(arg){
+			document.getElementById("showCards").className = "";
+			document.getElementById("showCards").innerHTML = "";
+			const products = await getProducts();
+			let htmlString = "";
+			let classNameString = "";
+
+			if (products.length === 0) {
+					classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+					htmlString = `
+							<div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+									<p class="text-center text-gray-600 mt-4">No product yet.</p>
+							</div>
+					`;
+			}
+			else {
+					classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-full max-w-7xl mx-auto"
+					products.forEach((item) => {
+						const name = DOMPurify.sanitize(item.fields.name);
+						const restaurant = DOMPurify.sanitize(item.fields.restaurant);
+						const location = DOMPurify.sanitize(item.fields.location);
+						const contact = DOMPurify.sanitize(item.fields.contact);
+						const cat = DOMPurify.sanitize(item.fields.cat); // Category
+						const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
+						
+						let searched = true;
+						let priceFiltered = true;
+						let catFiltered = true;
+
+						if (arg === "search"){
+							const searchVal = document.getElementById("searchBar").value.toLowerCase();
+							searched = name.toLowerCase().includes(searchVal) || restaurant.toLowerCase().includes(searchVal);
+						}
+
+						if (arg === "filter"){
+							const selectedPrice = document.querySelector('input[name="priceRange"]:checked');
+							const selectedCat = document.querySelector('input[name="foodCat"]:checked');
+
+							if (selectedPrice){
+								if (selectedPrice.value == "Range1"){
+									priceFiltered = item.fields.price < 50000;
+
+								} else if (selectedPrice.value == "Range2"){
+									priceFiltered = (item.fields.price >= 50000) && (item.fields.price <= 100000);
+
+								} else if (selectedPrice.value == "Range3"){
+									priceFiltered = (item.fields.price > 100000) && (item.fields.price <= 150000);
+
+								} else {
+									priceFiltered = item.fields.price > 150000;
+								}
+							}
+
+							if (selectedCat){
+								catFiltered = (selectedCat.value == cat);
+							}
+						}
+
+						if (searched && priceFiltered && catFiltered) {
+							htmlString += `
+							<div class="relative break-inside-avoid" onclick="openPopup('${name}', '${location}', '${contact}', '${item.fields.price}', '${restaurant}', '${cat}', '${imageUrl}', '${item.pk}')">
+								<div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
+									style="width: 300px; height: 320px;">
+
+									<div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden">
+										${item.fields.image ? 
+										`<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
+										`<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
+									</div>
+
+									<!-- Product Name and Price -->
+									<div class="text-center w-full h-[20%] flex flex-col justify-end">
+										<h3 class="font-bold text-lg text-white">${name}</h3>
+										<div class="flex justify-center items-center space-x-2">
+											<span class="bg-gray-100 px-3 text-gray-800 text-sm">${item.fields.price}</span>
+											<span class="text-white text-xs">IDR</span>
+										</div>
+									</div>
+								</div>
+
+								<!-- Popup Modal for Product Details -->
+								<div id="productPopup-${item.pk}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onclick="closePopup('${item.pk}')">
+									<div class="bg-white p-6 shadow-lg max-w-md w-full mx-auto relative" onclick="event.stopPropagation()" style="width: 400px;">
+										<h3 id="popupName-${item.pk}" class="font-bold text-lg mb-2 text-black text-center"></h3>
+
+										<div class="bg-gray-200 flex justify-center items-center overflow-hidden mb-4 w-[100%] h-[100%] mx-auto">
+											<div class="flex justify-center items-center w-full h-full text-gray-500">
+												<img id="popupImage-${item.pk}" src="" alt="Product Image" class="object-cover w-full h-full" style="aspect-ratio: 1/1; max-width: 100%; max-height: 100%;" />
+											</div>
+										</div>
+
+										<p id="popupLocation-${item.pk}" class="text-gray-600 text-sm mb-2 text-center"></p>
+										<p id="popupContact-${item.pk}" class="text-gray-600 text-sm mb-2 text-center"></p>
+										<p id="popupDescription-${item.pk}" class="text-gray-700 mb-2 text-center"></p>
+										<p id="popupCat-${item.pk}"class="text-gray-700 mb-2 text-center"></p> <!-- Category -->
+										<p id="popupPrice-${item.pk}" class="text-gray-900 font-semibold text-center mb-2"></p>
+
+										<button onclick="closePopup('${item.pk}')" class="absolute top-2 right-2 bg-[#8a6420] hover:bg-[#4d2d18] text-white py-1 px-3 font-bold">close</button>
+									</div>
+								</div>
+							</div>
+							`;									
+						}
+					});
+			}
+			document.getElementById("showCards").className = classNameString;
+			document.getElementById("showCards").innerHTML = htmlString;
+			// Hide alert messages
+			document.getElementById("searchMessage").classList.remove("opacity-100");
+			document.getElementById("searchMessage").classList.add("opacity-0");
+			document.getElementById("filterMessage").classList.remove("opacity-100");
+			document.getElementById("filterMessage").classList.add("opacity-0");
+	}
+
+	window.onload = function(){
+		event.preventDefault();
+		refreshProducts("load");
+	}
+
+	document.getElementById("searchButton").addEventListener("click", function(event){
+		event.preventDefault();
+
+		if (document.getElementById("searchBar").value.trim() != ""){
+			document.querySelectorAll('input[name="priceRange"]').forEach((input) => input.checked = false);
+			document.querySelectorAll('input[name="foodCat"]').forEach((input) => input.checked = false);
+			refreshProducts("search");
+		} else {
+			document.getElementById("searchMessage").classList.remove("opacity-0");
+			document.getElementById("searchMessage").classList.add("opacity-100");
+		}
+	})
+
+	document.getElementById("submitFilter").addEventListener("click", function(event){
+		event.preventDefault();
+		const selectedPrice = document.querySelector('input[name="priceRange"]:checked');
+		const selectedCat = document.querySelector('input[name="foodCat"]:checked');
+
+		if (selectedPrice || selectedCat){
+			document.getElementById("searchBar").value = "";
+			refreshProducts("filter");
+			document.getElementById("filterModal").classList.add('hidden');
+		} else {
+			document.getElementById("filterMessage").classList.remove("opacity-0");
+			document.getElementById("filterMessage").classList.add("opacity-100");
+		}
+	})
+
+	document.getElementById("cancelFilter").addEventListener("click", function(event){
+		event.preventDefault();
+		document.getElementById("filterModal").classList.add("hidden");
+		document.getElementById("filterMessage").classList.remove("opacity-100");
+		document.getElementById("filterMessage").classList.add("opacity-0");
+	})
+
+	function openPopup(name, location, contact, price, restaurant, cat, imageUrl, productId) {
+		document.getElementById('popupName-' + productId).innerText = name;
+		document.getElementById('popupLocation-' + productId).innerText = 'Location: ' + location;
+		document.getElementById('popupContact-' + productId).innerText = 'Contact: ' + contact;
+		document.getElementById('popupDescription-' + productId).innerText = restaurant;
+		document.getElementById('popupCat-' + productId).innerText = cat;
+		document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
+
+		const popupImage = document.getElementById('popupImage-' + productId);
+		if (imageUrl) {
+				popupImage.src = imageUrl;
+				popupImage.alt = name;
+		} else {
+				popupImage.src = '/path/to/placeholder-image.png';
+		}
+
+		document.getElementById('productPopup-' + productId).classList.remove('hidden');
+  }
+
+  function closePopup(productId) {
+    document.getElementById('productPopup-' + productId).classList.add('hidden');
+  }
+
+  function showFilterModal(){
+		document.getElementById("filterModal").classList.remove("hidden");
+  }
+
+</script>
+
+{% endblock content %}
