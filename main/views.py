@@ -100,24 +100,24 @@ def delete_product(request, id):
 @require_POST
 @login_required(login_url='/login')
 def add_product_ajax(request):
-    name = request.POST.get("name")
+    name = strip_tags(request.POST.get("name"))
     price = request.POST.get("price")
-    quantity = request.POST.get("quantity")
-    restaurant = request.POST.get("restaurant")
-    category = request.POST.get("cat")
-    location = request.POST.get("location")
-    contact = request.POST.get("contact")
-    image = request.FILES.get("image")  # For image files
+    restaurant = strip_tags(request.POST.get("restaurant"))
+    location = strip_tags(request.POST.get("location"))
+    contact = strip_tags(request.POST.get("contact"))
+    cat = request.POST.get("cat")
+    image = request.FILES.get("image")
+    user = request.user
     
     new_product = Product(
-        name=name,
+        name=name, 
         price=price,
-        quantity=quantity,
         restaurant=restaurant,
-        category=category,
         location=location,
         contact=contact,
-        image=image
+        cat=cat,
+        image=image,
+        user=user
     )
     new_product.save()
 
