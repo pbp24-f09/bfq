@@ -77,7 +77,7 @@ def show_json_by_id(request, id):
 
 @login_required(login_url='/login')
 def edit_product(request, id):
-    product = Product.objects.get(pk=id, user=request.user)
+    product = Product.objects.get(pk=id)
     
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
