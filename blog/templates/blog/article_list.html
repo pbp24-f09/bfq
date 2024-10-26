@@ -158,13 +158,7 @@
     </style>
 
     
-    
 
-    <!-- Container utama -->
-    <div style="max-width: 1200px; margin: 40px auto; padding: 20px;">
-      <!-- Konten lainnya di sini -->
-    </div>
-  </body>
 
 <!-- Container untuk tombol -->
 <div style="
@@ -203,12 +197,15 @@
 
 <!-- Container untuk daftar artikel -->
 <div id="article_cards" style="
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Membuat tiga kolom dengan ukuran yang sama */
-    gap: 20px; /* Jarak antara artikel */
-    max-width: 1200px; /* Batas lebar kontainer */
-    margin: auto; /* Tengah-tengah secara horizontal */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Jarak antar artikel */
+    justify-content: center; /* Posisikan artikel ke tengah */
+    max-width: 1200px; /* Batas lebar kontainer agar tampilan lebih seragam */
+    margin: auto; /* Posisikan kontainer di tengah */
+    padding: 20px; /* Tambahkan padding untuk estetika */
 ">
+
   {% if articles %}
     {% for article in articles %}
       <!-- Artikel Individual -->
@@ -236,6 +233,7 @@
         </div>
 
         <!-- Tombol View, Edit, dan Delete -->
+        <!-- Tombol View, Edit, dan Delete -->
         <div style="margin-top: 10px; display: flex; gap: 5px; justify-content: center;">
           <a href="{% url 'blog:view_article' article.id %}" style="
               padding: 5px 10px;
@@ -247,26 +245,30 @@
               font-weight: 600;
           ">View Article</a>
 
-          <a href="{% url 'blog:edit_article' article.id %}" style="
-              padding: 5px 10px;
-              background-color: #c9c9c9;
-              color: black;
-              border: none;
-              border-radius: 3px;
-              text-decoration: none;
-              font-weight: 600;
-          ">Edit</a>
+          <!-- Pengecekan Penulis untuk Menampilkan Tombol Edit dan Delete -->
+          {% if request.user.is_authenticated and request.user.username == article.author.username %}
+            <a href="{% url 'blog:edit_article' article.id %}" style="
+                padding: 5px 10px;
+                background-color: #c9c9c9;
+                color: black;
+                border: none;
+                border-radius: 3px;
+                text-decoration: none;
+                font-weight: 600;
+            ">Edit</a>
 
-          <button class="delete-btn" data-id="{{ article.id }}" style="
-              padding: 5px 10px;
-              background-color: #E3CAAC;
-              color: black;
-              border: none;
-              border-radius: 3px;
-              cursor: pointer;
-              font-weight: 600;
-          ">Delete</button>
+            <button class="delete-btn" data-id="{{ article.id }}" style="
+                padding: 5px 10px;
+                background-color: #E3CAAC;
+                color: black;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                font-weight: 600;
+            ">Delete</button>
+          {% endif %}
         </div>
+
       </div>
     {% endfor %}
   {% else %}
@@ -419,62 +421,104 @@ const csrftoken = getCookie('csrftoken');
 
 
 
-  // Fungsi untuk memuat artikel secara dinamis ke halaman
-  async function refreshArticleEntries() {
+// Fungsi untuk memuat artikel secara dinamis ke halaman
+async function refreshArticleEntries() {
     const articleContainer = document.getElementById("article_cards");
     articleContainer.innerHTML = ""; // Kosongkan konten artikel
 
     try {
-      const articles = await getArticles(); // Fetch artikel dari server
-      let htmlString = "";
+        const articles = await getArticles(); // Fetch artikel dari server
+        let htmlString = "";
 
-      if (articles.length === 0) {
-        htmlString = `
-          <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-            <p class="text-center text-gray-600 mt-4">Belum ada artikel yang tersedia.</p>
-          </div>
-        `;
-      } else {
-        articles.forEach(article => {
-          htmlString += `
-            <div id="article-${article.id}" style="
-              border: 1px solid #ccc;
-              padding: 15px;
-              margin-bottom: 15px;
-              border-radius: 8px;
-              background-color: #f9f9f9;">
-                <h3 style="margin: 0; color: #333;">${article.title}</h3>
-                <p style="margin: 5px 0; color: #777;">By: ${article.author ? article.author : 'Anonymous'}</p>
-                <p style="margin: 10px 0;">${article.content.substring(0, 100)}...</p>
-                <div style="margin-top: 10px;">
-                  <a href="/edit-article/${article.id}" style="color: #1E90FF; text-decoration: none; margin-right: 10px;">
-                    Edit
-                  </a>
-                  <button class="delete-btn" data-id="${article.id}" style="
-                    padding: 5px 10px; background-color: red; color: white; border: none; border-radius: 3px; cursor: pointer;">
-                    Delete
-                  </button>
-                  <a href="/view-article/${article.id}" style="
-                    padding: 5px 10px; background-color: #008CBA; color: white; text-decoration: none; border-radius: 3px;">
-                    View Article
-                  </a>
+        if (articles.length === 0) {
+            htmlString = `
+                <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                    <p class="text-center text-gray-600 mt-4">Belum ada artikel yang tersedia.</p>
                 </div>
-            </div>
-          `;
+            `;
+        } else {
+          articles.forEach(article => {
+            htmlString += `
+                <div class="article-card" id="article-${article.id}" style="
+                    flex-basis: calc(33.33% - 40px); /* Lebar proporsional, dikurangi gap antar artikel */
+                    box-sizing: border-box;
+                    border: 1px solid #ccc;
+                    padding: 20px;
+                    border-radius: 8px;
+                    background-color: #f3ead8;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    min-height: 300px;
+                    margin-bottom: 20px; /* Jarak antar artikel */
+                ">
+                    <div>
+                        <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
+                            ${article.title}
+                        </h3>
+                        <p style="margin: 5px 0; color: #adadad; font-style: italic;">By: ${article.author ? article.author : 'Anonymous'}</p>
+                        <p style="margin: 10px 0; color: black;">${article.content.substring(0, 100)}...</p>
+                    </div>
+
+                    <!-- Tombol View, Edit, dan Delete -->
+                    <div style="margin-top: 10px; display: flex; gap: 5px; justify-content: center;">
+                        <a href="/view-article/${article.id}" style="
+                            padding: 5px 10px;
+                            background-color: #E7F6F8;
+                            color: black;
+                            border: none;
+                            border-radius: 3px;
+                            text-decoration: none;
+                            font-weight: 600;
+                        ">View Article</a>
+            `;
+
+            // Tampilkan tombol Edit dan Delete hanya jika pengguna adalah penulis artikel
+            if (article.is_author) {
+                htmlString += `
+                    <a href="/edit-article/${article.id}" style="
+                        padding: 5px 10px;
+                        background-color: #c9c9c9;
+                        color: black;
+                        border: none;
+                        border-radius: 3px;
+                        text-decoration: none;
+                        font-weight: 600;
+                    ">Edit</a>
+
+                    <button class="delete-btn" data-id="${article.id}" style="
+                        padding: 5px 10px;
+                        background-color: #E3CAAC;
+                        color: black;
+                        border: none;
+                        border-radius: 3px;
+                        cursor: pointer;
+                        font-weight: 600;
+                    ">Delete</button>
+                `;
+            }
+
+            htmlString += `
+                    </div>
+                </div>
+            `;
         });
-      }
+        }
 
-      articleContainer.innerHTML = htmlString;
+        articleContainer.innerHTML = htmlString;
 
-      // Reattach event handler untuk tombol delete setelah refresh
-      $('.delete-btn').click(deleteArticleHandler);
+        // Tambahkan event listener untuk tombol Delete setelah konten dimuat
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', deleteArticleHandler);
+        });
+
     } catch (error) {
-      console.error("Error fetching articles:", error);
-      articleContainer.innerHTML = `
-        <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
-      `;
+        console.error("Error fetching articles:", error);
+        articleContainer.innerHTML = `
+            <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
+        `;
     }
-  }
+}
 
   // Fungsi untuk mengambil artikel dari server
   async function getArticles() {

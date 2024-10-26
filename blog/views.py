@@ -110,16 +110,20 @@ def view_article(request, article_id):
     return render(request, 'blog/view_article.html', {'article': article})
 
 @login_required
+@login_required
 def get_articles(request):
     articles = Article.objects.all()
     articles_data = []
     for article in articles:
+        is_author = article.author == request.user
         articles_data.append({
             'id': article.id,
             'title': article.title,
-            'author': article.author.username if article.author else 'Anonymous',
             'content': article.content,
+            'author': article.author.username,
+            'is_author': is_author,
         })
+
     return JsonResponse({'articles': articles_data})
 
 
