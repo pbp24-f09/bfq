@@ -121,48 +121,168 @@
   </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Dapatkan semua tombol delete
-    const deleteButtons = document.querySelectorAll('.delete-btn');
+  $(document).ready(function () {
+    // Panggil fungsi untuk memuat artikel saat halaman dimuat
+    refreshArticleEntries();
 
-    // Tambahkan event listener untuk setiap tombol delete
-    deleteButtons.forEach(button => {
-      button.addEventListener('click', async function () {
-        // Ambil ID artikel dari data-id di tombol delete
-        const articleId = this.dataset.id;
+    // Fungsi untuk memuat artikel secara dinamis ke halaman
+    async function refreshArticleEntries() {
+      const articleContainer = document.getElementById("article_cards");
+      articleContainer.innerHTML = ""; // Kosongkan konten artikel
 
-        // Pastikan pengguna yakin ingin menghapus
-        if (!confirm('Are you sure you want to delete this article?')) {
-          return;
-        }
+      try {
+        const articles = await getArticles(); // Fetch artikel dari server
+        let htmlString = "";
 
-        try {
-          // Kirim permintaan delete menggunakan fetch API
-          const response = await fetch(`/blog/delete-article/${articleId}/`, {
-            method: 'DELETE',
-            headers: {
-              'X-CSRFToken': getCookie('csrftoken'), // Mengambil CSRF token
-              'Content-Type': 'application/json'
-            },
+        if (articles.length === 0) {
+          htmlString = `
+            <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+              <p class="text-center text-gray-600 mt-4">Belum ada artikel yang tersedia.</p>
+            </div>
+          `;
+        } else {
+          articles.forEach((article) => {
+            htmlString += `
+              <div class="article-card" id="article-${article.id}" style="
+                  flex: 0 1 calc(33.33% - 20px); /* Lebar proporsional agar sesuai untuk 3 kolom */
+                  box-sizing: border-box;
+                  border: 1px solid #ccc;
+                  padding: 20px;
+                  border-radius: 8px;
+                  background-color: #f3ead8;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                  min-height: 300px;
+                  margin-bottom: 20px; /* Jarak antar artikel */
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              ">
+                <div>
+                  <h3 style="margin: 0; color: #4c6444; font-size: 24px; font-weight: bold; text-decoration: underline;">
+                    ${article.title}
+                  </h3>
+                  <p style="margin: 5px 0; color: #adadad; font-style: italic;">
+                    By: ${article.author ? article.author : 'Anonymous'}
+                  </p>
+                  <p style="margin: 10px 0; color: black;">
+                    ${article.content.substring(0, 100)}...
+                  </p>
+                </div>
+
+                <!-- Tombol View, Edit, dan Delete -->
+                <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+                  <a href="/blog/view/${article.id}/" style="
+                      padding: 5px 10px;
+                      background-color: #E7F6F8;
+                      color: black;
+                      border: none;
+                      border-radius: 3px;
+                      text-decoration: none;
+                      font-weight: 600;
+                      transition: background-color 0.3s;
+                  " onmouseover="this.style.backgroundColor='#cceef4';" onmouseout="this.style.backgroundColor='#E7F6F8';">
+                    View Article
+                  </a>
+            `;
+
+            // Tampilkan tombol Edit dan Delete hanya jika pengguna adalah penulis artikel
+            if (article.is_author) {
+              htmlString += `
+                <a href="/blog/edit-article/${article.id}/" style="
+                    padding: 5px 10px;
+                    background-color: #c9c9c9;
+                    color: black;
+                    border: none;
+                    border-radius: 3px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: background-color 0.3s;
+                " onmouseover="this.style.backgroundColor='#b3b3b3';" onmouseout="this.style.backgroundColor='#c9c9c9';">
+                    Edit
+                </a>
+
+                <button class="delete-btn" data-id="${article.id}" style="
+                    padding: 5px 10px;
+                    background-color: #E3CAAC;
+                    color: black;
+                    border: none;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    transition: background-color 0.3s;
+                " onmouseover="this.style.backgroundColor='#d1b08f';" onmouseout="this.style.backgroundColor='#E3CAAC';">
+                    Delete
+                </button>
+              `;
+            }
+
+            htmlString += `
+                </div>
+              </div>
+            `;
           });
-
-          // Cek apakah responsnya berhasil
-          if (response.ok) {
-            // Hapus kartu artikel dari DOM jika berhasil
-            const articleCard = document.getElementById(`article-${articleId}`);
-            articleCard.remove();
-          } else {
-            alert('Failed to delete the article. Please try again.');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          alert('An error occurred. Please try again.');
         }
-      });
-    });
 
-    // Fungsi untuk mendapatkan CSRF token
+        articleContainer.innerHTML = htmlString;
+
+        // Tambahkan event listener untuk tombol Delete setelah konten dimuat
+        $('.delete-btn').click(deleteArticleHandler);
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+        articleContainer.innerHTML = `
+          <p class="text-center text-red-500 mt-4">Gagal memuat artikel. Silakan coba lagi nanti.</p>
+        `;
+      }
+    }
+
+    async function getArticles() {
+      try {
+        const response = await fetch('/blog/get-articles/');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log("Articles fetched:", data.articles); // Log untuk mengecek hasil
+
+        // Hanya kembalikan artikel yang ditulis oleh pengguna yang sedang login
+        const userArticles = data.articles.filter(article => article.author === "{{ request.user.username }}");
+        return userArticles;
+      } catch (error) {
+        console.error("Error in getArticles:", error);
+        return [];
+      }
+    }
+
+
+
+    // Fungsi untuk menghapus artikel dengan AJAX
+    function deleteArticleHandler(e) {
+      e.preventDefault();
+      var articleId = $(this).data('id'); // Ambil ID artikel
+
+      // Konfirmasi sebelum menghapus artikel
+      if (confirm('Are you sure you want to delete this article?')) {
+        $.ajax({
+          url: '/blog/delete/' + articleId + '/', // Endpoint penghapusan
+          type: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'), // Tambahkan CSRF token
+          },
+          success: function (response) {
+            $('#article-' + articleId).remove(); // Hapus artikel dari halaman
+            alert('Article deleted successfully!');
+          },
+          error: function (xhr, status, error) {
+            console.log(xhr.responseText); // Debug respons error
+            alert('Failed to delete article.');
+          },
+        });
+      }
+    }
+
+    // Fungsi untuk mengambil CSRF token
     function getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -179,5 +299,5 @@
     }
   });
 </script>
-v
-{% endblock %}
+
+{%endblock%}
