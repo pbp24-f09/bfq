@@ -253,7 +253,7 @@
             const restaurant = DOMPurify.sanitize(item.fields.restaurant);
             const location = DOMPurify.sanitize(item.fields.location);
             const contact = DOMPurify.sanitize(item.fields.contact);
-            const cat = DOMPurify.sanitize(item.fields.cat); // Category
+            const cat = DOMPurify.sanitize(item.fields.cat); 
             const imageUrl = item.fields.image ? `/media/${item.fields.image}` : '/path/to/placeholder-image.png';
 
             htmlString += `
