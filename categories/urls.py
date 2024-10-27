@@ -6,7 +6,7 @@ from categories.views import (
 app_name = 'categories'
 
 urlpatterns = [
-    path('', show_categories, name='show_categories'),
+    path('categories/', show_categories, name='show_categories'),
     path('admin-categories/', show_categories_admin, name='show_categories_admin'),
     path('add-product-ajax-cat', add_product_ajax_cat, name='add_product_ajax_cat'),
     path('edit-product-cat/<uuid:id>', edit_product_cat, name='edit_product_cat'),
