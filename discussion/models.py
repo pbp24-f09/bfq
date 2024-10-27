@@ -6,10 +6,12 @@ from django.conf import settings
 class Discussion(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateField(null=True)
     topic = models.CharField(max_length=100)
     comment = models.TextField()
 
 class Response(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateField(null=True)
     response_to = models.ForeignKey(Discussion, on_delete=models.CASCADE,)
     response = models.TextField()

@@ -1,0 +1,70 @@
+{% extends 'discussion/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/discussion.css' %}">
+<div id="my-data" data-discussion-url="{% url 'discussion:show_discussion_json' %}"
+    data-product="{% url 'discussion:show_product_json' %}"
+    database-url="{% url 'discussion:show_response' id_head=9999 %}"
+    create-comment = "{% url 'discussion:create_comment' %}">
+</div>>
+
+</div>
+{% include 'navbar.html' %}
+
+<h2 style="margin: 100px 30px 5px 30px; text-align: center; color: #90ee90;">Add a new thread</h2>
+
+<div class="d-flex justify-content-center set-margin">
+    <a>    
+        <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#exampleModal" style="background-color: #90ee90;">
+            +
+        </button>
+    </a>    
+</div>
+
+</br>
+<table class="row set-margin" id="discussion_container" style="margin: 0px 40px 40px 40px; background-color: #90ee90;"></table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-topic fs-5" id="exampleModalLabel">Discussion</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="topic" class="col-form-label">Tentukan Topik:</label>
+                        <input type="text" class="form-control" id="topic" name="topic"></input>
+                    </div>
+                    <div class="mb-3">
+                        <label for="topic" class="col-form-label">Pilih Produk:</label>
+                        <input type="hidden" id="product_id" name="product_id">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" id="dropdown-product" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                Pilih Produk
+                            </button>
+                            <ul class="dropdown-menu">
+                                <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                                    <div class="list-group">
+                                    </div>
+                                </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="col-form-label">Komentar:</label>
+                        <textarea class="form-control" id="comment" name="comment"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Tambahkan Diskusi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'script/discussion.js' %}"></script>
+{% endblock content %}
