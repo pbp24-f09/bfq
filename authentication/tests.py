@@ -137,3 +137,24 @@ class ProfileTests(TestCase):
         self.user.save()
         response = self.client.get(reverse('admin_dashboard'))
         self.assertEqual(response.status_code, 200)
+
+    def test_customer_categories_access(self):
+        self.user.role = 'customer'
+        self.user.save()
+        response = self.client.get(reverse('customer_categories'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_admin_categories_access(self):
+        self.user.role = 'admin'
+        self.user.save()
+        response = self.client.get(reverse('admin_categories'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_customer_blog_access(self):
+        response = self.client.get(reverse('customer_blog'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_profile_access(self):
+        response = self.client.get(reverse('profile'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.user.full_name)
