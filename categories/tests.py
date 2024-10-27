@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.test import TestCase, Client
 from main.models import Product
 from django.shortcuts import reverse
+from django.contrib.auth import get_user_model
 from authentication.models import CustomUser
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.views.decorators.csrf import csrf_exempt
@@ -37,32 +38,33 @@ class categoriesTest(TestCase):
         )
         self.client.login(username='testuser2', password='testpw_456')
 
+        self.product = Product.objects.create(
+            name='Food',
+            price=50000,
+            restaurant='Test Restaurant',
+            location='Somewhere in Bandung',
+            contact='08123456789',
+            cat='Makanan Berat dan Nasi',
+            user=self.user
+        )
 
+    # Check if the URL is valid
     def test_categories_url_is_exist(self):
         self.setCustomer()
         response = self.client.get('/categories/')
         self.assertEqual(response.status_code, 200)
 
+    # Check if the admin's categories template is rendered
     def test_admin_categories_template(self):
         self.setAdmin()
         response = self.client.get('/admin-categories/')
         self.assertTemplateUsed(response, 'categories_admin.html')
 
-    @csrf_exempt
-    def test_add_product_ajax_cat(self):
+    # Check if a product can be deleted successfully
+    def test_delete_product_cat(self):
         self.setAdmin()
-        url = '/add-product-ajax-cat/'
-        image = SimpleUploadedFile("test_image.jpg", b"file_content", content_type="image/jpeg")
-        data = {
-            "name": "Food",
-            "price": 50000,
-            "restaurant": "New Restaurant",
-            "location": "Somewhere in Bandung",
-            "contact": "9876543210",
-            "cat": "Makanan Berat dan Nasi",
-            "image": image,
-        }
+        url = reverse('categories:delete_product_cat', args=[self.product.id])
+        response = self.client.post(url)
 
-        response = self.client.post(url, data, content_type="multipart/form-data")
-        self.assertEqual(response.status_code, 201)
-        self.assertTrue(Product.objects.filter(name="Food").exists())
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Product.objects.filter(id=self.product.id).exists())
