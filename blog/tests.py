@@ -60,7 +60,6 @@ class ArticleViewsTest(TestCase):
         # Cek hanya bagian 'success' dari response
         self.assertEqual(response_json.get('success'), True)
 
-
     def test_article_list(self):
         # Test tampilan daftar artikel
         response = self.client.get(reverse('blog:article_list'))
@@ -79,3 +78,76 @@ class ArticleViewsTest(TestCase):
         response = self.client.post(reverse('blog:delete_article', args=[article.id]))
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Article.objects.filter(pk=article.id).exists())
+
+    def test_my_articles(self):
+        # Buat artikel milik user
+        Article.objects.create(
+            title='Artikel Saya',
+            topic='Teknologi',
+            content='Ini adalah artikel saya.',
+            author=self.user
+        )
+        response = self.client.get(reverse('blog:my_articles'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/my_articles.html')
+        self.assertContains(response, 'Artikel Saya')
+
+    def test_edit_article(self):
+        # Buat artikel untuk diedit
+        article = Article.objects.create(
+            title='Artikel Awal',
+            topic='Olahraga',
+            content='Konten awal.',
+            author=self.user
+        )
+
+        response = self.client.post(reverse('blog:edit_article', args=[article.id]), {
+            'title': 'Artikel Diedit',
+            'topic': 'Pendidikan',
+            'content': 'Konten diedit.'
+        })
+
+        article.refresh_from_db()  # Refresh artikel dari database
+        self.assertEqual(response.status_code, 302)  # Redirect setelah edit
+        self.assertEqual(article.title, 'Artikel Diedit')
+        self.assertEqual(article.topic, 'Pendidikan')
+        self.assertEqual(article.content, 'Konten diedit.')
+
+    def test_show_json(self):
+        # Buat artikel milik user
+        Article.objects.create(
+            title='Artikel JSON',
+            topic='Sains',
+            content='Konten dalam format JSON.',
+            author=self.user
+        )
+
+        response = self.client.get(reverse('blog:show_json'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Artikel JSON', response.json()[0]['title'])
+
+    def test_show_xml(self):
+        # Buat artikel milik user
+        Article.objects.create(
+            title='Artikel XML',
+            topic='Teknologi',
+            content='Konten dalam format XML.',
+            author=self.user
+        )
+
+        response = self.client.get(reverse('blog:show_xml'))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('<title>Artikel XML</title>', response.content.decode())
+
+    def test_view_article(self):
+        # Buat artikel untuk dilihat
+        article = Article.objects.create(
+            title='Artikel Detail',
+            topic='Budaya',
+            content='Konten untuk detail.',
+            author=self.user
+        )
+
+        response = self.client.get(reverse('blog:view_article', args=[article.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Artikel Detail')
