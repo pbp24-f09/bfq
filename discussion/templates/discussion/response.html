@@ -1,0 +1,80 @@
+{% extends 'discussion/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/response.css' %}">
+
+{% include "navbar.html" %}
+
+</br>
+<div class="container" style="margin-top: 40px;">
+    <a href="{% url 'discussion:show_discussion' %}">
+        <button type="button" class="btn btn-outline-primary btn-sm" style="margin-bottom: 10px; background-color: #90ee90; color: white;">←</button>
+    </a>
+    <div class="row">
+        <div class="col-12 col-md-4 forum-question overflow-control-card">
+            <h1>Forum Comment</h1>
+            <div class="forum-comment-details">
+                <p class="wrap"><strong>Title:</strong> {{ comment.topic }}</p>
+                <p><strong>Sender:</strong> {{ comment.user }}</p>
+            </div>
+            <div class="forum-question-body">
+                <p class="wrap"><strong>Comment:</strong> 
+                    {{ comment.comment }}</p>
+                        
+            </div>
+        </div>
+        <div class="col-12 col-md-8 cards">
+            <div class="card h-100">
+                <div class="card-body ">
+                    <h5 class="card-title">{{ comment.product.name }}</h5>
+                    <p class="card-text line-spaced"></p>
+                    <p class="card-text line-spaced"><strong>Restaurant:</strong> {{ comment.product.restaurant }}</p>
+                    <p class="card-text line-spaced"> 
+                    <strong>Price:</strong>
+                    <p class="card-text line-spaced" style="font-size: medium;"> {{ comment.product.price }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex flex-row set-margin mb-3">
+    <h2 style="margin: 20px; color: #90ee90;">Response</h2>
+    <button type="button" class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin: 10px; background-color: #90ee90;">
+        Tambahkan Tanggapan Anda
+    </button>
+</div>
+<div class="response-list" id="list-response">
+    {% for each in response %}
+    {% empty %}
+    <li class="no-comments">No response yet.</li>
+    {% endfor %}
+</div>
+</div>
+<div class="save-url" data-url="{% url 'discussion:show_uniqueresponse_json' comment.pk %}" id="url-unique-json"></div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Forum BFQ</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form" data-url="{% url 'discussion:create_response' comment.pk %}" onsubmit="return false;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="response" class="col-form-label">Silakan masukkan respons Anda:</label>
+                        <textarea class="form-control" id="response" name="response"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Tambahkan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %}
+<script src="{% static 'script/response.js' %}"></script>
+{% endblock content %}
