@@ -46,6 +46,15 @@
   <img src="{% static 'images/subtitle-explore.png' %}" class="ml-4 mr-4" style="width: 170px; height: auto; object-fit: contain;" alt="Subtitle Explore">
 
   <div id="product_cards"></div>
+
+  <button
+    id="refreshButton"
+    onclick="refreshProducts()"
+    class="bg-white text-black font-bold py-2 px-4 mx-auto mt-8 w-auto rounded-2xl transition-transform duration-200 hover:scale-105 hover:shadow-[0_0_10px_3px_rgba(255,255,255,0.3)]"
+  >
+    Refresh
+  </button>
+
   <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
     <div id="crudModalContent" class="relative bg-gray-200 rounded-[25px] shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
       <!-- Modal header -->
@@ -224,10 +233,14 @@
     document.getElementById("product_cards").innerHTML = "";
     document.getElementById("product_cards").className = "";
     const Products = await getProducts();
+
+    // Shuffle products array and select only the first 8 items
+    const shuffledProducts = Products.sort(() => 0.5 - Math.random()).slice(0, 8);
+
     let htmlString = "";
     let classNameString = "";
 
-    if (Products.length === 0) {
+    if (shuffledProducts.length === 0) {
         classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
         htmlString = `
             <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
@@ -236,7 +249,7 @@
         `;
     } else {
         classNameString = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-full max-w-7xl mx-auto";
-        Products.forEach((item) => {
+        shuffledProducts.forEach((item) => {
             const name = DOMPurify.sanitize(item.fields.name);
             const restaurant = DOMPurify.sanitize(item.fields.restaurant);
             const location = DOMPurify.sanitize(item.fields.location);
@@ -249,14 +262,15 @@
                 <div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
                     style="width: 300px; height: 320px;">
 
-                    <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden rounded-xl">
-                        ${item.fields.image ? 
-                          `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
-                          `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
-                    </div>
+                    <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden rounded-xl relative">
+                      ${item.fields.image ? 
+                        `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
+                        `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`
+                      }
                     <!-- Overlay logo -->
                     <div class="absolute top-[3%] right-[3%] w-full flex justify-end items-start">
                       <img src="{% static '/images/logo-overlay.png' %}" alt="Logo Overlay" class="w-1/6 h-auto opacity-70" />
+                    </div>
                     </div>
 
                     <!-- Product Name and Price -->
