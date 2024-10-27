@@ -249,11 +249,17 @@
                 <div class="relative top-5 mb-6 break-inside-avoid flex flex-col items-center transition-transform duration-300 cursor-pointer"
                     style="width: 300px; height: 320px;">
 
-                    <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden rounded-xl">
-                        ${item.fields.image ? 
-                          `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
-                          `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
+                    <div class="bg-gray-200 w-[100%] h-[100%] flex justify-center items-center overflow-hidden rounded-xl relative">
+                      ${item.fields.image ? 
+                        `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
+                        `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`
+                      }
+                    <!-- Overlay logo -->
+                    <div class="absolute top-[3%] right-[3%] w-full flex justify-end items-start">
+                      <img src="{% static '/images/logo-overlay.png' %}" alt="Logo Overlay" class="w-1/6 h-auto opacity-70" />
                     </div>
+                    </div>
+
 
                     <!-- Product Name and Price -->
                     <div class="text-center w-full h-[20%] flex flex-col justify-end">

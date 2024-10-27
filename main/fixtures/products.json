@@ -1,42 +1,1302 @@
 [
-    {
-      "model": "main.product",
-      "pk": "f98f8a22-2b5a-42f7-9112-d93f52ac876f",
-      "fields": {
-        "name": "Seblak Pedas",
-        "price": 20000,
-        "restaurant": "Gacor Kitchen",
-        "location": "Jl. Sudirman No. 45, Bandung",
-        "contact": "081234567890",
-        "cat" : "Makanan Berat dan Nasi",
-        "image": "product_images/1.jpg"
-      }
-    },
-    {
-      "model": "main.product",
-      "pk": "c837cb74-9f7d-45e8-9e50-0344d15efca7",
-      "fields": {
-        "name": "Paket Komplit Ayam Pop",
-        "price": 220000,
-        "restaurant": "Dummy Resto",
-        "location": "Jl. Braga No. 12, Bandung",
-        "contact": "081345678901",
-        "cat" : "Makanan Berat dan Nasi",
-        "image": "product_images/2.jpg"
-      }
-    },
-    {
-      "model": "main.product",
-      "pk": "bc98ef13-bf92-4732-994a-4a8127d52b45",
-      "fields": {
-        "name": "Ayam Bakar Gacor",
-        "price": 45000,
-        "restaurant": "Chicken Store",
-        "location": "Jl. Asia Afrika No. 25, Bandung",
-        "contact": "081456789012",
-        "cat" : "Olahan Ayam dan Daging",
-        "image": "product_images/3.jpg"
-      }
+  {
+    "model": "main.product",
+    "pk": "98b75c7f-d489-40fb-9f71-fe031b07cc2b",
+    "fields": {
+      "name": "Chicken Schnitzel",
+      "price": 61000,
+      "restaurant": "Brew & Chew",
+      "location": "Batununggal",
+      "contact": "022 20530888",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/1.jpg"
     }
-  ]
-  
+  },
+  {
+    "model": "main.product",
+    "pk": "b1b87648-28d4-4e78-8be1-d9c3cf82c54f",
+    "fields": {
+      "name": "New Yorker Steak",
+      "price": 147500,
+      "restaurant": "CAFE BALI",
+      "location": "Bandung Wetan",
+      "contact": "022 7106147",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/2.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "f47aaf42-a76f-4419-ac22-d0749fb086c1",
+    "fields": {
+      "name": "Dimsum Mozarella",
+      "price": 24000,
+      "restaurant": "ANJIS COFFEE",
+      "location": "Bandung Wetan",
+      "contact": "0857-2161-2647",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/3.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "a142c931-30f7-472b-a347-e27675b1215d",
+    "fields": {
+      "name": "Nasi Ayam Behiber",
+      "price": 29000,
+      "restaurant": "THE PANASDALAM",
+      "location": "Cidadap",
+      "contact": "0851-5683-5184",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/4.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "dff6541e-cd28-4e80-b661-a036943274ce",
+    "fields": {
+      "name": "Spaghetti Beef Stroganoff",
+      "price": 35000,
+      "restaurant": "GARDEN COFFEE BDG",
+      "location": "Coblong",
+      "contact": "0838-1942-4323",
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/5.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "d100dd6c-359a-4b0b-b64a-f0edee31661d",
+    "fields": {
+      "name": "Ayam Bobolokot",
+      "price": 58500,
+      "restaurant": "PAPATONG CAFETERIA",
+      "location": "Bandung Wetan",
+      "contact": "0812-2233-0567",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/6.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "dab4b78f-c059-4e92-9341-5ed717041b8a",
+    "fields": {
+      "name": "Super Poke with Quinoa",
+      "price": 95000,
+      "restaurant": "LULA BAKERY & COFFEE",
+      "location": "Bandung Wetan",
+      "contact": "0822-5809-2141",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/7.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "bdd14390-80e3-42be-b2fd-bc68b1034103",
+    "fields": {
+      "name": "Philly Cheesesteak Cabiatta",
+      "price": 60000,
+      "restaurant": "JARDIN CAFE",
+      "location": "Bandung Wetan",
+      "contact": "(022) 4267711",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/8.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "9aa6b449-ae03-4d0a-9e5d-b9c06bc5826c",
+    "fields": {
+      "name": "Nasi Goreng Kencur",
+      "price": 18000,
+      "restaurant": "4EAT CAFE",
+      "location": "Bandung Wetan",
+      "contact": "(022) 20523599",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/9.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "f25cd6ad-4b20-4d35-a258-31b3b069d7ab",
+    "fields": {
+      "name": "Banana Puff",
+      "price": 20000,
+      "restaurant": "ROGER'S CAFE & LOUNGE",
+      "location": "Coblong",
+      "contact": "(022) 2509009",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/10.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "37f63d81-63c0-4a92-93de-ccd751e95ca9",
+    "fields": {
+      "name": "Pisgor Sundae",
+      "price": 21000,
+      "restaurant": "BOBER CAFE",
+      "location": "Bandung Wetan",
+      "contact": "(022) 7234295",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/11.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "d59b899c-fe9d-4639-8b8a-76ee1cc2fae0",
+    "fields": {
+      "name": "Benedict Bombers",
+      "price": 55000,
+      "restaurant": "BUTTERCUP BOULANGERIE",
+      "location": "Cicendo",
+      "contact": 81808877818,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/12.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "a5a4a2ac-dafa-4c80-a2b1-7c870677632c",
+    "fields": {
+      "name": "Parpadelle Bolognese",
+      "price": 65000,
+      "restaurant": "SEJIWA COFFEE",
+      "location": "Bandung Wetan",
+      "contact": "0823-1717-1515",
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/13.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0eff4771-feb4-4fbe-9898-b63168f44634",
+    "fields": {
+      "name": "Fruit Loops Donut",
+      "price": 9900,
+      "restaurant": "FAREL PATISSERIE CAFE",
+      "location": "Bandung Kidul",
+      "contact": "(022) 87526336",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/14.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "cbd03165-6e07-4434-b16a-19d688b69e38",
+    "fields": {
+      "name": "Mie Terbang",
+      "price": 30500,
+      "restaurant": "CUDETO CAFE & RESTO",
+      "location": "Cibeunying Kidul",
+      "contact": 8112241488,
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/15.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "cbd8a473-e551-4220-96c7-fac26fe75f9c",
+    "fields": {
+      "name": "Sangu Goreng Hayam",
+      "price": 23000,
+      "restaurant": "TAEUN COFFEE & WORKS",
+      "location": "Bandung Wetan",
+      "contact": "(022) 20544108",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/16.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "e48e4765-62e9-4a1f-873e-49be5ec2f536",
+    "fields": {
+      "name": "Morgy Omlette",
+      "price": 45000,
+      "restaurant": "MORGY COFFEE",
+      "location": "Bandung Wetan",
+      "contact": "0813-1772-777",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/17.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "306b9df7-3b60-4a0f-ad94-b80325d7def2",
+    "fields": {
+      "name": "Hot Crispy Chizza",
+      "price": 65000,
+      "restaurant": "GIGGLEBOX CAFE AND RESTO",
+      "location": "Bandung Wetan",
+      "contact": "0817-9117-933",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/18.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "19969aee-ae8a-449b-9c9d-66f417aeb805",
+    "fields": {
+      "name": "Makaroni Telor",
+      "price": 22000,
+      "restaurant": "KAKA CAFE",
+      "location": "Bandung Wetan",
+      "contact": "0853-5203-8545",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/19.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "602c81cb-429b-4b07-8a93-37c5d8641b65",
+    "fields": {
+      "name": "Spaghetti Spicy",
+      "price": 25000,
+      "restaurant": "PARIS VAN JAVA CAFE & RESTO SPECIALITY COFFEE",
+      "location": "Bandung Wetan",
+      "contact": "0878-2159-9183",
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/20.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "d7704a7d-3427-441a-9538-6cabe199852d",
+    "fields": {
+      "name": "Beef Calzone",
+      "price": 75000,
+      "restaurant": "CHAPLIN'S CAFE BAR AND SHISA",
+      "location": "Bandung Wetan",
+      "contact": "(022) 7273626",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/21.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "894bc581-9b58-4d84-9b08-3d6a1fbff463",
+    "fields": {
+      "name": "Original Napolitan",
+      "price": 22000,
+      "restaurant": "HERITAGE CAFE",
+      "location": "Bandung Wetan",
+      "contact": "(022) 4267707",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/22.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "48a316b5-4a55-4669-a2f1-7e85404976e4",
+    "fields": {
+      "name": "Hawai Pizza",
+      "price": 59000,
+      "restaurant": "FOURPLAY CAFE & RESTO & BAR",
+      "location": "Bandung Wetan",
+      "contact": 87811051565,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/23.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "413daf76-9bb5-4632-afc8-88a177331e67",
+    "fields": {
+      "name": "Steak Diane",
+      "price": 158000,
+      "restaurant": "BELLAMIE BOULANGERIE",
+      "location": "Bandung Wetan",
+      "contact": "(022) 87805386",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/24.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "80846584-9304-46bc-99f1-962c39348fdf",
+    "fields": {
+      "name": "Chicken Pesto",
+      "price": 47000,
+      "restaurant": "SYDWIC",
+      "location": "Bandung Wetan",
+      "contact": "(022) 20511404",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/25.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "7fd39dee-73a8-4995-9e53-22694cabf4b0",
+    "fields": {
+      "name": "Paket Ayam Goreng Tulang Lunak (Nasi + Ayam)",
+      "price": 26500,
+      "restaurant": "Resto Saung Kuring",
+      "location": "COBLONG",
+      "contact": 82115501925,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/26.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "991b395c-720c-4c44-bbf9-0297c8867cd6",
+    "fields": {
+      "name": "Baso Semar",
+      "price": 15000,
+      "restaurant": "Baso Semar",
+      "location": "COBLONG",
+      "contact": " (022) 4232589",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/27.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "8a6bb79b-cc6d-402f-9c8a-f4204b1e6f60",
+    "fields": {
+      "name": "Nasi Bebek Goreng Dada",
+      "price": 27000,
+      "restaurant": "Bebek Ali Borme",
+      "location": "COBLONG",
+      "contact": "0822-1412-4985",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/28.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "3adffb88-c745-4d7b-8c45-e9cd208b8a15",
+    "fields": {
+      "name": "Paket Ayam Bakar (Nasi + Ayam + Sambal + Minum)",
+      "price": 18000,
+      "restaurant": "Kantin Aa",
+      "location": "COBLONG",
+      "contact": "0896-6774-1323",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/29.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "70b118f1-7941-4df7-a99e-326a4f29ed00",
+    "fields": {
+      "name": "Baso Urat",
+      "price": 18000,
+      "restaurant": "Bakso Ayub Sekeloa",
+      "location": "COBLONG",
+      "contact": "-",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/30.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "89e04086-737d-473a-b922-de1a9bd43d20",
+    "fields": {
+      "name": "Bubur Ayam",
+      "price": 12000,
+      "restaurant": "Bubur Ayam Pak Zaenal",
+      "location": "COBLONG",
+      "contact": 81320022236,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/31.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "ee35312c-f6d9-45b8-9739-b660ebf235c8",
+    "fields": {
+      "name": "Paket Nasi Alas Daun Bebek Oven",
+      "price": 52000,
+      "restaurant": "Bebek Ngarasan",
+      "location": "COBLONG",
+      "contact": "0811-2346-500",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/32.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "f7eb0082-0f1f-4191-a5ff-9961d4f5d202",
+    "fields": {
+      "name": "Nasi Padang (Ayam + Telur + Sayur)",
+      "price": 16000,
+      "restaurant": "RM Tubagus Raya",
+      "location": "COBLONG",
+      "contact": 81322261231,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/33.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "e5dd71cb-a19e-4412-b65a-d1572113fe93",
+    "fields": {
+      "name": "Nasi Pepes Ikan",
+      "price": 12000,
+      "restaurant": "Warnas Prancis",
+      "location": "COBLONG",
+      "contact": "0813-2264-8365",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/34.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0fb2d491-887c-4f12-a2e1-81c1421ac476",
+    "fields": {
+      "name": "Nasi Timbel Ayam Bakar",
+      "price": 26000,
+      "restaurant": "Kedai Timbel Dago",
+      "location": "COBLONG",
+      "contact": "(022) 2502004",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/35.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "2f44da81-816e-4992-be52-a197bf58878a",
+    "fields": {
+      "name": "Nasi Timbel Bebek Goreng",
+      "price": 30000,
+      "restaurant": "Dago Panyawangan",
+      "location": "COBLONG",
+      "contact": "(022) 2501815",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/36.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "45dfd955-171f-42b9-8e43-fcbdc2d0cb82",
+    "fields": {
+      "name": "Spaghetti Sambal Matah",
+      "price": 45000,
+      "restaurant": "Warung Pasta",
+      "location": "COBLONG",
+      "contact": "(022) 2500416",
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/37.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "16b049db-edcd-41a7-b354-15a4a905cc5c",
+    "fields": {
+      "name": "Nasi Ikan Bakar Komplit",
+      "price": 43000,
+      "restaurant": "Warnas Doa Mande",
+      "location": "COBLONG",
+      "contact": "0821-1383-9267",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/38.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "dab7c100-58e0-4715-a587-1a8db9979a92",
+    "fields": {
+      "name": "Nasi Rendang",
+      "price": 23000,
+      "restaurant": "Rumah Makan Pak Datuak",
+      "location": "COBLONG",
+      "contact": "0812-8173-1151",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/39.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0eccfb50-065f-4875-ba42-b09bf8a81863",
+    "fields": {
+      "name": "Nasi Telur Balado",
+      "price": 10000,
+      "restaurant": "Warung Nasi Alifa",
+      "location": "COBLONG",
+      "contact": "-",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/40.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "e1d771a5-d5d5-4bef-8a32-e49ff2147674",
+    "fields": {
+      "name": "Nasi Ayam Gulai",
+      "price": 18000,
+      "restaurant": "RM. Kapau Indah",
+      "location": "COBLONG",
+      "contact": "0813-8556-8565",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/41.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "f1faa7c0-b6ac-474e-8226-0ecd077aa3fc",
+    "fields": {
+      "name": "Nasi Ayam Goreng",
+      "price": 20000,
+      "restaurant": "Warung K-Hejo",
+      "location": "COBLONG",
+      "contact": "0853-1445-8859",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/42.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "c3bcedee-cf9d-4bfb-ad3e-afde9338996a",
+    "fields": {
+      "name": "Nasi Gulai Otak",
+      "price": 15000,
+      "restaurant": "RM. Sarilamak",
+      "location": "COBLONG",
+      "contact": "0821-1900-8114",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/43.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "4e0646be-bdc5-4b4d-9b3b-2ee5f05d11c9",
+    "fields": {
+      "name": "Nasi Paru",
+      "price": 14000,
+      "restaurant": "RM Da In Kapau",
+      "location": "COBLONG",
+      "contact": "0812-1450-0926",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/44.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "7ad3f519-5fec-4a2d-95c1-b8aa3a410479",
+    "fields": {
+      "name": "Nasi Bebek Sunda",
+      "price": 20000,
+      "restaurant": "Warnas Ibu Mimin",
+      "location": "COBLONG",
+      "contact": 81322918360,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/45.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "810fc419-c35b-4f44-8781-b34ecd257be0",
+    "fields": {
+      "name": "Soto Madura",
+      "price": 17000,
+      "restaurant": "Warung Triya",
+      "location": "COBLONG",
+      "contact": "0859-5656-7697",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/46.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "141b492e-b2f2-48fe-bb61-11b856b5c337",
+    "fields": {
+      "name": "Nasi Ayam Goreng Pak Suryo",
+      "price": 16000,
+      "restaurant": "Warung Suryo",
+      "location": "COBLONG",
+      "contact": "0813-2123-1201",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/47.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "cf70cfaf-3cd6-4efb-97a9-609abbc50f04",
+    "fields": {
+      "name": "Nasi Bistik Ayam",
+      "price": 12000,
+      "restaurant": "Warung Asmad",
+      "location": "COBLONG",
+      "contact": "-",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/48.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "1f55b9c0-971b-4924-97cb-c264ff317232",
+    "fields": {
+      "name": "Nasi Dendeng Balado",
+      "price": 48000,
+      "restaurant": "Rumah Makan Pagi Sore (Padang)",
+      "location": "COBLONG",
+      "contact": " 0813-9547-4366",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/49.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "f1995cd2-aac7-47ff-b8e9-198e3748fde7",
+    "fields": {
+      "name": "Fish and Chips",
+      "price": 30000,
+      "restaurant": "Dapur Eyang",
+      "location": "COBLONG",
+      "contact": "(022) 2503515",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/50.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "6e78593b-a890-499d-b024-894c98e4dcd2",
+    "fields": {
+      "name": "Lele Goreng",
+      "price": 16560,
+      "restaurant": "Sambal Ndower Cihampelas",
+      "location": "CIPAGANTI",
+      "contact": 82120979818,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/51.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "632cc673-c100-440f-a0fc-c0f9867b3f65",
+    "fields": {
+      "name": "Nasi + Rendang",
+      "price": 24000,
+      "restaurant": "RM. Padang Simpang Tigo Jaya",
+      "location": "CIPAGANTI",
+      "contact": 82210908156,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/52.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "9c043538-47db-4a96-a23c-abe4108c4ae5",
+    "fields": {
+      "name": "Soto Sulung + Nasi",
+      "price": 15000,
+      "restaurant": "Soto Sulung Cihampelas",
+      "location": "CIPAGANTI",
+      "contact": "-",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/53.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "87d3b338-b59d-4378-8ee8-56e798b84ad2",
+    "fields": {
+      "name": "Silver Grill and Shabu-Shabu",
+      "price": 125000,
+      "restaurant": "Gyu-Gyu Japanese Bbq",
+      "location": "CIPAGANTI",
+      "contact": 87877217555,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/54.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0b5787ed-9476-4b59-8c0e-ceb34c4a8b68",
+    "fields": {
+      "name": "Ayam Penyet Sambal Ijo",
+      "price": 15000,
+      "restaurant": "Ayam Goreng Pa Adang Sachlan",
+      "location": "CIPAGANTI",
+      "contact": "-",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/55.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "e5961638-0103-476b-8aa9-8460ef2e6930",
+    "fields": {
+      "name": "Beef BBQ with Cheese",
+      "price": 66700,
+      "restaurant": "Mujigae Resto",
+      "location": "CIPAGANTI",
+      "contact": 222061015,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/56.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0096a5b0-8fad-4e07-a3aa-f13939a8dc9b",
+    "fields": {
+      "name": "Dendeng Sapi",
+      "price": 71000,
+      "restaurant": "Palava Kitchen",
+      "location": "CIPAGANTI",
+      "contact": "-",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/57.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "5099dc2b-0762-4eb9-9262-c25f1b241540",
+    "fields": {
+      "name": "Iga Bakar Kullan",
+      "price": 38000,
+      "restaurant": "Iga Bakar Kedai Kullan",
+      "location": "CIPAGANTI",
+      "contact": 81323239818,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/58.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0eb470e3-3e54-4726-af7d-b82a88955618",
+    "fields": {
+      "name": "Nasi Komplit Ikan Kembung",
+      "price": 24000,
+      "restaurant": "RM Padang Simpang Tigo Jaya",
+      "location": "CIPAGANTI",
+      "contact": "-",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/59.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "370a6a9f-0908-4c96-91be-887f339a3593",
+    "fields": {
+      "name": "Nasi Goreng Kambing",
+      "price": 25000,
+      "restaurant": "Rumah Makan Diwo",
+      "location": "DAGO",
+      "contact": 2220463733,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/60.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "2cca10c2-3329-4315-aa28-c82300304945",
+    "fields": {
+      "name": "Nasi Kastrol",
+      "price": 68000,
+      "restaurant": "Warung Taru",
+      "location": "DAGO",
+      "contact": 222533854,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/61.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "923cdd03-4215-43f2-9f97-3fa2f7b3204b",
+    "fields": {
+      "name": "Nasi Ayam Geprek",
+      "price": 17000,
+      "restaurant": "Kantin Dago",
+      "location": "DAGO",
+      "contact": 222505095,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/62.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "41aab19f-f38a-45bf-b3d8-67ee44d7d130",
+    "fields": {
+      "name": "Sate Ayam 20 Tusuk Asin Pedas",
+      "price": 34000,
+      "restaurant": "Soto Ayam Khas Madura Mas Munir Dpatiukur",
+      "location": "DAGO",
+      "contact": "-",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/63.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "cdd12d7c-bd4b-443b-b65b-87a8e8f3c9d9",
+    "fields": {
+      "name": "1 Ekor Goreng Pringgodani",
+      "price": 74000,
+      "restaurant": "Ayam Goreng Pringgondani",
+      "location": "DAGO",
+      "contact": "-",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/64.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "65cfe25e-52e8-468d-b307-e0330a54672f",
+    "fields": {
+      "name": "Mie Ayam \"Dago\" Istimewa",
+      "price": 32000,
+      "restaurant": "Kedai Mie Dago",
+      "location": "DAGO",
+      "contact": 222509327,
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/65.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "72c7fd76-1226-4861-95f4-cb8d5eb50ae1",
+    "fields": {
+      "name": "Nasi Kepala Kakap Gulai Kuning",
+      "price": 36000,
+      "restaurant": "Rumah Makan Doa Mande",
+      "location": "DAGO",
+      "contact": "-",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/66.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "3bc4fe30-d65a-4172-b356-908a5a5d1c59",
+    "fields": {
+      "name": "Sop Buntut + Nasi",
+      "price": 60000,
+      "restaurant": "Sam's Strawberry Corner",
+      "location": "DAGO",
+      "contact": 82216696430,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/67.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "4e3967e8-b8be-4ded-ab07-02ae640f8141",
+    "fields": {
+      "name": "Bakso Kepiting Super Besar",
+      "price": 53000,
+      "restaurant": "Bakso Sultan Dago",
+      "location": "DAGO",
+      "contact": 85860045745,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/68.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "018e266d-65a4-4944-90df-251785041580",
+    "fields": {
+      "name": "Grenade Chicken Wings",
+      "price": 39000,
+      "restaurant": "District Dago Cafe",
+      "location": "DAGO",
+      "contact": 81224650652,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/69.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "1021f4b5-31b4-4333-b693-3bb1958a76b6",
+    "fields": {
+      "name": "Gai Ho Bai Tei",
+      "price": 42800,
+      "restaurant": "Thai Palace",
+      "location": "DAGO",
+      "contact": 222512857,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/70.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "428f8eaf-5411-4f60-ac27-3da62decc27d",
+    "fields": {
+      "name": "QU4TZA",
+      "price": 123637,
+      "restaurant": "Pizza Hut (Phd)",
+      "location": "DAGO",
+      "contact": "1 500 600",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/71.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "1e5de464-1438-47bf-aecf-56d8e3e8b1f0",
+    "fields": {
+      "name": "Paket Karawaci",
+      "price": 45000,
+      "restaurant": "Ayam Goreng Karawaci",
+      "location": "DAGO",
+      "contact": 222035537,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/72.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "379b33f6-de8c-4097-9002-0e138570056f",
+    "fields": {
+      "name": "Indomie Goreng Mawut",
+      "price": 18000,
+      "restaurant": "Living Kaffa",
+      "location": "DAGO",
+      "contact": "-",
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/73.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "ca5e98bb-9cfa-48ec-bbff-0a6c856e2eec",
+    "fields": {
+      "name": "Beef Pepperoni Feast (M)",
+      "price": 42273,
+      "restaurant": "Dominos",
+      "location": "DAGO",
+      "contact": "1 500 366",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/74.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "1d06d9a5-40e7-4bb3-916d-9e74fac87ed2",
+    "fields": {
+      "name": "Sate Kulit Ayam dan Lontong",
+      "price": 23000,
+      "restaurant": "Sate Ayam Madura Inayah",
+      "location": "Jl. Ir.H.Djuanda No. 16",
+      "contact": "-",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/75.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "34233dc2-a035-4311-837b-17efaf0df3a5",
+    "fields": {
+      "name": "Latte",
+      "price": 20000,
+      "restaurant": "Gerobag Bandoeng",
+      "location": "COBLONG",
+      "contact": 81222295769,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/76.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "474881cc-09f9-4746-812c-d4818cc74f14",
+    "fields": {
+      "name": "Nasi Goreng Rempah Manis",
+      "price": 22000,
+      "restaurant": "Nasi Goreng Rempah Mafia",
+      "location": "COBLONG",
+      "contact": 85864414722,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/77.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "bd7cad69-6b42-4ee7-aaac-eed94bc0a472",
+    "fields": {
+      "name": "Bakmi/Bihun Godhog",
+      "price": 30000,
+      "restaurant": "Bakmi Jowo DU 67",
+      "location": "COBLONG",
+      "contact": 85100535874,
+      "cat": "Mie, Pasta, & Spaghetti",
+      "image": "product_images/78.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "b7dd56e0-f257-45e6-995b-845b16c020e8",
+    "fields": {
+      "name": "Gado-Gado",
+      "price": 25000,
+      "restaurant": "Gado Gado Teuku Angkasa",
+      "location": "COBLONG",
+      "contact": "(022) 2507337",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/79.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "e7f97300-887c-4282-ad1e-b23ff973153c",
+    "fields": {
+      "name": "Combo Fire Chicken",
+      "price": 32727,
+      "restaurant": "Richeese Factory",
+      "location": "COBLONG",
+      "contact": "(022) 2514087",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/80.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "3dca97db-b224-4abf-9fee-351e1f3a0c5e",
+    "fields": {
+      "name": "Kopi Susu De.u",
+      "price": 26000,
+      "restaurant": "de.u Coffee",
+      "location": "COBLONG",
+      "contact": 85943053981,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/81.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "d0d8d983-e517-4bc9-b7bb-583cd1607279",
+    "fields": {
+      "name": "Se'i Sapi Regular",
+      "price": 27400,
+      "restaurant": "Se'i Sapi Lamalera",
+      "location": "COBLONG",
+      "contact": 82115507836,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/82.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "8a10185c-6d48-4da0-9d2c-087a545c12d5",
+    "fields": {
+      "name": "Mix Grill",
+      "price": 37000,
+      "restaurant": "Steak Ranjang",
+      "location": "COBLONG",
+      "contact": 81383888068,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/83.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "09778194-0eba-4eb3-a8a5-922b94c8cf69",
+    "fields": {
+      "name": "Beef Steak",
+      "price": 42727,
+      "restaurant": "Waroeng Steak And Shake",
+      "location": "COBLONG",
+      "contact": 81317200400,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/84.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "12af25e1-c88e-4275-93e9-84d7ebcee26e",
+    "fields": {
+      "name": "Nasi Ayam Geprek",
+      "price": 15000,
+      "restaurant": "Ayam Geprek Bebas",
+      "location": "COBLONG",
+      "contact": 8112212214,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/85.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "d60073ad-3fab-4827-9de5-aa0baebcccee",
+    "fields": {
+      "name": "Sweet Cheese Sandwich",
+      "price": 18000,
+      "restaurant": "Krimiku",
+      "location": "COBLONG",
+      "contact": 81914229999,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/86.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "9d61e9da-2ca0-42ae-a2a0-53b98a43627f",
+    "fields": {
+      "name": "Beef Cheesy Mayo Kebab",
+      "price": 25454,
+      "restaurant": "Kabobs Premium Kebab",
+      "location": "COBLONG",
+      "contact": 818947407,
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/87.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "e161335c-8987-45e1-89cf-d8133bbe42bf",
+    "fields": {
+      "name": "Ayam Bakakak Sindang Reret",
+      "price": 88000,
+      "restaurant": "Sindang Reret",
+      "location": "COBLONG",
+      "contact": "(022) 2535050",
+      "cat": "Olahan Ayam & Daging",
+      "image": "product_images/88.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "2eb0430c-19af-4752-8962-42b80065ca6e",
+    "fields": {
+      "name": "Earl Grey-Milk Tea",
+      "price": 28000,
+      "restaurant": "Four C's",
+      "location": "COBLONG",
+      "contact": 89601452325,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/89.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "a9e2a1f2-01c2-49b4-802e-406397edab47",
+    "fields": {
+      "name": "Kawan Choco",
+      "price": 23000,
+      "restaurant": "Kawan Kopi",
+      "location": "COBLONG",
+      "contact": 85722677081,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/90.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "b0f503fb-5148-471c-9c1e-ccbd54b123a0",
+    "fields": {
+      "name": "Nasi Goreng Smoked Beef",
+      "price": 40500,
+      "restaurant": "Victoria Bakery & Cafeteria",
+      "location": "COBLONG",
+      "contact": "(022) 2501182",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/91.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "f7cf6fcd-2fd8-4a34-b1bb-92bca687fc16",
+    "fields": {
+      "name": "Bajigur Latte",
+      "price": 32000,
+      "restaurant": "Kisah Manis Dago",
+      "location": "COBLONG",
+      "contact": 82127322571,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/92.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "1252f0ca-74f3-49ce-b865-665184c9d4af",
+    "fields": {
+      "name": "Es Kopi Awan",
+      "price": 24000,
+      "restaurant": "Kopi Toko Djawa",
+      "location": "COBLONG",
+      "contact": 8996979748,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/93.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "1d77d11b-1bbc-4b4f-b3ed-228c569d15a6",
+    "fields": {
+      "name": "Butterscotch Sea Salt Latte",
+      "price": 29000,
+      "restaurant": "Fore Coffee - Dipatiukur",
+      "location": "COBLONG",
+      "contact": 8881701672,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/94.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "fcd2f53c-d5e4-4327-a59a-108684ffec47",
+    "fields": {
+      "name": "Nasi Liwet Komplit",
+      "price": 49000,
+      "restaurant": "Kapulaga Indonesian Bistro",
+      "location": "COBLONG",
+      "contact": "(022) 2506195",
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/95.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "04188027-256c-4be5-aeac-367db727fcab",
+    "fields": {
+      "name": "Asian Dolce",
+      "price": 35000,
+      "restaurant": "Wheels Coffee Roasters Juanda",
+      "location": "COBLONG",
+      "contact": 81222081401,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/96.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "0e336d34-91ce-469a-a7ab-aed76e15b60c",
+    "fields": {
+      "name": "Roti bakar",
+      "price": 15000,
+      "restaurant": "Terminal Coffee",
+      "location": "Lengkong",
+      "contact": 85158414866,
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/97.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "cfe734c2-c62d-4e08-8965-2d4780401d74",
+    "fields": {
+      "name": "Batagor Goreng (isi 2 pcs)",
+      "price": 38000,
+      "restaurant": "Batagor Kingsley",
+      "location": "Sumur Bandung",
+      "contact": "(022) 4207104",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/98.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "a07522c9-8378-422c-ab6c-7d24ecbb8e27",
+    "fields": {
+      "name": "Bubur Ayam Komplit",
+      "price": 27000,
+      "restaurant": "Bubur Ayam Mang H Oyo",
+      "location": "Bandung Wetan",
+      "contact": 82131463187,
+      "cat": "Makanan Berat & Nasi",
+      "image": "product_images/99.jpg"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": "431829a2-1775-4278-a764-15e41e01ebcc",
+    "fields": {
+      "name": "Baso Campur",
+      "price": 75000,
+      "restaurant": "Batagor Riri",
+      "location": "Lengkong",
+      "contact": "(022) 7303349",
+      "cat": "Makanan Ringan & Cemilan",
+      "image": "product_images/100.jpg"
+    }
+  }
+]

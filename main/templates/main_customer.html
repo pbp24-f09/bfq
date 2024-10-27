@@ -254,6 +254,10 @@
                           `<img src="${imageUrl}" alt="Product Image" class="object-cover w-full h-full hover:brightness-50 transition-all duration-100" />` :
                           `<div class="flex items-center justify-center w-full h-full text-gray-500">No Image Available</div>`}
                     </div>
+                    <!-- Overlay logo -->
+                    <div class="absolute top-[3%] right-[3%] w-full flex justify-end items-start">
+                      <img src="{% static '/images/logo-overlay.png' %}" alt="Logo Overlay" class="w-1/6 h-auto opacity-70" />
+                    </div>
 
                     <!-- Product Name and Price -->
                     <div class="text-center w-full h-[20%] flex flex-col justify-end">
@@ -297,8 +301,8 @@
 
   function openPopup(name, location, contact, price, restaurant, cat, imageUrl, productId) {
       document.getElementById('popupName-' + productId).innerText = name;
-      document.getElementById('popupLocation-' + productId).innerText = 'Location: ' + location;
-      document.getElementById('popupContact-' + productId).innerText = 'Contact: ' + contact;
+      document.getElementById('popupLocation-' + productId).innerText = location;
+      document.getElementById('popupContact-' + productId).innerText = contact;
       document.getElementById('popupDescription-' + productId).innerText = restaurant;
       document.getElementById('popupCat-' + productId).innerText = cat;
       document.getElementById('popupPrice-' + productId).innerText = price + ' IDR';
