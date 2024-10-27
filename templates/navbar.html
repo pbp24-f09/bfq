@@ -10,10 +10,12 @@
             <a href="{% url 'admin_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'admin_categories' %}" class="nav-link">Categories</a>
             <a href="{% url 'customer_blog' %}" class="nav-link">Blog</a>
+            <a href="{% url 'discussion:show_discussion' %}" class="nav-link">Discussion</a>
           {% elif user.role == 'customer' %}
             <a href="{% url 'customer_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'customer_categories' %}" class="nav-link">Categories</a>
             <a href="{% url 'blog:article_list' %}" class="nav-link">Blog</a>
+            <a href="{% url 'discussion:show_discussion' %}" class="nav-link">Discussion</a>
           {% endif %}
           
           <div class="relative">
