@@ -11,6 +11,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import check_password
 
+import json
+from django.contrib.auth import authenticate, login as auth_login
+from django.http import JsonResponse
+from django.contrib.auth import logout as auth_logout
+
 def register_user(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -172,3 +177,98 @@ def logout_user(request):
     response = redirect('main:show_main')
     response.delete_cookie('last_login')
     return response
+
+####### API views for Flutter ###########
+@csrf_exempt
+def login_flutter(request):
+    if request.method == 'POST':
+        # Ambil data dari request body (gunakan JSON jika diperlukan)
+        try:
+            username = request.POST['username']
+            password = request.POST['password']
+        except KeyError:
+            return JsonResponse({
+                "status": False,
+                "message": "Invalid request. Missing username or password."
+            }, status=400)
+
+        # Autentikasi pengguna
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+                # Role pengguna (ubah sesuai atribut role di model Anda)
+                role = getattr(user, 'role', None)  # Jika menggunakan model CustomUser
+
+                # Respons sukses
+                return JsonResponse({
+                    "username": user.username,
+                    "role": role,  # Sertakan role pengguna
+                    "status": True,
+                    "message": "Login sukses!"
+                }, status=200)
+            else:
+                return JsonResponse({
+                    "status": False,
+                    "message": "Login gagal, akun dinonaktifkan."
+                }, status=401)
+
+        # Jika autentikasi gagal
+        return JsonResponse({
+            "status": False,
+            "message": "Login gagal, periksa kembali email atau kata sandi."
+        }, status=401)
+
+    # Jika metode bukan POST
+    return JsonResponse({
+        "status": False,
+        "message": "Only POST method is allowed."
+    }, status=405)
+    
+@csrf_exempt
+def register_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            form = UserRegistrationForm(data)
+            if form.is_valid():
+                user = form.save()
+                return JsonResponse({
+                    "status": "success",
+                    "message": "User registered successfully!",
+                    "username": user.username
+                }, status=200)
+            else:
+                return JsonResponse({
+                    "status": "error",
+                    "errors": form.errors
+                }, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({
+                "status": "error",
+                "message": "Invalid JSON input."
+            }, status=400)
+    else:
+        return JsonResponse({
+            "status": "error",
+            "message": "Only POST method is allowed."
+        }, status=405)
+    
+
+@csrf_exempt
+def logout(request):
+    username = request.user.username
+
+    try:
+        auth_logout(request)
+        user = None
+        return JsonResponse({
+            "username": username,
+            "status": True,
+            "message": "Logout berhasil!"
+        }, status=200)
+    except:
+        return JsonResponse({
+        "status": False,
+        "message": "Logout gagal."
+        }, status=401)

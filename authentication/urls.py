@@ -16,4 +16,7 @@ urlpatterns = [
     path('delete-photo/', views.delete_photo, name='delete_photo'),
     path('change-password/', views.change_password, name='change_password'),
     path('delete_account/', views.delete_account, name='delete_account'),
+    path('login-flutter/', views.login_flutter, name='login_flutter'),
+    path('register-flutter/', views.register_flutter, name='register_flutter'),
+    path('logout-flutter/', views.logout, name='logout_flutter'),
 ]
