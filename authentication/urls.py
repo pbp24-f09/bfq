@@ -8,7 +8,7 @@ urlpatterns = [
     path('main/', views.customer_dashboard, name='customer_dashboard'),
     path('categories/', views.customer_categories, name='customer_categories'),
     path('blog/', views.customer_blog, name='customer_blog'),    
-    path('admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin-categories/', views.admin_categories, name='admin_categories'),
     path('profile/', views.profile, name='profile'),
     path('update-profile/', views.update_profile, name='update_profile'),
@@ -18,5 +18,5 @@ urlpatterns = [
     path('delete_account/', views.delete_account, name='delete_account'),
     path('login-flutter/', views.login_flutter, name='login_flutter'),
     path('register-flutter/', views.register_flutter, name='register_flutter'),
-    path('logout-flutter/', views.logout, name='logout_flutter'),
+    path('logout-flutter/', views.logout_flutter, name='logout_flutter'),
 ]

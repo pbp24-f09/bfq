@@ -6,12 +6,12 @@
 
       {% if user.is_authenticated %}
         <div class="flex items-center space-x-4">
-          {% if user.role == 'admin' %}
+          {% if user.is_staff or user.is_superuser %}
             <a href="{% url 'admin_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'admin_categories' %}" class="nav-link">Categories</a>
             <a href="{% url 'customer_blog' %}" class="nav-link">Blog</a>
             <a href="{% url 'discussion:show_discussion' %}" class="nav-link">Discussion</a>
-          {% elif user.role == 'customer' %}
+          {% else %}
             <a href="{% url 'customer_dashboard' %}" class="nav-link">Home</a>
             <a href="{% url 'customer_categories' %}" class="nav-link">Categories</a>
             <a href="{% url 'blog:article_list' %}" class="nav-link">Blog</a>
