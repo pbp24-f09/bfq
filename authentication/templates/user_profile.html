@@ -23,59 +23,81 @@
         Edit Photo
       </button>
       <!-- Tombol Delete Account -->
-      <button id="delete-account-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg mt-2">
-        Delete Acc
-      </button>
+       {% if user.is_staff or user.is_superuser %}
+       {% else %}
+          <button id="delete-account-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg mt-2">
+            Delete Acc
+          </button>
+       {% endif %}
       
     </div>
 
+    {% if user.is_staff or user.is_superuser %}
     <!-- Kolom Kanan: Informasi Profil -->
-    <div class="w-2/3 flex flex-col justify-center">
-      <!-- Heading Profil -->
-      <div class="flex items-center mb-4">
-        <h1 class="text-4xl font-bold text-[#B48125] mr-2" data-field="full_name">{{ user.full_name }}'s Profile</h1>
-        <!-- Icon edit profile -->
-        <button id="edit-profile-btn" class="ml-2 focus:outline-none">
-          <!-- Ikon edit baru dengan Tailwind -->
-          <svg class="w-7 h-7 text-[#B48125] hover:text-[#8C3F0D] transition duration-200 ease-in-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 20h9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16.5 3.5a2.121 2.121 0 113 3L8 18.5 4 20l1.5-4L16.5 3.5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Informasi Profil dalam Dua Kolom -->
-      <div class="grid grid-cols-2 gap-x-6 gap-y-4 mt-6">
-        <div>
-          <label class="block text-[#B48125] text-sm font-bold">Full Name:</label>
-          <p class="text-black" data-field="full_name">{{ user.full_name }}</p>
+      <div class="w-2/3 flex flex-col justify-center">
+        <!-- Heading Profil -->
+        <div class="flex items-center mb-4">
+          <h1 class="text-4xl font-bold text-[#B48125] mr-2" data-field="full_name">Admin's Profile</h1>
         </div>
-        <div>
-          <label class="block text-[#B48125] text-sm font-bold">Date Joined:</label>
-          <p class="text-black">{{ user.date_joined|date:"F j, Y" }}</p>
-        </div>
-        <div>
-          <label class="block text-[#B48125] text-sm font-bold">Email:</label>
-          <p class="text-black" data-field="email">{{ user.email }}</p>
-        </div>
-        <div>
-          <label class="block text-[#B48125] text-sm font-bold">Age:</label>
-          <p class="text-black" data-field="age">{{ user.age }}</p>
-        </div>
-        <div>
-          <label class="block text-[#B48125] text-sm font-bold">Gender:</label>
-          <p class="text-black" data-field="gender">{{ user.gender }}</p>
-        </div>
-        <div>
-          <label class="block text-[#B48125] text-sm font-bold">Phone Number:</label>
-          <p class="text-black" data-field="phone_number">{{ user.phone_number }}</p>
+        <!-- Informasi Profil dalam Dua Kolom -->
+        <div class="grid grid-cols-2 gap-x-6 gap-y-4 mt-6">
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Date Joined:</label>
+            <p class="text-black">{{ user.date_joined|date:"F j, Y" }}</p>
+          </div>
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Email:</label>
+            <p class="text-black" data-field="email">{{ user.email }}</p>
+          </div>
         </div>
       </div>
-
-      <!-- Pesan Sukses -->
-      <p id="success-message" class="text-green-500 mt-4 hidden">Profile updated successfully!</p>
-      <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
-    </div>
+    {% else %}
+    <!-- Kolom Kanan: Informasi Profil -->
+      <div class="w-2/3 flex flex-col justify-center">
+        <!-- Heading Profil -->
+        <div class="flex items-center mb-4">
+          <h1 class="text-4xl font-bold text-[#B48125] mr-2" data-field="full_name">{{ user.full_name }}'s Profile</h1>
+          <!-- Icon edit profile -->
+          <button id="edit-profile-btn" class="ml-2 focus:outline-none">
+            <!-- Ikon edit dengan Tailwind -->
+            <svg class="w-7 h-7 text-[#B48125] hover:text-[#8C3F0D] transition duration-200 ease-in-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 20h9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.5 3.5a2.121 2.121 0 113 3L8 18.5 4 20l1.5-4L16.5 3.5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <!-- Informasi Profil dalam Dua Kolom -->
+        <div class="grid grid-cols-2 gap-x-6 gap-y-4 mt-6">
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Full Name:</label>
+            <p class="text-black" data-field="full_name">{{ user.full_name }}</p>
+          </div>
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Date Joined:</label>
+            <p class="text-black">{{ user.date_joined|date:"F j, Y" }}</p>
+          </div>
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Email:</label>
+            <p class="text-black" data-field="email">{{ user.email }}</p>
+          </div>
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Age:</label>
+            <p class="text-black" data-field="age">{{ user.age }}</p>
+          </div>
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Gender:</label>
+            <p class="text-black" data-field="gender">{{ user.gender }}</p>
+          </div>
+          <div>
+            <label class="block text-[#B48125] text-sm font-bold">Phone Number:</label>
+            <p class="text-black" data-field="phone_number">{{ user.phone_number }}</p>
+          </div>
+        </div>
+        <!-- Pesan Sukses -->
+        <p id="success-message" class="text-green-500 mt-4 hidden">Profile updated successfully!</p>
+        <p id="error-message" class="text-red-500 mt-4 hidden">Failed to update profile. Please try again.</p>
+      </div>
+    {% endif %}
   </div>
 </div>
 

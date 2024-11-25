@@ -26,29 +26,36 @@ def register_user(request):
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
 
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.urls import reverse
+from .forms import UserLoginForm
+import datetime
+
 def login_user(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = UserLoginForm(request, data=request.POST)
 
         if form.is_valid():
             user = form.get_user()
             login(request, user)
             
             # Set cookie untuk 'last_login'
-            response = HttpResponseRedirect(reverse("main:show_main"))
+            response = redirect('main:show_main')
             response.set_cookie('last_login', str(datetime.datetime.now()))
 
             # Redirect ke dashboard sesuai role
-            if user.role == 'customer':
-                return redirect('customer_dashboard')
-            elif user.role == 'admin':
-                return redirect('admin_dashboard')
+            if user.is_staff or user.is_superuser:
+                return redirect('admin_dashboard')  # Admin Dashboard
+            else:
+                return redirect('customer_dashboard')  # Customer Dashboard
 
         else:
-            # Tambahkan pesan error jika login gagal
+            # Jika login gagal
             messages.error(request, "Invalid username or password. Please try again.")
     else:
-        form = AuthenticationForm(request)
+        form = UserLoginForm()
 
     context = {'form': form}
     return render(request, 'login.html', context)
@@ -198,7 +205,7 @@ def login_flutter(request):
             if user.is_active:
                 auth_login(request, user)
                 # Role pengguna (ubah sesuai atribut role di model Anda)
-                role = getattr(user, 'role', None)  # Jika menggunakan model CustomUser
+                role = "admin" if user.is_staff else "customer"
 
                 # Respons sukses
                 return JsonResponse({
@@ -219,12 +226,6 @@ def login_flutter(request):
             "message": "Login gagal, periksa kembali email atau kata sandi."
         }, status=401)
 
-    # Jika metode bukan POST
-    return JsonResponse({
-        "status": False,
-        "message": "Only POST method is allowed."
-    }, status=405)
-    
 @csrf_exempt
 def register_flutter(request):
     if request.method == 'POST':
@@ -256,7 +257,7 @@ def register_flutter(request):
     
 
 @csrf_exempt
-def logout(request):
+def logout_flutter(request):
     username = request.user.username
 
     try:
