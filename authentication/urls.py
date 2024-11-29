@@ -19,4 +19,7 @@ urlpatterns = [
     path('login-flutter/', views.login_flutter, name='login_flutter'),
     path('register-flutter/', views.register_flutter, name='register_flutter'),
     path('logout-flutter/', views.logout_flutter, name='logout_flutter'),
+    path('profile-flutter/', views.profile_flutter, name='profile_flutter'),
+    path('update-profile-flutter/', views.update_profile_flutter, name='update_profile_flutter'),
+    path('update-photo-flutter/', views.update_photo_flutter, name='update_photo_flutter'),
 ]
