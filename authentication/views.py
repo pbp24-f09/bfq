@@ -185,6 +185,7 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+
 ####### API views for Flutter ###########
 @csrf_exempt
 def login_flutter(request):
