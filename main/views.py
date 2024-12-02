@@ -17,7 +17,10 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.serializers import serialize
 from .models import Product
-
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import JsonResponse
+from django.core.files.base import ContentFile
 
 def show_main(request):
     context = {
@@ -130,5 +133,39 @@ def product_list(request):
     data = serialize('json', products)
     return JsonResponse(data, safe=False)
 
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+        try:
+            # Use MultiPartParser for handling files
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+                image_file = None
+            else:
+                data = request.POST
+                image_file = request.FILES.get('image')
 
+            new_product = Product.objects.create(
+                name=data.get("name"),
+                price=int(data.get("price")),
+                restaurant=data.get("restaurant"),
+                location=data.get("location"),
+                contact=data.get("contact"),
+                cat=data.get("cat"),
+                image=image_file,
+            )
+            new_product.save()
 
+            return JsonResponse({"status": "success"}, status=200)
+        except KeyError as e:
+            return JsonResponse({
+                "status": "error", 
+                "message": f"Missing field: {str(e)}"
+            }, status=400)
+        except Exception as e:
+            return JsonResponse({
+                "status": "error", 
+                "message": f"An error occurred: {str(e)}"
+            }, status=500)
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
