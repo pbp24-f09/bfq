@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # Create your views here.
 def show_categories(request):
@@ -62,3 +63,11 @@ def delete_product_cat(request, id):
     product = Product.objects.get(pk=id)
     product.delete()
     return HttpResponseRedirect(reverse('categories:show_categories_admin'))
+
+@csrf_exempt
+def search_filter(request):
+    if request.method == 'POST':
+        query = request.POST.get('value', '')
+        results = {"message": f"Received query: {query}"}
+        return JsonResponse(results)
+    return JsonResponse({"error": "Invalid request"}, status=400)
