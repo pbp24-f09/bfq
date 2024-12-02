@@ -23,13 +23,9 @@
         Edit Photo
       </button>
       <!-- Tombol Delete Account -->
-       {% if user.is_staff or user.is_superuser %}
-       {% else %}
-          <button id="delete-account-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg mt-2">
-            Delete Acc
-          </button>
-       {% endif %}
-      
+      <button id="delete-account-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg mt-2">
+        Delete Acc
+      </button>
     </div>
 
     {% if user.is_staff or user.is_superuser %}

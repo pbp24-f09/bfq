@@ -185,6 +185,7 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+
 ####### API views for Flutter ###########
 @csrf_exempt
 def login_flutter(request):
@@ -273,3 +274,124 @@ def logout_flutter(request):
         "status": False,
         "message": "Logout gagal."
         }, status=401)
+    
+@login_required
+@csrf_exempt
+def profile_flutter(request):
+    user = request.user
+    profile_data = {
+        "username" : user.username,
+        "full_name": getattr(user, 'full_name', None),
+        "email": getattr(user, 'email', None),
+        "age": getattr(user, 'age', None),
+        "gender": getattr(user, 'gender', None),
+        "phone_number": getattr(user, 'phone_number', None),
+        "profile_photo": getattr(user, 'profile_photo', None),
+        "is_admin": user.is_staff or user.is_superuser,
+    }
+    return JsonResponse(profile_data, safe=False)
+
+
+@csrf_exempt
+@login_required
+def update_profile_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user = request.user
+
+        # Update fields if present
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.email = data.get('email', user.email)
+        user.age = data.get('age', getattr(user, 'age', None))
+        user.gender = data.get('gender', getattr(user, 'gender', None))
+        user.phone_number = data.get('phone_number', getattr(user, 'phone_number', None))
+        user.save()
+
+        # Respond with updated profile
+        return JsonResponse({
+            "status": "success",
+            "message": "Profile updated successfully!",
+            "data": {
+                "username" : user.username,
+                "full_name": getattr(user, 'full_name', None),
+                "email": getattr(user, 'email', None),
+                "age": getattr(user, 'age', None),
+                "gender": getattr(user, 'gender', None),
+                "phone_number": getattr(user, 'phone_number', None),
+                "profile_photo": getattr(user, 'profile_photo', None),
+            }
+        })
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
+
+@csrf_exempt
+@login_required
+def update_photo_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user = request.user
+
+        profile_photo = data.get('profile_photo', '').strip()
+
+        if profile_photo:
+            user.profile_photo = profile_photo
+            user.save()
+            return JsonResponse({
+                "status": "success",
+                "message": "Profile photo updated successfully!",
+                "profile_photo": user.profile_photo
+            })
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid photo URL."
+        }, status=400)
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
+
+
+@csrf_exempt
+@login_required
+def delete_photo_flutter(request):
+    if request.method == 'POST':
+        user = request.user
+        user.profile_photo = None
+        user.save()
+        return JsonResponse({
+            "status": "success",
+            "message": "Profile photo deleted successfully!"
+        })
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
+
+@csrf_exempt
+@login_required
+def delete_account_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None and user == request.user:
+            user.delete()
+            return JsonResponse({
+                "status": "success",
+                "message": "Account deleted successfully!"
+            })
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid credentials."
+        }, status=401)
+    return JsonResponse({
+        "status": "error",
+        "message": "Invalid request method."
+    }, status=405)
+
