@@ -7,7 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import JsonResponse
+from django.http import HttpResponse
+from django.db.models import Q
 
 # Create your views here.
 def show_categories(request):
@@ -68,6 +71,7 @@ def delete_product_cat(request, id):
 def search_filter(request):
     if request.method == 'POST':
         query = request.POST.get('value', '')
-        results = {"message": f"Received query: {query}"}
-        return JsonResponse(results)
-    return JsonResponse({"error": "Invalid request"}, status=400)
+        products = Product.objects.filter(Q(name__icontains=query) | Q(restaurant__icontains=query))
+        return HttpResponse(serializers.serialize("json", products), content_type="application/json")
+    
+    return HttpResponse({"error": "Invalid request"}, status=400)
