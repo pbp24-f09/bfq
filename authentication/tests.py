@@ -13,7 +13,6 @@ class UserAuthTests(TestCase):
             'age': 25,
             'gender': 'Male',
             'phone_number': '08123456789',
-            'role': 'customer',
         }
         self.user = CustomUser.objects.create_user(**self.user_data)
 
@@ -27,7 +26,6 @@ class UserAuthTests(TestCase):
             'age': 30,
             'gender': 'FEMALE',
             'phone_number': '08129876543',
-            'role': 'customer',
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(CustomUser.objects.filter(username='newuser').exists())
@@ -67,7 +65,6 @@ class ProfileTests(TestCase):
             'age': 25,
             'gender': 'Male',
             'phone_number': '08123456789',
-            'role': 'customer',
         }
         self.user = CustomUser.objects.create_user(**self.user_data)
         self.client.login(username=self.user_data['username'], password=self.user_data['password'])

@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block meta %}
-<title>{{ user.full_name }}'s Profile</title>
+{% if user.is_staff or user.is_superuser %}
+  <title>Admin's Profile</title>
+{% else %}
+  <title>{{ user.full_name }}'s Profile</title>
+{% endif %}
 {% endblock meta %}
 
 {% block content %}
@@ -19,6 +23,7 @@
           <img src="{% static 'images/default-profile.jpg' %}" alt="Default Photo" class="w-full h-full object-cover" data-field="profile_photo">
         {% endif %}
       </div>
+      <!-- Tombol Edit Photo -->
       <button id="edit-photo-btn" class="bg-[#B48125] hover:bg-[#8C3F0D] text-white font-bold py-2 px-6 rounded-lg">
         Edit Photo
       </button>
@@ -26,7 +31,7 @@
       <button id="delete-account-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg mt-2">
         Delete Acc
       </button>
-    </div>
+    </div>    
 
     {% if user.is_staff or user.is_superuser %}
     <!-- Kolom Kanan: Informasi Profil -->
@@ -237,6 +242,12 @@
           document.querySelector("[data-field='age']").textContent = age;
           document.querySelector("[data-field='gender']").textContent = gender;
           document.querySelector("[data-field='phone_number']").textContent = phoneNumber;
+
+          // Update heading dengan format `'s Profile`
+          const profileHeading = document.querySelector("[data-field='full_name']");
+          if (profileHeading) {
+            profileHeading.textContent = `${fullName}'s Profile`;
+          }
 
           document.getElementById('success-message').textContent = 'Profile updated successfully!';
           document.getElementById('success-message').classList.remove('hidden');

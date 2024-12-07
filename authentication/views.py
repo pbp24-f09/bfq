@@ -1,8 +1,7 @@
 import datetime
 from .forms import UserRegistrationForm, EditProfileForm
 from .decorators import role_required
-from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, update_session_auth_hash, authenticate
@@ -15,6 +14,11 @@ import json
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import JsonResponse
 from django.contrib.auth import logout as auth_logout
+from django.utils.dateformat import format
+from django.utils.timezone import localtime
+from django.contrib import messages
+from .forms import UserLoginForm
+import datetime
 
 def register_user(request):
     if request.method == 'POST':
@@ -25,13 +29,6 @@ def register_user(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'register.html', {'form': form})
-
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.urls import reverse
-from .forms import UserLoginForm
-import datetime
 
 def login_user(request):
     if request.method == 'POST':
@@ -212,6 +209,8 @@ def login_flutter(request):
                 return JsonResponse({
                     "username": user.username,
                     "role": role,  # Sertakan role pengguna
+                    "full_name": user.full_name,
+                    "profile_photo": user.profile_photo if user.profile_photo else None,
                     "status": True,
                     "message": "Login sukses!"
                 }, status=200)
@@ -279,18 +278,26 @@ def logout_flutter(request):
 @csrf_exempt
 def profile_flutter(request):
     user = request.user
+    profile_photo = user.profile_photo  # Ambil langsung nilai string profile_photo
+
+    # Jika profile_photo bukan URL absolut, tambahkan prefix host jika diperlukan
+    if profile_photo and not profile_photo.startswith("http"):
+        profile_photo = request.build_absolute_uri(profile_photo)
+
     profile_data = {
-        "username" : user.username,
+        "id": user.id,
+        "username": user.username,
         "full_name": getattr(user, 'full_name', None),
-        "email": getattr(user, 'email', None),
+        "email": user.email,
+        "date_joined": format(localtime(user.date_joined), 'F j, Y'),
         "age": getattr(user, 'age', None),
         "gender": getattr(user, 'gender', None),
         "phone_number": getattr(user, 'phone_number', None),
-        "profile_photo": getattr(user, 'profile_photo', None),
+        "profile_photo": profile_photo,  # Gunakan nilai yang sudah diproses
+        "role": "admin" if user.is_staff else "customer",
         "is_admin": user.is_staff or user.is_superuser,
     }
     return JsonResponse(profile_data, safe=False)
-
 
 @csrf_exempt
 @login_required
@@ -300,8 +307,7 @@ def update_profile_flutter(request):
         user = request.user
 
         # Update fields if present
-        user.first_name = data.get('first_name', user.first_name)
-        user.last_name = data.get('last_name', user.last_name)
+        user.full_name = data.get('full_name', user.full_name)
         user.email = data.get('email', user.email)
         user.age = data.get('age', getattr(user, 'age', None))
         user.gender = data.get('gender', getattr(user, 'gender', None))
@@ -312,86 +318,113 @@ def update_profile_flutter(request):
         return JsonResponse({
             "status": "success",
             "message": "Profile updated successfully!",
-            "data": {
-                "username" : user.username,
-                "full_name": getattr(user, 'full_name', None),
-                "email": getattr(user, 'email', None),
-                "age": getattr(user, 'age', None),
-                "gender": getattr(user, 'gender', None),
-                "phone_number": getattr(user, 'phone_number', None),
-                "profile_photo": getattr(user, 'profile_photo', None),
-            }
         })
     return JsonResponse({
         "status": "error",
         "message": "Invalid request method."
     }, status=405)
 
-@csrf_exempt
+
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+
 @login_required
+@csrf_exempt
 def update_photo_flutter(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        user = request.user
+        try:
+            data = json.loads(request.body)  # Membaca JSON dari request.body
+            photo_url = data.get('photo_url', '')
 
-        profile_photo = data.get('profile_photo', '').strip()
+            if not photo_url.strip():
+                return JsonResponse({"status": "error", "message": "Photo URL is required"}, status=400)
 
-        if profile_photo:
-            user.profile_photo = profile_photo
+            user = request.user
+            user.profile_photo = photo_url
             user.save()
-            return JsonResponse({
-                "status": "success",
-                "message": "Profile photo updated successfully!",
-                "profile_photo": user.profile_photo
-            })
-        return JsonResponse({
-            "status": "error",
-            "message": "Invalid photo URL."
-        }, status=400)
-    return JsonResponse({
-        "status": "error",
-        "message": "Invalid request method."
-    }, status=405)
+            return JsonResponse({"status": "success", "message": "Photo updated successfully"})
+        except json.JSONDecodeError:
+            return JsonResponse({"status": "error", "message": "Invalid JSON"}, status=400)
+    return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)
 
 
-@csrf_exempt
 @login_required
+@csrf_exempt
 def delete_photo_flutter(request):
     if request.method == 'POST':
         user = request.user
         user.profile_photo = None
-        user.save()
+        user.save()  # Simpan perubahan ke database
         return JsonResponse({
             "status": "success",
-            "message": "Profile photo deleted successfully!"
+            "message": "Photo deleted successfully"
         })
     return JsonResponse({
         "status": "error",
-        "message": "Invalid request method."
+        "message": "Method not allowed"
     }, status=405)
 
-@csrf_exempt
 @login_required
+@csrf_exempt
 def delete_account_flutter(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        username = data.get('username')
-        password = data.get('password')
+        user = request.user
 
+        username = data.get('username', '')
+        password = data.get('password', '')
+        confirm_password = data.get('confirm_password', '')
+
+        # Verifikasi password
+        if password != confirm_password:
+            return JsonResponse({'success': False, 'error': 'Passwords do not match.'}) 
+        
         user = authenticate(username=username, password=password)
-
         if user is not None and user == request.user:
             user.delete()
-            return JsonResponse({
-                "status": "success",
-                "message": "Account deleted successfully!"
-            })
-        return JsonResponse({
-            "status": "error",
-            "message": "Invalid credentials."
-        }, status=401)
-    return JsonResponse({
-        "status": "error",
-        "message": "Invalid request method."
-    }, status=405)
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid credentials.'})
+    return JsonResponse({'success': False, 'error': 'Invalid request.'})
 
+@login_required
+@csrf_exempt
+def change_password_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)  # Expecting JSON request
+            old_password = data.get('old_password')
+            new_password = data.get('new_password')
+            confirm_password = data.get('confirm_password')
+
+            user = request.user
+
+            # Verify old password
+            if not check_password(old_password, user.password):
+                return JsonResponse(
+                    {"status": "error", "message": "Incorrect current password."},
+                    status=400
+                )
+
+            # Validate new password
+            if new_password != confirm_password:
+                return JsonResponse(
+                    {"status": "error", "message": "New passwords do not match."},
+                    status=400
+                )
+
+            # Change password and update session
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)
+
+            return JsonResponse(
+                {"status": "success", "message": "Password changed successfully!"},
+                status=200
+            )
+
+        except json.JSONDecodeError:
+            return JsonResponse(
+                {"status": "error", "message": "Invalid request format."}, status=400
+            )
+    return JsonResponse({"status": "error", "message": "Invalid request method."}, status=405)
