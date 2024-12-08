@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import article_list, delete_article, edit_article, create_article_ajax, get_articles
+from .views import article_list, create_article_flutter, delete_article, delete_article_flutter, edit_article, create_article_ajax, edit_article_flutter, get_articles
 
 app_name = 'blog'
 
@@ -15,4 +15,7 @@ urlpatterns = [
     path('blog/view/<int:article_id>/', views.view_article, name='view_article'),
     path('blog/get-articles/', get_articles, name='get_articles'),
     path('get-json/', views.get_json, name='get_json'),
+    path('blog/delete-article-flutter/<int:article_id>/', delete_article_flutter, name='delete_article_flutter'),
+    path('blog/create-article-flutter/', create_article_flutter, name='create_article'),
+    path('blog/edit-article-flutter/<int:article_id>/', edit_article_flutter, name='edit_article_flutter'),
 ]

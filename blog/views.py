@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -10,6 +11,7 @@ from .forms import ArticleForm
 import xml.etree.ElementTree as ET
 from django.template.loader import render_to_string
 from .models import Article
+from django.views.decorators.csrf import csrf_exempt
 
 
 @csrf_protect
@@ -122,6 +124,8 @@ def get_articles(request):
             'content': article.content,
             'author': article.author.username,
             'is_author': is_author,
+            'time': article.created_at,
+            'topic': article.topic
         })
 
     return JsonResponse({'articles': articles_data})
@@ -131,3 +135,77 @@ def blog_home(request):
     articles = Article.objects.all()
     return render(request, 'blog/home.html', {'articles': articles})
 
+
+@csrf_exempt
+def delete_article_flutter(request, article_id):
+    if request.method == 'POST':
+        try:
+            # Retrieve the article by ID
+            article = Article.objects.get(id=article_id)
+            # Perform the delete operation
+            article.delete()
+            # Return success response
+            return JsonResponse({'success': True, 'message': 'Article deleted successfully'})
+        except Article.DoesNotExist:
+            # If the article does not exist
+            return JsonResponse({'success': False, 'message': 'Article not found'}, status=404)
+        except Exception as e:
+            # Handle unexpected errors
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+    else:
+        # If the request is not POST
+        return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+    
+@csrf_exempt  
+def create_article_flutter(request):
+    if request.method == 'POST':
+        # Parse the JSON body
+        data = json.loads(request.body)
+        new_article = Article.objects.create(
+            title = data['title'],
+            topic = data['topic'],
+            content = data['content'],
+            author = request.user
+        )
+        new_article.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def edit_article_flutter(request, article_id):
+    try:
+        # Retrieve the article by ID
+        article = Article.objects.get(id=article_id)
+
+        # Check if the article's author matches the current user
+        if article.author != request.user:
+            return JsonResponse({'success': False, 'message': 'You are not authorized to edit this article'}, status=403)
+
+        # Ensure the request is a POST request
+        if request.method == 'POST':
+            # Parse JSON body
+            data = json.loads(request.body)
+            title = data.get('title')
+            topic = data.get('topic')
+            content = data.get('content')
+
+            # Validate the required fields
+            if not title or not content:
+                return JsonResponse({'success': False, 'message': 'Title and content are required'}, status=400)
+
+            # Update the article
+            article.title = title
+            article.topic = topic
+            article.content = content
+            article.save()
+            return JsonResponse({'success': True, 'message': 'Article updated successfully'}, status=200)
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+    except Article.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Article not found'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'Invalid JSON data'}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': f'Error: {str(e)}'}, status=500)
