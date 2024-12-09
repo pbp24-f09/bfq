@@ -11,9 +11,9 @@ def role_required(required_role):
             if not request.user.is_authenticated:
                 return HttpResponseForbidden("You must be logged in to access this page.")
 
-            if required_role == 'admin' and request.user.is_staff:
+            if request.user.is_staff:
                 return view_func(request, *args, **kwargs)
-            elif required_role == 'customer' and not request.user.is_staff:
+            elif not request.user.is_staff:
                 return view_func(request, *args, **kwargs)
 
             return HttpResponseForbidden("You are not authorized to access this page.")

@@ -22,4 +22,7 @@ urlpatterns = [
     path('profile-flutter/', views.profile_flutter, name='profile_flutter'),
     path('update-profile-flutter/', views.update_profile_flutter, name='update_profile_flutter'),
     path('update-photo-flutter/', views.update_photo_flutter, name='update_photo_flutter'),
+    path('delete-photo-flutter/', views.delete_photo_flutter, name='delete_photo_flutter'),
+    path('change-password-flutter/', views.change_password_flutter, name='change_password_flutter'),
+    path('delete-account-flutter/', views.delete_account_flutter, name='delete_account_flutter'),
 ]
