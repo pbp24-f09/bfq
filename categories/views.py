@@ -71,7 +71,37 @@ def delete_product_cat(request, id):
 def search_filter(request):
     if request.method == 'POST':
         query = request.POST.get('value', '')
-        products = Product.objects.filter(Q(name__icontains=query) | Q(restaurant__icontains=query))
+        selected_range = request.POST.get('range', '')
+        selected_cat = request.POST.get('category', '')
+        selected_order = request.POST.get('order', '')
+
+        products = Product.objects.all()
+
+        if query:
+            products = products.filter(Q(name__icontains=query) | Q(restaurant__icontains=query))
+
+        if selected_range:
+            if selected_range == "Less than 50.000":
+                products = products.filter(Q(price__lt=50000))
+            
+            elif selected_range == "50.000 - 100.000":
+                products = products.filter(Q(price__gte=50000) & Q(price__lte=100000))
+
+            elif selected_range == "100.000 - 150.000":
+                products = products.filter(Q(price__gte=100000) & Q(price__lte=150000))
+
+            elif selected_range == "More than 150.000":
+                products = products.filter(Q(price__gt=150000))
+
+        if selected_cat:
+            products = products.filter(Q(cat__icontains=selected_cat))
+        
+        if (selected_order):
+            if selected_order == "Highest":
+                products = products.order_by("-price")
+            elif selected_order == "Lowest":
+                products = products.order_by("price")
+
         return HttpResponse(serializers.serialize("json", products), content_type="application/json")
     
     return HttpResponse({"error": "Invalid request"}, status=400)
