@@ -21,6 +21,9 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
 from django.core.files.base import ContentFile
+from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from .models import Product
 
 def show_main(request):
     context = {
@@ -79,7 +82,6 @@ def show_json_by_id(request, id):
     data = Product.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-
 @login_required(login_url='/login')
 def edit_product(request, id):
     product = Product.objects.get(pk=id)
@@ -94,8 +96,7 @@ def edit_product(request, id):
     
     return render(request, 'edit_product.html', {'form': form})
 
-
-@login_required(login_url='/login')
+@csrf_exempt
 def delete_product(request, id):
     product = Product.objects.get(pk=id)
     product.delete()
@@ -169,3 +170,66 @@ def create_product_flutter(request):
             }, status=500)
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def edit_product_flutter(request, id):
+    try:
+        product = Product.objects.get(pk=id)  # Get product dari id
+        
+        if request.method == 'POST':
+            # Tangani data dari Flutter
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+                image_file = None
+            else:
+                data = request.POST
+                image_file = request.FILES.get('image')
+
+            # Update data produk
+            product.name = data.get("name", product.name)
+            product.price = int(data.get("price", product.price))
+            product.restaurant = data.get("restaurant", product.restaurant)
+            product.location = data.get("location", product.location)
+            product.contact = data.get("contact", product.contact)
+            product.cat = data.get("cat", product.cat)
+
+            # Update gambar hanya jika ada file baru
+            if image_file:
+                product.image = image_file
+
+            product.save()
+
+            return JsonResponse({"status": "success", "message": "Product updated successfully"}, status=200)
+        else:
+            return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+    except Product.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Product not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({
+            "status": "error",
+            "message": f"An error occurred: {str(e)}"
+        }, status=500)
+
+def product_detail_json(request, id):
+    if request.method == 'GET':
+        try:
+            product = Product.objects.get(pk=id)
+            return JsonResponse({
+                "name": product.name,
+                "price": product.price,
+                "restaurant": product.restaurant,
+                "location": product.location,
+                "contact": product.contact,
+                "cat": product.cat,
+                "image": product.image.url if product.image else None
+            })
+        except ObjectDoesNotExist:
+            return JsonResponse({
+                "status": "error",
+                "message": "Product not found"
+            }, status=404)
+    else:
+        return JsonResponse({
+            "status": "error",
+            "message": "Invalid request method"
+        }, status=405)

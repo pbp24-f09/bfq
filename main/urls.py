@@ -3,7 +3,8 @@ from django.conf.urls.static import static
 from django.urls import path
 from main.views import (
     show_main, show_main_admin, create_product, show_xml, show_json, show_xml_by_id, 
-    show_json_by_id, edit_product, delete_product, add_product_ajax, product_list, create_product_flutter
+    show_json_by_id, edit_product, delete_product, add_product_ajax, product_list, create_product_flutter,
+    edit_product_flutter, product_detail_json
 )
 
 app_name = 'main'
@@ -20,17 +21,17 @@ urlpatterns = [
     path('delete-product/<uuid:id>', delete_product, name='delete_product'),  # Requires login
     path('add-product-ajax', add_product_ajax, name='add_product_ajax'),  # Requires login
     
-    # Publicly accessible API-like views for XML and JSON
+    # api XML dan JSON
     path('xml/', show_xml, name='show_xml'),
     path('json/', show_json, name='show_json'),
     path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
     path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
     
-    # Authentication views
-    # path('register/', register_user, name='register'),
-    # path('login/', login_user, name='login'),
-    # path('logout/', logout_user, name='logout'),
+    # flutter features
     path('create-flutter/', create_product_flutter, name='create_product_flutter'),
+    path('edit-flutter/<uuid:id>', edit_product_flutter, name='edit_product_flutter'),
+    path('product-json/<str:id>/', product_detail_json, name='product_detail_json'),
+
 ]
 
 # Serve media files during development
