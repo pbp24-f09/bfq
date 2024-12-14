@@ -11,6 +11,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.db.models import Q
+import json
 
 # Create your views here.
 def show_categories(request):
@@ -70,31 +71,37 @@ def delete_product_cat(request, id):
 @csrf_exempt
 def search_filter(request):
     if request.method == 'POST':
-        query = request.POST.get('value', '')
-        selected_range = request.POST.get('range', '')
-        selected_cat = request.POST.get('category', '')
-        selected_order = request.POST.get('order', '')
+        body = json.loads(request.body)
+        query = body.get('value', '')
+        selected_range = body.get('range', [])
+        selected_cat = body.get('category', [])
+        selected_order = body.get('order', '')
 
         products = Product.objects.all()
 
         if query:
             products = products.filter(Q(name__icontains=query) | Q(restaurant__icontains=query))
-
+        
         if selected_range:
-            if selected_range == "Less than 50.000":
-                products = products.filter(Q(price__lt=50000))
-            
-            elif selected_range == "50.000 - 100.000":
-                products = products.filter(Q(price__gte=50000) & Q(price__lte=100000))
+            filter_price = Q()
+            if "Less than 50.000" in selected_range:
+                filter_price |= Q(price__lt=50000)
+            if "50.000 - 100.000" in selected_range:
+                filter_price |= Q(price__gte=50000) & Q(price__lte=100000)
+            if "100.000 - 150.000" in selected_range:
+                filter_price |= Q(price__gte=100000) & Q(price__lte=150000)
+            if "More than 150.000" in selected_range:
+                filter_price |= Q(price__gt=150000)
 
-            elif selected_range == "100.000 - 150.000":
-                products = products.filter(Q(price__gte=100000) & Q(price__lte=150000))
-
-            elif selected_range == "More than 150.000":
-                products = products.filter(Q(price__gt=150000))
+            products = products.filter(filter_price)
 
         if selected_cat:
-            products = products.filter(Q(cat__icontains=selected_cat))
+            # products = products.filter(Q(cat__icontains=selected_cat))
+            filter_category = Q()
+            for cat in selected_cat:
+                filter_category |= Q(cat__icontains=cat)
+            
+            products = products.filter(filter_category)
         
         if (selected_order):
             if selected_order == "Highest":
