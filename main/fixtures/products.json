@@ -8,7 +8,7 @@
       "restaurant": "Brew & Chew",
       "location": "Batununggal",
       "contact": "022 20530888",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/1.jpeg"
     }
   },
@@ -21,7 +21,7 @@
       "restaurant": "CAFE BALI",
       "location": "Bandung Wetan",
       "contact": "022 7106147",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/2.jpg"
     }
   },
@@ -34,7 +34,7 @@
       "restaurant": "ANJIS COFFEE",
       "location": "Bandung Wetan",
       "contact": "0857-2161-2647",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/3.jpeg"
     }
   },
@@ -47,7 +47,7 @@
       "restaurant": "THE PANASDALAM",
       "location": "Cidadap",
       "contact": "0851-5683-5184",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/4.jpg"
     }
   },
@@ -60,7 +60,7 @@
       "restaurant": "GARDEN COFFEE BDG",
       "location": "Coblong",
       "contact": "0838-1942-4323",
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/5.jpeg"
     }
   },
@@ -73,7 +73,7 @@
       "restaurant": "PAPATONG CAFETERIA",
       "location": "Bandung Wetan",
       "contact": "0812-2233-0567",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/6.jpg"
     }
   },
@@ -86,7 +86,7 @@
       "restaurant": "LULA BAKERY & COFFEE",
       "location": "Bandung Wetan",
       "contact": "0822-5809-2141",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/7.jpeg"
     }
   },
@@ -99,7 +99,7 @@
       "restaurant": "JARDIN CAFE",
       "location": "Bandung Wetan",
       "contact": "(022) 4267711",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/8.jpg"
     }
   },
@@ -112,7 +112,7 @@
       "restaurant": "4EAT CAFE",
       "location": "Bandung Wetan",
       "contact": "(022) 20523599",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/9.jpeg"
     }
   },
@@ -125,7 +125,7 @@
       "restaurant": "ROGER'S CAFE & LOUNGE",
       "location": "Coblong",
       "contact": "(022) 2509009",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/10.jpeg"
     }
   },
@@ -138,7 +138,7 @@
       "restaurant": "BOBER CAFE",
       "location": "Bandung Wetan",
       "contact": "(022) 7234295",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/11.jpeg"
     }
   },
@@ -151,7 +151,7 @@
       "restaurant": "BUTTERCUP BOULANGERIE",
       "location": "Cicendo",
       "contact": 81808877818,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/12.jpeg"
     }
   },
@@ -164,7 +164,7 @@
       "restaurant": "SEJIWA COFFEE",
       "location": "Bandung Wetan",
       "contact": "0823-1717-1515",
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/13.jpg"
     }
   },
@@ -177,7 +177,7 @@
       "restaurant": "FAREL PATISSERIE CAFE",
       "location": "Bandung Kidul",
       "contact": "(022) 87526336",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/14.jpg"
     }
   },
@@ -190,7 +190,7 @@
       "restaurant": "CUDETO CAFE & RESTO",
       "location": "Cibeunying Kidul",
       "contact": 8112241488,
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/15.jpg"
     }
   },
@@ -203,7 +203,7 @@
       "restaurant": "TAEUN COFFEE & WORKS",
       "location": "Bandung Wetan",
       "contact": "(022) 20544108",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/16.jpeg"
     }
   },
@@ -216,7 +216,7 @@
       "restaurant": "MORGY COFFEE",
       "location": "Bandung Wetan",
       "contact": "0813-1772-777",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/17.jpeg"
     }
   },
@@ -229,7 +229,7 @@
       "restaurant": "GIGGLEBOX CAFE AND RESTO",
       "location": "Bandung Wetan",
       "contact": "0817-9117-933",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/18.jpeg"
     }
   },
@@ -242,7 +242,7 @@
       "restaurant": "KAKA CAFE",
       "location": "Bandung Wetan",
       "contact": "0853-5203-8545",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/19.jpg"
     }
   },
@@ -255,7 +255,7 @@
       "restaurant": "PARIS VAN JAVA CAFE & RESTO SPECIALITY COFFEE",
       "location": "Bandung Wetan",
       "contact": "0878-2159-9183",
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/20.jpeg"
     }
   },
@@ -268,7 +268,7 @@
       "restaurant": "CHAPLIN'S CAFE BAR AND SHISA",
       "location": "Bandung Wetan",
       "contact": "(022) 7273626",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/21.jpg"
     }
   },
@@ -281,7 +281,7 @@
       "restaurant": "HERITAGE CAFE",
       "location": "Bandung Wetan",
       "contact": "(022) 4267707",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/22.jpg"
     }
   },
@@ -294,7 +294,7 @@
       "restaurant": "FOURPLAY CAFE & RESTO & BAR",
       "location": "Bandung Wetan",
       "contact": 87811051565,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/23.jpeg"
     }
   },
@@ -307,7 +307,7 @@
       "restaurant": "BELLAMIE BOULANGERIE",
       "location": "Bandung Wetan",
       "contact": "(022) 87805386",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/24.jpeg"
     }
   },
@@ -320,7 +320,7 @@
       "restaurant": "SYDWIC",
       "location": "Bandung Wetan",
       "contact": "(022) 20511404",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/25.jpg"
     }
   },
@@ -333,7 +333,7 @@
       "restaurant": "Resto Saung Kuring",
       "location": "COBLONG",
       "contact": 82115501925,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/26.webp"
     }
   },
@@ -346,7 +346,7 @@
       "restaurant": "Baso Semar",
       "location": "COBLONG",
       "contact": " (022) 4232589",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/27.jpg"
     }
   },
@@ -359,7 +359,7 @@
       "restaurant": "Bebek Ali Borme",
       "location": "COBLONG",
       "contact": "0822-1412-4985",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/28.jpeg"
     }
   },
@@ -372,7 +372,7 @@
       "restaurant": "Kantin Aa",
       "location": "COBLONG",
       "contact": "0896-6774-1323",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/29.jpg"
     }
   },
@@ -385,7 +385,7 @@
       "restaurant": "Bakso Ayub Sekeloa",
       "location": "COBLONG",
       "contact": "-",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/30.jpg"
     }
   },
@@ -398,7 +398,7 @@
       "restaurant": "Bubur Ayam Pak Zaenal",
       "location": "COBLONG",
       "contact": 81320022236,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/31.jpg"
     }
   },
@@ -411,7 +411,7 @@
       "restaurant": "Bebek Ngarasan",
       "location": "COBLONG",
       "contact": "0811-2346-500",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/32.jpg"
     }
   },
@@ -424,7 +424,7 @@
       "restaurant": "RM Tubagus Raya",
       "location": "COBLONG",
       "contact": 81322261231,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/33.jpeg"
     }
   },
@@ -437,7 +437,7 @@
       "restaurant": "Warnas Prancis",
       "location": "COBLONG",
       "contact": "0813-2264-8365",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/34.jpeg"
     }
   },
@@ -450,7 +450,7 @@
       "restaurant": "Kedai Timbel Dago",
       "location": "COBLONG",
       "contact": "(022) 2502004",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/35.jpeg"
     }
   },
@@ -463,7 +463,7 @@
       "restaurant": "Dago Panyawangan",
       "location": "COBLONG",
       "contact": "(022) 2501815",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/36.jpg"
     }
   },
@@ -476,7 +476,7 @@
       "restaurant": "Warung Pasta",
       "location": "COBLONG",
       "contact": "(022) 2500416",
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/37.jpeg"
     }
   },
@@ -489,7 +489,7 @@
       "restaurant": "Warnas Doa Mande",
       "location": "COBLONG",
       "contact": "0821-1383-9267",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/38.jpg"
     }
   },
@@ -502,7 +502,7 @@
       "restaurant": "Rumah Makan Pak Datuak",
       "location": "COBLONG",
       "contact": "0812-8173-1151",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/39.jpg"
     }
   },
@@ -515,7 +515,7 @@
       "restaurant": "Warung Nasi Alifa",
       "location": "COBLONG",
       "contact": "-",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/40.jpg"
     }
   },
@@ -528,7 +528,7 @@
       "restaurant": "RM. Kapau Indah",
       "location": "COBLONG",
       "contact": "0813-8556-8565",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/41.jpeg"
     }
   },
@@ -541,7 +541,7 @@
       "restaurant": "Warung K-Hejo",
       "location": "COBLONG",
       "contact": "0853-1445-8859",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/42.jpg"
     }
   },
@@ -554,7 +554,7 @@
       "restaurant": "RM. Sarilamak",
       "location": "COBLONG",
       "contact": "0821-1900-8114",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/43.jpg"
     }
   },
@@ -567,7 +567,7 @@
       "restaurant": "RM Da In Kapau",
       "location": "COBLONG",
       "contact": "0812-1450-0926",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/44.jpeg"
     }
   },
@@ -580,7 +580,7 @@
       "restaurant": "Warnas Ibu Mimin",
       "location": "COBLONG",
       "contact": 81322918360,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/45.jpeg"
     }
   },
@@ -593,7 +593,7 @@
       "restaurant": "Warung Triya",
       "location": "COBLONG",
       "contact": "0859-5656-7697",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/46.jpe"
     }
   },
@@ -606,7 +606,7 @@
       "restaurant": "Warung Suryo",
       "location": "COBLONG",
       "contact": "0813-2123-1201",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/47.jpg"
     }
   },
@@ -619,7 +619,7 @@
       "restaurant": "Warung Asmad",
       "location": "COBLONG",
       "contact": "-",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/48.jpg"
     }
   },
@@ -632,7 +632,7 @@
       "restaurant": "Rumah Makan Pagi Sore (Padang)",
       "location": "COBLONG",
       "contact": " 0813-9547-4366",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/49.jpeg"
     }
   },
@@ -645,7 +645,7 @@
       "restaurant": "Dapur Eyang",
       "location": "COBLONG",
       "contact": "(022) 2503515",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/50.jpg"
     }
   },
@@ -658,7 +658,7 @@
       "restaurant": "Sambal Ndower Cihampelas",
       "location": "CIPAGANTI",
       "contact": 82120979818,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/51.jpg"
     }
   },
@@ -671,7 +671,7 @@
       "restaurant": "RM. Padang Simpang Tigo Jaya",
       "location": "CIPAGANTI",
       "contact": 82210908156,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/52.jpg"
     }
   },
@@ -684,7 +684,7 @@
       "restaurant": "Soto Sulung Cihampelas",
       "location": "CIPAGANTI",
       "contact": "-",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/53.jpg"
     }
   },
@@ -697,7 +697,7 @@
       "restaurant": "Gyu-Gyu Japanese Bbq",
       "location": "CIPAGANTI",
       "contact": 87877217555,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/54.jpg"
     }
   },
@@ -710,7 +710,7 @@
       "restaurant": "Ayam Goreng Pa Adang Sachlan",
       "location": "CIPAGANTI",
       "contact": "-",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/55.jpg"
     }
   },
@@ -723,7 +723,7 @@
       "restaurant": "Mujigae Resto",
       "location": "CIPAGANTI",
       "contact": 222061015,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/56.jpg"
     }
   },
@@ -736,7 +736,7 @@
       "restaurant": "Palava Kitchen",
       "location": "CIPAGANTI",
       "contact": "-",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/57.jpg"
     }
   },
@@ -749,7 +749,7 @@
       "restaurant": "Iga Bakar Kedai Kullan",
       "location": "CIPAGANTI",
       "contact": 81323239818,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/58.jpg"
     }
   },
@@ -762,7 +762,7 @@
       "restaurant": "RM Padang Simpang Tigo Jaya",
       "location": "CIPAGANTI",
       "contact": "-",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/59.jpg"
     }
   },
@@ -775,7 +775,7 @@
       "restaurant": "Rumah Makan Diwo",
       "location": "DAGO",
       "contact": 2220463733,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/60.jpg"
     }
   },
@@ -788,7 +788,7 @@
       "restaurant": "Warung Taru",
       "location": "DAGO",
       "contact": 222533854,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/61.jpg"
     }
   },
@@ -801,7 +801,7 @@
       "restaurant": "Kantin Dago",
       "location": "DAGO",
       "contact": 222505095,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/62.jpg"
     }
   },
@@ -814,7 +814,7 @@
       "restaurant": "Soto Ayam Khas Madura Mas Munir Dpatiukur",
       "location": "DAGO",
       "contact": "-",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/63.jpg"
     }
   },
@@ -827,7 +827,7 @@
       "restaurant": "Ayam Goreng Pringgondani",
       "location": "DAGO",
       "contact": "-",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/64.jpg"
     }
   },
@@ -840,7 +840,7 @@
       "restaurant": "Kedai Mie Dago",
       "location": "DAGO",
       "contact": 222509327,
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/65.jpg"
     }
   },
@@ -853,7 +853,7 @@
       "restaurant": "Rumah Makan Doa Mande",
       "location": "DAGO",
       "contact": "-",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/66.jpg"
     }
   },
@@ -866,7 +866,7 @@
       "restaurant": "Sam's Strawberry Corner",
       "location": "DAGO",
       "contact": 82216696430,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/67.jpg"
     }
   },
@@ -879,7 +879,7 @@
       "restaurant": "Bakso Sultan Dago",
       "location": "DAGO",
       "contact": 85860045745,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/68.jpg"
     }
   },
@@ -892,7 +892,7 @@
       "restaurant": "District Dago Cafe",
       "location": "DAGO",
       "contact": 81224650652,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/69.jpg"
     }
   },
@@ -905,7 +905,7 @@
       "restaurant": "Thai Palace",
       "location": "DAGO",
       "contact": 222512857,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/70.jpg"
     }
   },
@@ -918,7 +918,7 @@
       "restaurant": "Pizza Hut (Phd)",
       "location": "DAGO",
       "contact": "1 500 600",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/71.jpg"
     }
   },
@@ -931,7 +931,7 @@
       "restaurant": "Ayam Goreng Karawaci",
       "location": "DAGO",
       "contact": 222035537,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/72.jpg"
     }
   },
@@ -944,7 +944,7 @@
       "restaurant": "Living Kaffa",
       "location": "DAGO",
       "contact": "-",
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/73.jpg"
     }
   },
@@ -957,7 +957,7 @@
       "restaurant": "Dominos",
       "location": "DAGO",
       "contact": "1 500 366",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/74.jpg"
     }
   },
@@ -970,7 +970,7 @@
       "restaurant": "Sate Ayam Madura Inayah",
       "location": "Jl. Ir.H.Djuanda No. 16",
       "contact": "-",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/75.jpg"
     }
   },
@@ -983,7 +983,7 @@
       "restaurant": "Gerobag Bandoeng",
       "location": "COBLONG",
       "contact": 81222295769,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/76.jpg"
     }
   },
@@ -996,7 +996,7 @@
       "restaurant": "Nasi Goreng Rempah Mafia",
       "location": "COBLONG",
       "contact": 85864414722,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/77.jpg"
     }
   },
@@ -1009,7 +1009,7 @@
       "restaurant": "Bakmi Jowo DU 67",
       "location": "COBLONG",
       "contact": 85100535874,
-      "cat": "Mie, Pasta, & Spaghetti",
+      "cat": "Mie, Pasta, dan Spaghetti",
       "image": "product_images/78.jpg"
     }
   },
@@ -1022,7 +1022,7 @@
       "restaurant": "Gado Gado Teuku Angkasa",
       "location": "COBLONG",
       "contact": "(022) 2507337",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/79.jpg"
     }
   },
@@ -1035,7 +1035,7 @@
       "restaurant": "Richeese Factory",
       "location": "COBLONG",
       "contact": "(022) 2514087",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/80.jpg"
     }
   },
@@ -1048,7 +1048,7 @@
       "restaurant": "de.u Coffee",
       "location": "COBLONG",
       "contact": 85943053981,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/81.jpeg"
     }
   },
@@ -1061,7 +1061,7 @@
       "restaurant": "Se'i Sapi Lamalera",
       "location": "COBLONG",
       "contact": 82115507836,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/82.jpg"
     }
   },
@@ -1074,7 +1074,7 @@
       "restaurant": "Steak Ranjang",
       "location": "COBLONG",
       "contact": 81383888068,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/83.jpeg"
     }
   },
@@ -1087,7 +1087,7 @@
       "restaurant": "Waroeng Steak And Shake",
       "location": "COBLONG",
       "contact": 81317200400,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/84.png"
     }
   },
@@ -1100,7 +1100,7 @@
       "restaurant": "Ayam Geprek Bebas",
       "location": "COBLONG",
       "contact": 8112212214,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/85.jpg"
     }
   },
@@ -1113,7 +1113,7 @@
       "restaurant": "Krimiku",
       "location": "COBLONG",
       "contact": 81914229999,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/86.jpeg"
     }
   },
@@ -1126,7 +1126,7 @@
       "restaurant": "Kabobs Premium Kebab",
       "location": "COBLONG",
       "contact": 818947407,
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/87.png"
     }
   },
@@ -1139,7 +1139,7 @@
       "restaurant": "Sindang Reret",
       "location": "COBLONG",
       "contact": "(022) 2535050",
-      "cat": "Olahan Ayam & Daging",
+      "cat": "Olahan Ayam dan Daging",
       "image": "product_images/88.jpeg"
     }
   },
@@ -1152,7 +1152,7 @@
       "restaurant": "Four C's",
       "location": "COBLONG",
       "contact": 89601452325,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/89.jpeg"
     }
   },
@@ -1165,7 +1165,7 @@
       "restaurant": "Kawan Kopi",
       "location": "COBLONG",
       "contact": 85722677081,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/90.jpeg"
     }
   },
@@ -1178,7 +1178,7 @@
       "restaurant": "Victoria Bakery & Cafeteria",
       "location": "COBLONG",
       "contact": "(022) 2501182",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/91.jpg"
     }
   },
@@ -1191,7 +1191,7 @@
       "restaurant": "Kisah Manis Dago",
       "location": "COBLONG",
       "contact": 82127322571,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/92.jpg"
     }
   },
@@ -1204,7 +1204,7 @@
       "restaurant": "Kopi Toko Djawa",
       "location": "COBLONG",
       "contact": 8996979748,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/93.jpg"
     }
   },
@@ -1217,7 +1217,7 @@
       "restaurant": "Fore Coffee - Dipatiukur",
       "location": "COBLONG",
       "contact": 8881701672,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/94.jpg"
     }
   },
@@ -1230,7 +1230,7 @@
       "restaurant": "Kapulaga Indonesian Bistro",
       "location": "COBLONG",
       "contact": "(022) 2506195",
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/95.jpeg"
     }
   },
@@ -1243,7 +1243,7 @@
       "restaurant": "Wheels Coffee Roasters Juanda",
       "location": "COBLONG",
       "contact": 81222081401,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/96.jpeg"
     }
   },
@@ -1256,7 +1256,7 @@
       "restaurant": "Terminal Coffee",
       "location": "Lengkong",
       "contact": 85158414866,
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/97.jpg"
     }
   },
@@ -1269,7 +1269,7 @@
       "restaurant": "Batagor Kingsley",
       "location": "Sumur Bandung",
       "contact": "(022) 4207104",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/98.jpg"
     }
   },
@@ -1282,7 +1282,7 @@
       "restaurant": "Bubur Ayam Mang H Oyo",
       "location": "Bandung Wetan",
       "contact": 82131463187,
-      "cat": "Makanan Berat & Nasi",
+      "cat": "Makanan Berat dan Nasi",
       "image": "product_images/99.jpg"
     }
   },
@@ -1295,7 +1295,7 @@
       "restaurant": "Batagor Riri",
       "location": "Lengkong",
       "contact": "(022) 7303349",
-      "cat": "Makanan Ringan & Cemilan",
+      "cat": "Makanan Ringan dan Cemilan",
       "image": "product_images/100.jpeg"
     }
   }
