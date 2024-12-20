@@ -24,6 +24,7 @@ from django.core.files.base import ContentFile
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Product
+from django.shortcuts import get_object_or_404
 
 def show_main(request):
     context = {
@@ -233,3 +234,16 @@ def product_detail_json(request, id):
             "status": "error",
             "message": "Invalid request method"
         }, status=405)
+        
+def get_product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return JsonResponse({
+        'id': product.id,
+        'name': product.name,
+        'price': product.price,
+        'restaurant': product.restaurant,
+        'location': product.location,
+        'contact': product.contact,
+        'category': product.cat,
+        'image_url': product.image.url if product.image else None,
+    })
