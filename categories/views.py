@@ -7,6 +7,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.http import JsonResponse
+from django.http import HttpResponse
+from django.db.models import Q
+import json
 
 # Create your views here.
 def show_categories(request):
@@ -62,3 +67,48 @@ def delete_product_cat(request, id):
     product = Product.objects.get(pk=id)
     product.delete()
     return HttpResponseRedirect(reverse('categories:show_categories_admin'))
+
+@csrf_exempt
+def search_filter(request):
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        query = body.get('value', '')
+        selected_range = body.get('range', [])
+        selected_cat = body.get('category', [])
+        selected_order = body.get('order', '')
+
+        products = Product.objects.all()
+
+        if query:
+            products = products.filter(Q(name__icontains=query) | Q(restaurant__icontains=query))
+        
+        if selected_range:
+            filter_price = Q()
+            if "Less than 50.000" in selected_range:
+                filter_price |= Q(price__lt=50000)
+            if "50.000 - 100.000" in selected_range:
+                filter_price |= Q(price__gte=50000) & Q(price__lte=100000)
+            if "100.000 - 150.000" in selected_range:
+                filter_price |= Q(price__gte=100000) & Q(price__lte=150000)
+            if "More than 150.000" in selected_range:
+                filter_price |= Q(price__gt=150000)
+
+            products = products.filter(filter_price)
+
+        if selected_cat:
+            # products = products.filter(Q(cat__icontains=selected_cat))
+            filter_category = Q()
+            for cat in selected_cat:
+                filter_category |= Q(cat__icontains=cat)
+            
+            products = products.filter(filter_category)
+        
+        if (selected_order):
+            if selected_order == "Highest":
+                products = products.order_by("-price")
+            elif selected_order == "Lowest":
+                products = products.order_by("price")
+
+        return HttpResponse(serializers.serialize("json", products), content_type="application/json")
+    
+    return HttpResponse({"error": "Invalid request"}, status=400)
