@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5o7^2g8xz5sh=lwr_(8__iy2ub@4cqp@6#k++!%%95j&jm(bk5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "daniel-ferdiansyah-bfq.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "daniel-ferdiansyah-bfq.pbp.cs.ui.ac.id", "deep-pigeon-bfq-65a71d99.koyeb.app"]
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",  # Flutter Web origin
@@ -148,7 +148,7 @@ if DEBUG:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://daniel-ferdiansyah-bfq.pbp.cs.ui.ac.id", "https://daniel-ferdiansyah-bfq.pbp.cs.ui.ac.id"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://daniel-ferdiansyah-bfq.pbp.cs.ui.ac.id", "https://daniel-ferdiansyah-bfq.pbp.cs.ui.ac.id", "deep-pigeon-bfq-65a71d99.koyeb.app"]
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
